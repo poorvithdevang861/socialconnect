@@ -34,7 +34,7 @@ function App() {
         <Route path="/event" element={<EventDetailsPage />} />
         <Route path="/event/confirm" element={<RegistrationConfirmationPage />} />
         <Route path="/event/success" element={<RegistrationSuccessPage />} />
-        <Route path="*" element={<Navigate replace to="/home" />} />
+        <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>
       {showShell ? <Footer /> : null}
     </div>
