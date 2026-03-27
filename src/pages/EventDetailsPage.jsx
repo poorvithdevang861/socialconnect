@@ -79,7 +79,7 @@ function EventDetailsPage() {
                 <p className="text-sm text-slate-500">Organized 124 events • Verified NGO</p>
               </div>
             </div>
-            <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4">
+            <div className="flex items-center gap-4 cc-card p-4">
               <div className="text-right">
                 <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Rating</p>
                 <p className="text-xl font-black text-slate-900">
@@ -200,7 +200,7 @@ function EventDetailsPage() {
 
         <div className="lg:col-span-4">
           <div className="sticky-card space-y-6">
-            <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-xl shadow-slate-200/50">
+            <div className="cc-card border-slate-100 cc-card-pad-lg shadow-xl shadow-slate-200/50">
               <div className="mb-6">
                 <div className="mb-4 flex items-center justify-between">
                   <span className="animate-pulse rounded-lg bg-red-100 px-3 py-1 text-xs font-bold text-red-600">
@@ -269,7 +269,7 @@ function EventDetailsPage() {
               </div>
             </div>
 
-            <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white">
+            <div className="overflow-hidden cc-card border-slate-100">
               <div className="flex items-center justify-between border-b border-slate-100 p-4">
                 <h5 className="font-bold text-slate-900">Location Map</h5>
                 <span className="material-symbols-outlined text-xl text-primary">map</span>
@@ -296,7 +296,7 @@ function EventDetailsPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-100 bg-white p-6">
+            <div className="cc-card border-slate-100 cc-card-pad-lg">
               <h5 className="mb-4 font-bold text-slate-900">Friends Signed Up</h5>
               <div className="space-y-4">
                 <div className="flex items-center gap-3">

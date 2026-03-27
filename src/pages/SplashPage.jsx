@@ -49,7 +49,7 @@ function SplashPage() {
           </div>
         </div>
 
-        <h1 className="mb-3 text-5xl font-bold tracking-tight">SocialConnect</h1>
+        <h1 className="mb-3 text-5xl font-bold tracking-tight">CauseConnect</h1>
         <p className="mb-12 text-lg font-medium leading-relaxed text-white/90">
           Find verified volunteering near you.
         </p>

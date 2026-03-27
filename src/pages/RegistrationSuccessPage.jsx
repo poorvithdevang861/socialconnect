@@ -19,7 +19,7 @@ function RegistrationSuccessPage() {
           </p>
         </div>
 
-        <div className="animate-fade-up-delay mt-8 overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-xl shadow-primary/5">
+        <div className="animate-fade-up-delay mt-8 overflow-hidden cc-card border-slate-100 shadow-xl shadow-primary/5">
           <div className="relative aspect-video w-full">
             <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/60 to-transparent" />
             <img
@@ -66,7 +66,7 @@ function RegistrationSuccessPage() {
             <input
               className="flex-grow border-none bg-transparent px-2 font-mono text-sm text-slate-500 focus:ring-0"
               type="text"
-              value="socialconnect.org/e/tree-plantation-24"
+              value="causeconnect.org/e/tree-plantation-24"
               readOnly
             />
             <button className="rounded-md bg-slate-100 p-2 text-primary transition-colors hover:bg-slate-200">

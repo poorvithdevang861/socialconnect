@@ -16,7 +16,7 @@ const INTERESTS = [
 function InterestsPage() {
   const navigate = useNavigate()
   const [selected, setSelected] = useState([])
-  const [style, setStyle] = useState('solo')
+  const [styles, setStyles] = useState(['solo'])
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -34,6 +34,10 @@ function InterestsPage() {
     setSelected((prev) =>
       prev.includes(interest) ? prev.filter((item) => item !== interest) : [...prev, interest],
     )
+  }
+
+  const toggleStyle = (value) => {
+    setStyles((prev) => (prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]))
   }
 
   const handleContinue = () => {
@@ -64,19 +68,6 @@ function InterestsPage() {
               </div>
             </div>
 
-            <div className="px-4">
-              <div className="group relative">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 transition-colors group-focus-within:text-primary">
-                  <span className="material-symbols-outlined">search</span>
-                </div>
-                <input
-                  className="h-14 w-full rounded-2xl border-2 border-slate-100 bg-white pl-12 pr-4 text-base placeholder:text-slate-400 transition-all focus:border-primary focus:ring-primary"
-                  placeholder="Search for specific causes (e.g. Literacy, Reforestation)..."
-                  type="text"
-                />
-              </div>
-            </div>
-
             <div className="flex flex-col gap-4 px-4">
               <h2 className="text-xl font-bold tracking-tight">Social Causes</h2>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
@@ -84,21 +75,27 @@ function InterestsPage() {
                   const active = selected.includes(interest)
                   return (
                     <button
-                      className={`relative flex flex-col items-center justify-center gap-2 rounded-2xl border-2 p-4 transition-all hover:scale-[1.02] ${
+                      className={`relative flex flex-col items-center justify-center gap-2 rounded-2xl border-2 p-4 transition-all hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary/40 ${
                         active
                           ? 'border-primary bg-primary/5 text-primary'
                           : 'border-slate-100 bg-white text-slate-600 hover:border-primary/30'
                       }`}
                       key={interest}
                       onClick={() => toggleInterest(interest)}
+                      type="button"
                     >
                       <span className="material-symbols-outlined text-3xl">volunteer_activism</span>
                       <span className="text-sm font-bold">{interest}</span>
-                      {active ? (
-                        <div className="absolute right-2 top-2 flex size-5 items-center justify-center rounded-full bg-primary text-white">
+                      <div
+                        className={`absolute right-2 top-2 flex size-5 items-center justify-center rounded-full border-2 transition-colors ${
+                          active ? 'border-primary bg-primary text-white' : 'border-slate-200 bg-white'
+                        }`}
+                        aria-hidden="true"
+                      >
+                        {active ? (
                           <span className="material-symbols-outlined text-xs">check</span>
-                        </div>
-                      ) : null}
+                        ) : null}
+                      </div>
                     </button>
                   )
                 })}
@@ -108,27 +105,32 @@ function InterestsPage() {
             <div className="flex flex-col gap-4 px-4 pb-24">
               <div className="flex flex-col">
                 <h2 className="text-xl font-bold tracking-tight">
-                  Do you prefer working alone or in a team?
+                  What kind of volunteering do you prefer?
                 </h2>
                 <p className="text-sm text-slate-500">
-                  We&apos;ll show activities that match your style.
+                  Choose one or more — we&apos;ll tailor recommendations around it.
                 </p>
               </div>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <button
-                  className={`group relative flex flex-col rounded-2xl border-2 p-6 ${
-                    style === 'solo' ? 'border-primary bg-primary/5' : 'border-slate-100 bg-white'
+                  className={`group relative flex flex-col rounded-2xl border-2 p-6 focus:outline-none focus:ring-2 focus:ring-primary/40 ${
+                    styles.includes('solo')
+                      ? 'border-primary bg-primary/5'
+                      : 'border-slate-100 bg-white hover:border-primary/30'
                   }`}
-                  onClick={() => setStyle('solo')}
+                  onClick={() => toggleStyle('solo')}
+                  type="button"
                 >
                   <div className="mb-4 flex items-start justify-between">
                     <span className="material-symbols-outlined text-4xl text-primary">person</span>
                     <div
                       className={`flex size-6 items-center justify-center rounded-full border-2 ${
-                        style === 'solo' ? 'border-primary bg-primary text-white' : 'border-slate-200'
+                        styles.includes('solo')
+                          ? 'border-primary bg-primary text-white'
+                          : 'border-slate-200 bg-white'
                       }`}
                     >
-                      {style === 'solo' ? (
+                      {styles.includes('solo') ? (
                         <span className="material-symbols-outlined text-[16px]">check</span>
                       ) : null}
                     </div>
@@ -139,27 +141,30 @@ function InterestsPage() {
                   </p>
                 </button>
                 <button
-                  className={`group relative flex flex-col rounded-2xl border-2 p-6 ${
-                    style === 'group'
+                  className={`group relative flex flex-col rounded-2xl border-2 p-6 focus:outline-none focus:ring-2 focus:ring-primary/40 ${
+                    styles.includes('group')
                       ? 'border-primary bg-primary/5'
                       : 'border-slate-100 bg-white hover:border-primary/30'
                   }`}
-                  onClick={() => setStyle('group')}
+                  onClick={() => toggleStyle('group')}
+                  type="button"
                 >
                   <div className="mb-4 flex items-start justify-between">
                     <span
                       className={`material-symbols-outlined text-4xl ${
-                        style === 'group' ? 'text-primary' : 'text-slate-400'
+                        styles.includes('group') ? 'text-primary' : 'text-slate-400'
                       }`}
                     >
                       groups_3
                     </span>
                     <div
                       className={`flex size-6 items-center justify-center rounded-full border-2 ${
-                        style === 'group' ? 'border-primary bg-primary text-white' : 'border-slate-200'
+                        styles.includes('group')
+                          ? 'border-primary bg-primary text-white'
+                          : 'border-slate-200 bg-white'
                       }`}
                     >
-                      {style === 'group' ? (
+                      {styles.includes('group') ? (
                         <span className="material-symbols-outlined text-[16px]">check</span>
                       ) : null}
                     </div>

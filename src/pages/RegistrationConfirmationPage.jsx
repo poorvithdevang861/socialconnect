@@ -29,7 +29,7 @@ function RegistrationConfirmationPage() {
         </p>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-primary/5 bg-white shadow-2xl shadow-primary/5">
+      <div className="overflow-hidden cc-card border-primary/5 shadow-2xl shadow-primary/5">
         <div className="h-2 w-full bg-primary" />
         <div className="p-8 md:p-12">
           <div className="grid gap-8 border-b border-slate-100 pb-10 md:grid-cols-2">
@@ -122,7 +122,7 @@ function RegistrationConfirmationPage() {
         </div>
       </div>
 
-      <div className="mt-12 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
+      <div className="mt-12 overflow-hidden cc-card shadow-lg">
         <div className="flex items-center justify-between border-b border-slate-100 p-6">
           <div className="flex items-center gap-3">
             <span className="material-symbols-outlined text-primary">location_on</span>

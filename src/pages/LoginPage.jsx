@@ -36,7 +36,7 @@ function LoginPage() {
             <div className="flex size-10 items-center justify-center rounded-xl bg-primary text-white">
               <span className="material-symbols-outlined text-3xl">volunteer_activism</span>
             </div>
-            <h1 className="text-3xl font-black tracking-tight text-background-dark">SocialConnect</h1>
+            <h1 className="text-3xl font-black tracking-tight text-background-dark">CauseConnect</h1>
           </div>
           <h2 className="text-5xl font-black leading-[1.1] text-background-dark">
             Volunteer local.
@@ -50,10 +50,10 @@ function LoginPage() {
         </div>
 
         <div className="mx-auto flex w-full max-w-md flex-col">
-          <div className="overflow-hidden rounded-xl border border-black/5 bg-white p-8 shadow-2xl md:p-10">
+          <div className="overflow-hidden cc-card cc-card-pad-lg shadow-2xl">
             <div className="mb-8 flex items-center gap-2 text-primary lg:hidden">
               <span className="material-symbols-outlined text-3xl">volunteer_activism</span>
-              <span className="text-xl font-bold text-background-dark">SocialConnect</span>
+              <span className="text-xl font-bold text-background-dark">CauseConnect</span>
             </div>
 
             <div className="mb-8">

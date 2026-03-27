@@ -1,13 +1,15 @@
 import { useState } from 'react'
+import ShareProfileModal from '../components/ShareProfileModal'
 
 function ProfilePage() {
   const [activeTab, setActiveTab] = useState('activity')
   const [copied, setCopied] = useState(false)
   const [favoriteBadge, setFavoriteBadge] = useState('Community Hero')
+  const [shareOpen, setShareOpen] = useState(false)
 
   const copyProfile = async () => {
     try {
-      await navigator.clipboard.writeText('https://socialconnect.org/u/arjun-patel')
+      await navigator.clipboard.writeText('https://causeconnect.org/u/arjun-patel')
       setCopied(true)
       setTimeout(() => setCopied(false), 1400)
     } catch {
@@ -17,9 +19,14 @@ function ProfilePage() {
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <ShareProfileModal
+        open={shareOpen}
+        onClose={() => setShareOpen(false)}
+        onCopy={copyProfile}
+      />
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         <aside className="space-y-6 lg:col-span-3">
-          <div className="rounded-xl border border-slate-200 bg-white p-6 text-center shadow-sm">
+          <div className="cc-card cc-card-pad-lg text-center">
             <div className="relative mb-4 inline-block">
               <div className="mx-auto h-24 w-24 rounded-full bg-gradient-to-tr from-primary to-orange-300 p-1">
                 <img
@@ -42,7 +49,7 @@ function ProfilePage() {
             </p>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="cc-card cc-card-pad-lg">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400">
                 Next Milestone
@@ -58,7 +65,7 @@ function ProfilePage() {
             </p>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="cc-card cc-card-pad">
             <div className="space-y-1">
               {[
                 ['edit', 'Edit Profile'],
@@ -76,10 +83,12 @@ function ProfilePage() {
             <hr className="my-4 border-slate-200" />
             <button
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 font-bold text-white shadow-md shadow-primary/20 transition-all hover:bg-primary/90"
-              onClick={copyProfile}
+              onClick={() => setShareOpen(true)}
             >
-              <span className="material-symbols-outlined text-sm">share</span>
-              {copied ? 'Profile Link Copied!' : 'Share Profile'}
+              <span className="material-symbols-outlined text-sm">
+                share
+              </span>
+              Share Profile
             </button>
           </div>
         </aside>
@@ -92,7 +101,7 @@ function ProfilePage() {
               ['Impact Score', '850', 'Global Top 5%', 'workspace_premium'],
             ].map(([label, value, trend, icon]) => (
               <div
-                className="group relative flex flex-col items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+                className="cc-card cc-card-pad group relative flex flex-col items-center justify-center overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-md"
                 key={label}
               >
                 <div className="absolute -right-4 -top-4 h-16 w-16 rounded-full bg-primary/5 transition-transform group-hover:scale-150" />
@@ -167,7 +176,7 @@ function ProfilePage() {
                     ],
                   ].map(([icon, wrapClass, iconClass, title, date, desc, points, hours]) => (
                     <div
-                      className="flex items-start gap-4 rounded-xl border border-slate-200 bg-white p-4 transition-all hover:shadow-md"
+                      className="cc-card cc-card-pad flex items-start gap-4 transition-all hover:shadow-md"
                       key={title}
                     >
                       <div className={`rounded-lg p-2 ${wrapClass}`}>
@@ -195,7 +204,7 @@ function ProfilePage() {
 
               <div className="space-y-4">
                 <h3 className="flex items-center gap-2 text-lg font-bold text-slate-900">Earned Badges</h3>
-                <div className="rounded-xl border border-slate-200 bg-white p-6">
+                <div className="cc-card cc-card-pad-lg">
                   <div className="grid grid-cols-2 gap-6">
                     {[
                       ['eco', 'Eco Warrior', 'Environmental champion', 'emerald'],

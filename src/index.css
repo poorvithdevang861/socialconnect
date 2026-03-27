@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .cc-card {
+    @apply rounded-2xl border border-slate-200 bg-white shadow-sm;
+  }
+
+  .cc-card-soft {
+    @apply rounded-2xl border-2 border-slate-100 bg-white;
+  }
+
+  .cc-card-pad {
+    @apply p-5 sm:p-6;
+  }
+
+  .cc-card-pad-lg {
+    @apply p-6 sm:p-8;
+  }
+}
+
 body {
   margin: 0;
   font-family: 'Public Sans', sans-serif;

@@ -14,7 +14,7 @@ function EventsPage() {
       </div>
 
       {events.length === 0 ? (
-        <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm">
+        <div className="cc-card cc-card-pad-lg text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
             <span className="material-symbols-outlined text-3xl">event_busy</span>
           </div>
@@ -34,7 +34,7 @@ function EventsPage() {
         <div className="space-y-6">
           {events.map((event) => (
             <article
-              className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg shadow-primary/5"
+              className="cc-card overflow-hidden shadow-lg shadow-primary/5"
               key={event.id}
             >
               <div className="grid grid-cols-1 md:grid-cols-[280px_1fr]">
