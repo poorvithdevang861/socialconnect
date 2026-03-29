@@ -7,6 +7,7 @@ export default {
         primary: '#ec5b13',
         'background-light': '#f8f6f6',
         'background-dark': '#221610',
+        'success-green': '#22c55e',
       },
       fontFamily: {
         display: ['Public Sans', 'sans-serif'],

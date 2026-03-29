@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
   const navigate = useNavigate()
   const [activeCause, setActiveCause] = useState('All')
-  const [nearYouScope, setNearYouScope] = useState('week')
+  const [nearYouScope, setNearYouScope] = useState('month')
 
   const causes = useMemo(
     () => [
@@ -23,39 +23,94 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
       {
         title: 'Green Earth Tree Plantation',
         cause: 'Environment',
-        desc: "Help us restore the green cover of Ahmedabad. We're planting 500 indigenous saplings this weekend.",
-        date: 'July 15, 07:00 AM',
+        desc: "Help us restore the green cover of Ahmedabad. We're planting 500 indigenous saplings.",
+        dateShort: 'July 15',
         joined: '50+ Joined',
         openings: '12 Openings',
+        verified: true,
         route: '/event',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCdHY3U9iXi2PjUs2zf6o6CEcIdI9b9DekpZ2Jg_KmD5bjXzx8orawvH0Fj5AFhz7AWwaz7O5cai9llap37-AtCWcpGJj7fwVYxxbLWEZrq-x44_FLuBhGxIEeexa1Jd515zvePM5vY31QEEYcwMACuFJ2gHAz7WyMEUG9PzUKALQJg9z64ii_clerVdOhfNKH75XE6DlU6_BK5eIqLbEiMc17gmaRVj0yIED44M-5v7wqBNOJvmc982OJVvvca9fcEi24mTpZBVvM',
       },
       {
         title: 'Sabarmati River Cleanup',
         cause: 'Environment',
-        desc: 'Join the community effort to preserve our lifeline. Cleaning tools and safety gear provided.',
-        date: 'July 18, 06:30 AM',
+        desc: 'Join the community effort to preserve our lifeline. Tools provided.',
+        dateShort: 'July 18',
         joined: '120+ Joined',
         openings: '24 Openings',
+        route: '/event',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCKfMCYSYKMNIiPUrKfBcM1Cc1pnOLCOzaMv5y0jN7Kx1nG7VETRpbnEHg9uC8jMZ0NneugB_Y7CAjw5Lx862R6QqOxMlKQi_NjqY-VxNk35KVHx7fkk8HW0ig7sZh6iju6NBWmyLUTR4kFLAc6pGg-5JOHLM10aUoH67Pg9gIiBVdBJkKbPKZuflWjIazykJV5CCsHukgMqh7sQNUAQJdYMv1Ibdgn-zX4WeFX_MT4dy-NKWfVrEmmW1TI_imDMDOIJUPiWOjUbXM',
       },
       {
-        title: 'Weekend Tutoring for Kids',
+        title: 'Weekend Tutoring',
         cause: 'Education',
-        desc: 'Help students with reading and math in a 2-hour weekend session. Materials provided.',
-        date: 'July 20, 10:00 AM',
-        joined: '38+ Joined',
-        openings: '8 Openings',
+        desc: 'Help underprivileged children with their weekend lessons.',
+        dateShort: 'July 20',
+        joined: '15 Joined',
+        openings: '5 Openings',
+        route: '/event',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBtVjPEQgTa5GnZj8q-80NZ3SjzxnLLVlWmdo1qjEyL1D0d4SwvhtLL77I9FnvUrRh_hmB90eT0WJ_YugBrVEFmAud6wzFUr_7bijy3PPNP9OWgpmxrbjHc5E0BFy2TUUH2AHo1KRXgW-iQZVN4W3I3dfUMW2wmP-OEU9zegVyDhKGAcnqRLdV4uZvepCKja00fmpr_zLQSRxiO-yyLIaUEbz2eNAXr6lOMXBtUSvRFcyyAz2HaSu5J2clatrZIEXT2lpuzN-4af2k',
       },
       {
-        title: 'Community Kitchen Drive',
+        title: 'Animal Rescue Center',
+        cause: 'Community',
+        desc: "Volunteer at the city's largest rescue center. Help with feeding and care.",
+        dateShort: 'July 22',
+        joined: '28 Joined',
+        openings: '8 Openings',
+        route: '/event',
+        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAPOrDglRZ_wuQVrQsE5owpPUsvYKtHrz0atEFKl7kp3IF-faTZCjTY04O6QabfNnTZPe3snyokSVNuOHp4TfHeI73jpyPzaABY9aQejwle60djEiXH3gxfmXG7rA_auW3T2n2YmO3T8sd6mJY64KsNdpSBCcyu2xsbUA8D-9SKrvHkYnMt9uOqNpZBgzXAfVWRb6601yU7B6ro3ff-AM-Jd79DWoXyr9WESvP7UgVL64JPrEKX21bOHus33M9KFi17Fp1PYWnlXaE',
+      },
+      {
+        title: 'Community Kitchen',
         cause: 'Food',
-        desc: 'Meal prep and packaging for a local shelter kitchen. Small teams, big impact.',
-        date: 'July 21, 08:30 AM',
-        joined: '82+ Joined',
-        openings: '18 Openings',
+        desc: 'Help prepare and distribute meals to those in need this weekend.',
+        dateShort: 'July 16',
+        joined: '42 Joined',
+        openings: '10 Openings',
+        verified: true,
+        route: '/event',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCaTA_trNJ3oVwBlDd5NOyoSGD57zrqwYXcvbv4KkqP2oKAunXaR7EGT_tXXafrlEbGVYEkKFp8I-AERmRinzvja5l0KZOgbBXjTDlVYxoo-z7S7W9RsanPQ2UjYPZy1o8nHNOmX6jpHkRw_oyxgk-pwXqMlx5Ic7o9UsWpOu73f4Mbzl3F2EntNZmcBL2cuQfi4G2eET40eNHqXYX2uNRo0_ZQFFiEzlj3Hop0ku4PbwQZNX8mYaC1Kikv1mtBqGLjyZF5Sxhu6aM',
+      },
+      {
+        title: 'Senior Home Visiting',
+        cause: 'Community',
+        desc: 'Spend quality time reading or talking with seniors at the local home.',
+        dateShort: 'July 19',
+        joined: '12 Joined',
+        openings: '4 Openings',
+        route: '/event',
+        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA66_jD8TF4ysqx4OYkh5RD6Tdr3E-a5rUq8Lf5T6dR-SGXUKoBUEnxyvzA38qWq2Ls3vLruM6KwcMYYXDzvigEdeYsn2EJLOiRarmBxesop2-Ccgl9Nm37Futqd4tNI33N3cg7MwPdTZTU2548Ute-ArUYN61Wwl9MWbw7gWFWz65TfN1PvhtxotWrRUFVI6Gvu2qY-Div7QX3khtnf_p6B6Rqq0CIRSdwljQpRMou1zw6ktVsPdD0nqCkb1EJOcuCSwokIWNgIpQ',
+      },
+      {
+        title: 'Lake Shore Cleanup',
+        cause: 'Environment',
+        desc: 'Help clear plastic waste from the Kankaria lake front area.',
+        dateShort: 'July 25',
+        joined: '85 Joined',
+        openings: '30 Openings',
+        route: '/event',
+        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDBoLBpZ4KJzaPgk_2rAcHwq3hb9YH3Wj5pmepV9LDb7gKIkdcUkHcROVws-o7rJAC4nGqgtQ5hSDUZ4E_vQ4iM7OBANbchW5lGP6xVP1IFaHKoM8hsNWeGG0lvmcvyyUudHf8dRTnyAEY4iPi8WfwQHjcS-svqNkqPrChFzxGe8bDBnfUGm41bpEojIy5BVfZSESzJ5zaGYx9Y7XbBYu8l5ATfA3T7urj80q9OcMAi8E0U-1r6CVnoHWDeonspkDZBlk_DsdrVxJA',
+      },
+      {
+        title: 'Book Drive Coordination',
+        cause: 'Education',
+        desc: 'Organize and sort book donations for rural community libraries.',
+        dateShort: 'July 27',
+        joined: '19 Joined',
+        openings: '15 Openings',
+        route: '/event',
+        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB955WI-Xxi58AJFQCtWuzroH2HeBtbHQMSG0qKutwmpI7X2vNIopogHTiwmD078qwbo7Zrc5-kn6WS25jnWGv6aSslXIkR0JaWrs_yFzXyS2vK1koDRH3eUrwRBDpVzXCgWd8oGKK8MgxnH_ibo6Y7IlwkpteDmEeFQgId_ZjItZ2hL0YZ8BVja23KbvZpwZkfFxGDkg6CFX3P1dxbaZcHSzOtQciC7L339fpOxk_PCoHLPwbFL3PkLCtdAl1iyo7aJ7buj6scMOk',
+      },
+      {
+        title: 'City Park Restoration',
+        cause: 'Environment',
+        desc: 'General maintenance and beautification of public park spaces.',
+        dateShort: 'July 30',
+        joined: '34 Joined',
+        openings: '20 Openings',
+        route: '/event',
+        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHTta6FADEfrAViXEl3aRVVM73dBKy0qi3QjL3wRmkLOlf72Z5uP_Hi40V4Cms4VGHxEi6lb_3dD3nu4Oq0q4rTuWzsy3RZLXWmViGQZ6BIvZ4GYsvz_hdaT1Qbbm2V-i4sW7gdNasZaAaxZQAOHYV4X-J0Ro96RxxZov7n6a74vphV7NoB1lVROD8sTlp2Dwui45dz1y2ROIpmW6o0E0Zcysi1kru1xuB3d3Oj8YMQwHhQtOukaaUdWrw3894rh_nYLpbtzc-B58',
       },
     ],
     [],
@@ -74,7 +129,7 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
         title: 'Library Reading Buddies',
         cause: 'Education',
         desc: 'Read with kids and help improve confidence in 90 minutes.',
-        date: 'July 23, 05:30 PM',
+        dateShort: 'July 23',
         joined: '22+ Joined',
         openings: '6 Openings',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBtVjPEQgTa5GnZj8q-80NZ3SjzxnLLVlWmdo1qjEyL1D0d4SwvhtLL77I9FnvUrRh_hmB90eT0WJ_YugBrVEFmAud6wzFUr_7bijy3PPNP9OWgpmxrbjHc5E0BFy2TUUH2AHo1KRXgW-iQZVN4W3I3dfUMW2wmP-OEU9zegVyDhKGAcnqRLdV4uZvepCKja00fmpr_zLQSRxiO-yyLIaUEbz2eNAXr6lOMXBtUSvRFcyyAz2HaSu5J2clatrZIEXT2lpuzN-4af2k',
@@ -83,16 +138,17 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
         title: 'Blood Donation Camp',
         cause: 'Health',
         desc: 'Donate blood or help manage queues and donor support.',
-        date: 'July 24, 09:00 AM',
+        dateShort: 'July 24',
         joined: '90+ Joined',
         openings: '15 Openings',
+        verified: true,
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBHFg7Lb1J2UB23UIzivsG38PCbA_c-m8AsYnHhVdYIZWBEUgF2f1-PUAqHttRpyBndUM6WegLt-VYdkLI-4hrm7wQVnvQwfOkIzNNivEPrljPFkFhBzi0IiI05YdrOD8IBx7EvE4sBCl6YMaGdtQRWeFVwNpz27x5tMwVZSQwq7Z_lzeiV2kOIIaiXILdzZmoOGGlRyLZavPc-7qCzajqGxct-FQvYIYCiOqYfvl7BPc1W4YWCqERRPGKTsCC1NLwOxfQQb0ieeak',
       },
       {
         title: 'Street Animal Care',
         cause: 'Community',
         desc: 'Help feed and check on community dogs with local NGOs.',
-        date: 'July 25, 07:00 AM',
+        dateShort: 'July 25',
         joined: '40+ Joined',
         openings: '10 Openings',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCKfMCYSYKMNIiPUrKfBcM1Cc1pnOLCOzaMv5y0jN7Kx1nG7VETRpbnEHg9uC8jMZ0NneugB_Y7CAjw5Lx862R6QqOxMlKQi_NjqY-VxNk35KVHx7fkk8HW0ig7sZh6iju6NBWmyLUTR4kFLAc6pGg-5JOHLM10aUoH67Pg9gIiBVdBJkKbPKZuflWjIazykJV5CCsHukgMqh7sQNUAQJdYMv1Ibdgn-zX4WeFX_MT4dy-NKWfVrEmmW1TI_imDMDOIJUPiWOjUbXM',
@@ -101,16 +157,17 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
         title: 'Recycling Drop-off Drive',
         cause: 'Environment',
         desc: 'Sort and pack recyclables collected across neighborhoods.',
-        date: 'July 26, 08:00 AM',
+        dateShort: 'July 26',
         joined: '55+ Joined',
         openings: '20 Openings',
+        verified: true,
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCdHY3U9iXi2PjUs2zf6o6CEcIdI9b9DekpZ2Jg_KmD5bjXzx8orawvH0Fj5AFhz7AWwaz7O5cai9llap37-AtCWcpGJj7fwVYxxbLWEZrq-x44_FLuBhGxIEeexa1Jd515zvePM5vY31QEEYcwMACuFJ2gHAz7WyMEUG9PzUKALQJg9z64ii_clerVdOhfNKH75XE6DlU6_BK5eIqLbEiMc17gmaRVj0yIED44M-5v7wqBNOJvmc982OJVvvca9fcEi24mTpZBVvM',
       },
       {
         title: 'Senior Companion Walk',
         cause: 'Community',
         desc: 'Join a small group to accompany seniors for an evening walk.',
-        date: 'July 27, 06:00 PM',
+        dateShort: 'July 27',
         joined: '18+ Joined',
         openings: '5 Openings',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA5rl4AYlwZb0sa2D0rx9umuDX0WuIOUITsB2IZSMYi5kRANvmCwEUsuavlBulk1N1h2Hdf0-UNOGzHN-yFWDlRZqJLcSdWwkY_dfF2kQ85HQEb_H5dQnlzptwcGpKbwVb03E1UttCf49B1RUyALJ6PyxGb_fax5rd6EANvUBFpwjJzYxUIgLInoWfXkkRvkESoPde8Didi7qj1PsjUyhCLNNCa5m98nSSynAOtLzkxuI8a-cNR1jZYpcIOShf4xYfHfBM0GGVjoDk',
@@ -119,7 +176,7 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
         title: 'Meal Kit Packing',
         cause: 'Food',
         desc: 'Pack dry ration kits for families — quick and impactful.',
-        date: 'July 28, 11:00 AM',
+        dateShort: 'July 28',
         joined: '70+ Joined',
         openings: '14 Openings',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCaTA_trNJ3oVwBlDd5NOyoSGD57zrqwYXcvbv4KkqP2oKAunXaR7EGT_tXXafrlEbGVYEkKFp8I-AERmRinzvja5l0KZOgbBXjTDlVYxoo-z7S7W9RsanPQ2UjYPZy1o8nHNOmX6jpHkRw_oyxgk-pwXqMlx5Ic7o9UsWpOu73f4Mbzl3F2EntNZmcBL2cuQfi4G2eET40eNHqXYX2uNRo0_ZQFFiEzlj3Hop0ku4PbwQZNX8mYaC1Kikv1mtBqGLjyZF5Sxhu6aM',
@@ -140,6 +197,26 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
             There are 12 new volunteering opportunities in {location} today.
           </p>
         </section>
+
+        {/* Mobile search row (desktop keeps navbar search) */}
+        <div className="pb-2 md:hidden">
+          <div className="flex items-center gap-3 rounded-xl bg-slate-100 px-4 py-3 focus-within:outline-none">
+            <span className="material-symbols-outlined text-slate-400">search</span>
+            <input
+              className="w-full border-none bg-transparent text-[15px] placeholder:text-slate-400 outline-none ring-0 focus:outline-none focus:ring-0 focus-visible:outline-none"
+              placeholder="Search causes, events..."
+              type="search"
+            />
+            <button
+              className="text-slate-400"
+              onClick={onOpenFilters}
+              type="button"
+              aria-label="Open filters"
+            >
+              <span className="material-symbols-outlined">tune</span>
+            </button>
+          </div>
+        </div>
 
         <div className="mb-10 grid grid-cols-1 gap-4 md:grid-cols-[1fr_auto] md:items-center">
           <div className="hide-scrollbar flex gap-3 overflow-x-auto pb-2">
@@ -177,10 +254,9 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
-          <div className="space-y-12 lg:col-span-8">
+        <div className="space-y-12">
             <section>
-              <div className="mb-6 flex items-center justify-between">
+              <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-wrap items-center gap-3">
                   <h3 className="flex items-center gap-2 text-2xl font-extrabold">
                     <span className="material-symbols-outlined text-primary">near_me</span>
@@ -206,18 +282,18 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
                 </div>
 
                 <button
-                  className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:underline"
+                  className="self-start text-sm font-bold text-primary hover:underline sm:self-auto"
                   onClick={() => navigate('/events')}
                   type="button"
                 >
-                  View all <span className="material-symbols-outlined text-base">arrow_forward</span>
+                  View map
                 </button>
               </div>
 
-              <div className="hide-scrollbar -mx-2 flex gap-6 overflow-x-auto px-2 pb-4">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {nearYou.map((item) => (
                   <div
-                    className="cc-card group min-w-[320px] overflow-hidden transition-all hover:shadow-xl md:min-w-[400px]"
+                    className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all hover:shadow-xl"
                     key={item.title}
                     onClick={item.route ? () => navigate(item.route) : undefined}
                     onKeyDown={
@@ -240,24 +316,29 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
                         src={item.img}
                       />
                       <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-lg bg-white/90 px-3 py-1 text-xs font-bold backdrop-blur">
-                        <span className="h-2 w-2 rounded-full bg-green-500" /> {item.openings}
+                        <span className="h-2 w-2 rounded-full bg-success-green" /> {item.openings}
                       </div>
-                      <div className="absolute bottom-4 left-4 rounded-lg bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white backdrop-blur">
+                      <div className="absolute bottom-4 left-4 max-w-[55%] rounded-lg bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white backdrop-blur">
                         {item.cause}
                       </div>
+                      {item.verified ? (
+                        <div className="absolute bottom-4 right-4 rounded-lg bg-primary px-3 py-1 text-xs font-bold text-white shadow-lg">
+                          Verified
+                        </div>
+                      ) : null}
                     </div>
-                    <div className="cc-card-pad">
+                    <div className="p-5">
                       <h4 className="mb-2 text-xl font-bold leading-tight transition-colors group-hover:text-primary">
                         {item.title}
                       </h4>
-                      <p className="mb-4 text-sm text-slate-500">{item.desc}</p>
+                      <p className="mb-4 line-clamp-2 text-sm text-slate-500">{item.desc}</p>
                       <div className="mb-6 flex items-center gap-4 text-xs font-semibold text-slate-500">
                         <div className="flex items-center gap-1">
-                          <span className="material-symbols-outlined text-base">calendar_today</span>{' '}
-                          {item.date}
+                          <span className="material-symbols-outlined text-base">calendar_today</span>
+                          {item.dateShort}
                         </div>
                         <div className="flex items-center gap-1">
-                          <span className="material-symbols-outlined text-base">group</span>{' '}
+                          <span className="material-symbols-outlined text-base">group</span>
                           {item.joined}
                         </div>
                       </div>
@@ -267,8 +348,68 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
                           event.stopPropagation()
                           if (item.route) navigate(item.route)
                         }}
+                        type="button"
                       >
                         Join Opportunity
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section>
+              <div className="mb-6 flex items-center justify-between">
+                <h3 className="flex items-center gap-2 text-2xl font-extrabold">
+                  <span className="material-symbols-outlined text-primary">trending_up</span>
+                  Trending This Week
+                </h3>
+              </div>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {[
+                  {
+                    tag: 'Education',
+                    tagClass: 'text-blue-500',
+                    title: 'Weekend Tutoring for Kids',
+                    meta: '45 volunteers matched',
+                    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBtVjPEQgTa5GnZj8q-80NZ3SjzxnLLVlWmdo1qjEyL1D0d4SwvhtLL77I9FnvUrRh_hmB90eT0WJ_YugBrVEFmAud6wzFUr_7bijy3PPNP9OWgpmxrbjHc5E0BFy2TUUH2AHo1KRXgW-iQZVN4W3I3dfUMW2wmP-OEU9zegVyDhKGAcnqRLdV4uZvepCKja00fmpr_zLQSRxiO-yyLIaUEbz2eNAXr6lOMXBtUSvRFcyyAz2HaSu5J2clatrZIEXT2lpuzN-4af2k',
+                  },
+                  {
+                    tag: 'Social Care',
+                    tagClass: 'text-red-500',
+                    title: 'Community Kitchen Drive',
+                    meta: '82 volunteers matched',
+                    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCaTA_trNJ3oVwBlDd5NOyoSGD57zrqwYXcvbv4KkqP2oKAunXaR7EGT_tXXafrlEbGVYEkKFp8I-AERmRinzvja5l0KZOgbBXjTDlVYxoo-z7S7W9RsanPQ2UjYPZy1o8nHNOmX6jpHkRw_oyxgk-pwXqMlx5Ic7o9UsWpOu73f4Mbzl3F2EntNZmcBL2cuQfi4G2eET40eNHqXYX2uNRo0_ZQFFiEzlj3Hop0ku4PbwQZNX8mYaC1Kikv1mtBqGLjyZF5Sxhu6aM',
+                  },
+                  {
+                    tag: 'Environment',
+                    tagClass: 'text-green-500',
+                    title: 'Urban Garden Project',
+                    meta: '31 volunteers matched',
+                    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDBOg8TA3Ihi0kIsJEo6ijwacpGoTVX3ByTdbvQKjrvpx_hybl-IqpWwOSfnj74w0b6gs9LPChsGyMfxIzQSzZKSS42_5L1JCmJemCRP5-PD9DYWQd-2yrJU8hTkC0c2A2KnSpPeAVv8JRlsXXcChBG84TzAfFNFb9jWspUJOqv-kXrlE025PsmOElaAC_zhJxvmu7UtADf0-mHprS0QwpvQMo3mV38KLO6J1nNutx7XQDllBTS3WGGe8vRMxmCH8hf8kV23x06_Ss',
+                  },
+                ].map((t) => (
+                  <div
+                    className="flex gap-4 rounded-xl border border-slate-200 bg-white p-4 transition-colors hover:border-primary/50"
+                    key={t.title}
+                  >
+                    <div className="h-24 w-24 shrink-0 overflow-hidden rounded-lg">
+                      <img alt={t.title} className="h-full w-full object-cover" src={t.img} />
+                    </div>
+                    <div className="flex min-w-0 flex-1 flex-col justify-between">
+                      <div>
+                        <span className={`text-[10px] font-black uppercase tracking-wider ${t.tagClass}`}>
+                          {t.tag}
+                        </span>
+                        <h5 className="line-clamp-1 font-bold text-slate-900">{t.title}</h5>
+                        <p className="mt-1 text-xs text-slate-500">{t.meta}</p>
+                      </div>
+                      <button
+                        className="mt-3 flex items-center gap-1 text-sm font-bold text-primary transition-all hover:gap-2"
+                        onClick={() => navigate('/event')}
+                        type="button"
+                      >
+                        Learn more <span className="material-symbols-outlined text-sm">arrow_forward</span>
                       </button>
                     </div>
                   </div>
@@ -329,35 +470,47 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {featuredGrid.slice(0, 6).map((item) => (
-                  <article className="cc-card overflow-hidden" key={item.title}>
-                    <div className="relative h-44 overflow-hidden">
+                  <article
+                    className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all hover:shadow-xl"
+                    key={item.title}
+                  >
+                    <div className="relative h-48 overflow-hidden">
                       <img
                         alt={item.title}
-                        className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         src={item.img}
                       />
                       <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-lg bg-white/90 px-3 py-1 text-xs font-bold backdrop-blur">
-                        <span className="h-2 w-2 rounded-full bg-green-500" /> {item.openings}
+                        <span className="h-2 w-2 rounded-full bg-success-green" /> {item.openings}
                       </div>
-                      <div className="absolute bottom-4 left-4 rounded-lg bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white backdrop-blur">
+                      <div className="absolute bottom-4 left-4 max-w-[55%] rounded-lg bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white backdrop-blur">
                         {item.cause}
                       </div>
+                      {item.verified ? (
+                        <div className="absolute bottom-4 right-4 rounded-lg bg-primary px-3 py-1 text-xs font-bold text-white shadow-lg">
+                          Verified
+                        </div>
+                      ) : null}
                     </div>
-                    <div className="cc-card-pad">
-                      <h4 className="text-lg font-extrabold text-slate-900">{item.title}</h4>
-                      <p className="mt-1 text-sm text-slate-500">{item.desc}</p>
-                      <div className="mt-4 flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-500">
+                    <div className="p-5">
+                      <h4 className="mb-2 text-xl font-bold leading-tight transition-colors group-hover:text-primary">
+                        {item.title}
+                      </h4>
+                      <p className="mb-4 line-clamp-2 text-sm text-slate-500">{item.desc}</p>
+                      <div className="mb-6 flex items-center gap-4 text-xs font-semibold text-slate-500">
                         <div className="flex items-center gap-1">
-                          <span className="material-symbols-outlined text-base">calendar_today</span> {item.date}
+                          <span className="material-symbols-outlined text-base">calendar_today</span>
+                          {item.dateShort}
                         </div>
                         <div className="flex items-center gap-1">
-                          <span className="material-symbols-outlined text-base">group</span> {item.joined}
+                          <span className="material-symbols-outlined text-base">group</span>
+                          {item.joined}
                         </div>
                       </div>
                       <button
-                        className="mt-5 w-full rounded-xl bg-primary py-3 font-bold text-white shadow-md shadow-primary/20 transition-all hover:bg-primary/90"
+                        className="w-full rounded-xl bg-primary py-3 font-bold text-white shadow-md shadow-primary/20 transition-all hover:bg-primary/90"
                         onClick={() => navigate('/event')}
                         type="button"
                       >
@@ -369,108 +522,93 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
               </div>
             </section>
 
-            <section>
-              <div className="mb-6 flex items-center justify-between">
-                <h3 className="flex items-center gap-2 text-2xl font-extrabold">
-                  <span className="material-symbols-outlined text-primary">trending_up</span>
-                  Trending This Week
-                </h3>
-              </div>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <div className="cc-card cc-card-pad flex gap-4 transition-colors hover:border-primary/50">
-                  <img
-                    alt="Education"
-                    className="h-24 w-24 shrink-0 rounded-lg object-cover"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtVjPEQgTa5GnZj8q-80NZ3SjzxnLLVlWmdo1qjEyL1D0d4SwvhtLL77I9FnvUrRh_hmB90eT0WJ_YugBrVEFmAud6wzFUr_7bijy3PPNP9OWgpmxrbjHc5E0BFy2TUUH2AHo1KRXgW-iQZVN4W3I3dfUMW2wmP-OEU9zegVyDhKGAcnqRLdV4uZvepCKja00fmpr_zLQSRxiO-yyLIaUEbz2eNAXr6lOMXBtUSvRFcyyAz2HaSu5J2clatrZIEXT2lpuzN-4af2k"
-                  />
-                  <div className="flex flex-col justify-between">
-                    <div>
-                      <span className="text-[10px] font-black uppercase tracking-wider text-blue-500">
-                        Education
-                      </span>
-                      <h5 className="font-bold text-slate-900">Weekend Tutoring for Kids</h5>
-                      <p className="mt-1 text-xs text-slate-500">45 volunteers matched</p>
+            <div className="grid grid-cols-1 gap-8 border-t border-slate-200 pt-8 lg:grid-cols-2">
+              <section className="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6">
+                <div>
+                  <h3 className="mb-6 flex items-center gap-2 text-xl font-extrabold">
+                    <span className="material-symbols-outlined text-primary">groups</span>
+                    Friends Volunteering
+                  </h3>
+                  <div className="space-y-6">
+                    <div className="group flex cursor-pointer gap-4">
+                      <div className="relative shrink-0">
+                        <img
+                          alt="Rahul"
+                          className="h-12 w-12 rounded-full border-2 border-primary/20 object-cover"
+                          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEmwbHeLtUfBQWBkjm2WsCjanWjpbuhyFGRw8z6K-FlwzXTr6ZYZOQ6jjdUetXkLi02k0DsWqW8jFQkXCJRiY6twm99t9i27SZ6fdGv3f2BpUQQzenZMaGllUwrcCpEbhrl6CV4q4btczVtoBin9TWY9r5WIfHswmKwFiGvkntBeibNeiQ7IQd91bVPPaxOUcX30gwuzRUnlO1GOx5snADkZ46T-iw8RM0a4kJ0UJIPRRElU_tfdjyXjV7Nk_pkZaCIs_WKONKaZQ"
+                        />
+                        <div className="absolute -bottom-1 -right-1 rounded-full border-2 border-white bg-success-green p-0.5 text-white">
+                          <span className="material-symbols-outlined block text-[10px]">check</span>
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium">
+                          <span className="font-bold">Rahul S.</span> and 3 others joined{' '}
+                          <span className="font-bold text-primary">‘Beach Cleanup’</span>
+                        </p>
+                        <p className="mt-1 text-xs text-slate-400">2 hours ago</p>
+                      </div>
                     </div>
-                    <button className="flex items-center gap-1 text-sm font-bold text-primary transition-all hover:gap-2">
-                      Learn more <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                    </button>
+                    <div className="group flex cursor-pointer gap-4">
+                      <img
+                        alt="Siddharth"
+                        className="h-12 w-12 shrink-0 rounded-full border-2 border-primary/20 object-cover"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVE4Jxc9CcTxFekx_U9MUt8hqxxxcWdw5i_GAfLEhe_WCKha4sIqCZMKxDaXT1OEx5H1g-v_GxSpP7aO5Js0vgSDbZRsN_qy1IHJPjaQ1Et7dCdhej90xt2a4Ju8lYxvznSk2ndg5T-o_2Omtrtw9o1U_HiN8x49DyUrfG8Q8-LzCSIb1uySkQtXD1_fvUzbJc2M_TJ3CtZtdXo3zbKxG1GbTGi-e2hp6aQF54bpg3Ox3azgX_sl7Dtwn5T7u0wjSXhdMCbjt8mIc"
+                      />
+                      <div>
+                        <p className="text-sm font-medium">
+                          <span className="font-bold">Siddharth V.</span> signed up for{' '}
+                          <span className="font-bold text-primary">‘Teach India’</span>
+                        </p>
+                        <p className="mt-1 text-xs text-slate-400">Yesterday</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="cc-card cc-card-pad flex gap-4 transition-colors hover:border-primary/50">
-                  <img
-                    alt="Food"
-                    className="h-24 w-24 shrink-0 rounded-lg object-cover"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaTA_trNJ3oVwBlDd5NOyoSGD57zrqwYXcvbv4KkqP2oKAunXaR7EGT_tXXafrlEbGVYEkKFp8I-AERmRinzvja5l0KZOgbBXjTDlVYxoo-z7S7W9RsanPQ2UjYPZy1o8nHNOmX6jpHkRw_oyxgk-pwXqMlx5Ic7o9UsWpOu73f4Mbzl3F2EntNZmcBL2cuQfi4G2eET40eNHqXYX2uNRo0_ZQFFiEzlj3Hop0ku4PbwQZNX8mYaC1Kikv1mtBqGLjyZF5Sxhu6aM"
-                  />
-                  <div className="flex flex-col justify-between">
-                    <div>
-                      <span className="text-[10px] font-black uppercase tracking-wider text-red-500">
-                        Social Care
-                      </span>
-                      <h5 className="font-bold text-slate-900">Community Kitchen Drive</h5>
-                      <p className="mt-1 text-xs text-slate-500">82 volunteers matched</p>
-                    </div>
-                    <button className="flex items-center gap-1 text-sm font-bold text-primary transition-all hover:gap-2">
-                      Learn more <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </section>
-          </div>
+                <button
+                  className="mt-8 w-full rounded-xl border border-primary/30 py-2.5 text-sm font-bold text-primary transition-colors hover:bg-primary/5"
+                  onClick={() => navigate('/profile')}
+                  type="button"
+                >
+                  Find More Friends
+                </button>
+              </section>
 
-          <div className="space-y-8 lg:col-span-4">
-            <section className="cc-card cc-card-pad-lg">
-              <h3 className="mb-6 flex items-center gap-2 text-xl font-extrabold">
-                <span className="material-symbols-outlined text-primary">groups</span>
-                Friends Volunteering
-              </h3>
               <div className="space-y-6">
-                <div className="flex gap-4">
-                  <img
-                    alt="Rahul"
-                    className="h-12 w-12 shrink-0 rounded-full border-2 border-primary/20 object-cover"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEmwbHeLtUfBQWBkjm2WsCjanWjpbuhyFGRw8z6K-FlwzXTr6ZYZOQ6jjdUetXkLi02k0DsWqW8jFQkXCJRiY6twm99t9i27SZ6fdGv3f2BpUQQzenZMaGllUwrcCpEbhrl6CV4q4btczVtoBin9TWY9r5WIfHswmKwFiGvkntBeibNeiQ7IQd91bVPPaxOUcX30gwuzRUnlO1GOx5snADkZ46T-iw8RM0a4kJ0UJIPRRElU_tfdjyXjV7Nk_pkZaCIs_WKONKaZQ"
-                  />
+                <section className="flex h-full min-h-[200px] flex-col justify-between rounded-2xl bg-gradient-to-br from-primary to-orange-600 p-6 text-white">
                   <div>
-                    <p className="text-sm">
-                      <span className="font-bold">Rahul S.</span> and 3 others joined{' '}
-                      <span className="font-bold text-primary">Beach Cleanup</span>
-                    </p>
-                    <p className="mt-1 text-xs text-slate-400">2 hours ago</p>
+                    <h3 className="mb-4 text-lg font-black">Your Impact</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="rounded-xl bg-white/10 p-4 backdrop-blur-sm">
+                        <p className="mb-1 text-xs font-bold opacity-80">Total Hours</p>
+                        <p className="text-3xl font-black">24.5</p>
+                      </div>
+                      <div className="rounded-xl bg-white/10 p-4 backdrop-blur-sm">
+                        <p className="mb-1 text-xs font-bold opacity-80">Events</p>
+                        <p className="text-3xl font-black">08</p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="flex gap-4">
-                  <img
-                    alt="Siddharth"
-                    className="h-12 w-12 shrink-0 rounded-full border-2 border-primary/20 object-cover"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVE4Jxc9CcTxFekx_U9MUt8hqxxxcWdw5i_GAfLEhe_WCKha4sIqCZMKxDaXT1OEx5H1g-v_GxSpP7aO5Js0vgSDbZRsN_qy1IHJPjaQ1Et7dCdhej90xt2a4Ju8lYxvznSk2ndg5T-o_2Omtrtw9o1U_HiN8x49DyUrfG8Q8-LzCSIb1uySkQtXD1_fvUzbJc2M_TJ3CtZtdXo3zbKxG1GbTGi-e2hp6aQF54bpg3Ox3azgX_sl7Dtwn5T7u0wjSXhdMCbjt8mIc"
-                  />
-                  <div>
-                    <p className="text-sm">
-                      <span className="font-bold">Siddharth V.</span> signed up for{' '}
-                      <span className="font-bold text-primary">Teach India</span>
-                    </p>
-                    <p className="mt-1 text-xs text-slate-400">Yesterday</p>
+                  <div className="mt-6 flex items-center gap-2 text-sm font-bold">
+                    <span className="material-symbols-outlined text-xl">workspace_premium</span>
+                    Silver Badge Contributor
                   </div>
-                </div>
+                </section>
               </div>
-            </section>
+            </div>
 
-            <section className="rounded-2xl bg-gradient-to-br from-primary to-orange-600 p-6 text-white">
-              <h3 className="mb-4 text-lg font-black">Your Impact</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="rounded-xl bg-white/10 p-3 backdrop-blur-sm">
-                  <p className="mb-1 text-xs font-bold opacity-80">Total Hours</p>
-                  <p className="text-2xl font-black">24.5</p>
-                </div>
-                <div className="rounded-xl bg-white/10 p-3 backdrop-blur-sm">
-                  <p className="mb-1 text-xs font-bold opacity-80">Events</p>
-                  <p className="text-2xl font-black">08</p>
-                </div>
+            <div className="group relative h-64 cursor-pointer overflow-hidden rounded-2xl border border-slate-200">
+              <img
+                alt="Map of Ahmedabad"
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTqDwUcp4OqgD4aH0qE4HDW1O1KRAvlnXYNcRUbZC9YfH7KIgOpM6oAbkiybYjevAm3RSBG4GKdsrWSA-ephRfLklrg1OmkI0D1DMur8Z6XryR69XXSh6KmnpTZfEIgAEiUJuRtEiYE5xJ9T16apC-EnU_ckhliD09GWQJpzeOIuZ-0iHrj6xXmhbatC--wJomC-9sqaY4NIHezNt1dAqRZvnRI17tz_Vtpfn4YN20zDL78txxjRSWLFhYTET1mBzDYAWcZrlZ04c"
+              />
+              <div className="absolute inset-0 bg-black/20 transition-colors group-hover:bg-black/10" />
+              <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between rounded-xl bg-white/95 p-4 shadow-2xl backdrop-blur md:left-auto md:right-6 md:w-64">
+                <span className="text-sm font-bold text-slate-900">Explore via Map</span>
+                <span className="material-symbols-outlined text-primary">map</span>
               </div>
-            </section>
-          </div>
+            </div>
         </div>
       </main>
   )

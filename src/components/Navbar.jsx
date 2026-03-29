@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+
+const LOCATIONS = ['Ahmedabad', 'Pune', 'Bengaluru', 'Hyderabad']
 
 const navLinkClass = ({ isActive }) =>
   `text-sm font-semibold transition-colors hover:text-primary ${
@@ -7,55 +9,66 @@ const navLinkClass = ({ isActive }) =>
   }`
 
 function Navbar({ location = 'Ahmedabad', onLocationChange }) {
-  const [open, setOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [desktopOpen, setDesktopOpen] = useState(false)
+  const mobileLocationRef = useRef(null)
+  const desktopLocationRef = useRef(null)
+
+  useEffect(() => {
+    function handlePointerDown(event) {
+      const t = event.target
+      const inMobile = mobileLocationRef.current?.contains(t)
+      const inDesktop = desktopLocationRef.current?.contains(t)
+      if (!inMobile && !inDesktop) {
+        setMobileOpen(false)
+        setDesktopOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handlePointerDown)
+    document.addEventListener('touchstart', handlePointerDown)
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown)
+      document.removeEventListener('touchstart', handlePointerDown)
+    }
+  }, [])
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-10">
-        <div className="flex items-center gap-8">
-          <Link className="flex items-center gap-3 text-primary" to="/home">
-            <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-white">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 md:gap-4 md:px-10 lg:gap-6">
+        <div className="flex min-w-0 items-center gap-3 md:gap-5 lg:gap-8">
+          <Link className="flex min-w-0 shrink-0 items-center gap-2 text-primary sm:gap-3" to="/home">
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-white">
               <span className="material-symbols-outlined text-2xl">eco</span>
             </div>
-            <h2 className="text-xl font-bold tracking-tight text-slate-900">CauseConnect</h2>
+            <h2 className="truncate text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
+              CauseConnect
+            </h2>
           </Link>
-          <div className="relative hidden items-center overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm md:flex">
-            <button
-              className="group inline-flex items-center gap-2 px-4 py-2 font-semibold text-slate-800 hover:bg-slate-50"
-              onClick={() => setOpen((v) => !v)}
-              onMouseEnter={() => setOpen(true)}
-              onMouseLeave={() => setOpen(false)}
-              type="button"
-            >
-              <span className="material-symbols-outlined text-lg text-primary">location_on</span>
-              <span className="max-w-[150px] truncate">{location}</span>
-              <span className="material-symbols-outlined text-lg text-slate-400">expand_more</span>
-            </button>
-            <div className="h-6 w-px bg-slate-200" />
-            <div className="flex w-[380px] items-center gap-2 px-3 py-2">
-              <span className="material-symbols-outlined text-lg text-slate-400">search</span>
-              <input
-                className="w-full border-none bg-transparent text-sm placeholder:text-slate-500 focus:ring-0"
-                placeholder="Search events, causes..."
-                type="text"
-              />
-            </div>
 
-            {open ? (
+          <div className="relative md:hidden" ref={mobileLocationRef}>
+            <button
+              className="inline-flex max-w-[140px] items-center gap-1 rounded-xl border border-slate-200 bg-white px-2 py-1.5 text-xs font-semibold text-slate-800"
+              onClick={() => setMobileOpen((v) => !v)}
+              type="button"
+              aria-expanded={mobileOpen}
+              aria-haspopup="listbox"
+            >
+              <span className="material-symbols-outlined text-base text-primary">location_on</span>
+              <span className="truncate">{location}</span>
+              <span className="material-symbols-outlined text-base text-slate-400">expand_more</span>
+            </button>
+            {mobileOpen ? (
               <div
-                className="absolute left-0 top-[calc(100%+10px)] z-50 w-[360px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl"
-                onMouseEnter={() => setOpen(true)}
-                onMouseLeave={() => setOpen(false)}
-                role="dialog"
+                className="absolute left-0 top-[calc(100%+8px)] z-[60] w-[min(100vw-2rem,280px)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl"
+                role="listbox"
               >
-                <div className="border-b border-slate-100 p-4">
+                <div className="border-b border-slate-100 p-3">
                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                    Select location
+                    Select city
                   </p>
-                  <p className="mt-1 text-xs text-slate-500">Used for recommendations and “Near you”.</p>
                 </div>
-                <div className="p-2">
-                  {['Ahmedabad', 'Gandhinagar', 'Surat', 'Vadodara', 'Use my location'].map((city) => (
+                <div className="p-1.5">
+                  {LOCATIONS.map((city) => (
                     <button
                       className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold transition-colors hover:bg-slate-50 ${
                         location === city ? 'text-primary' : 'text-slate-700'
@@ -63,13 +76,81 @@ function Navbar({ location = 'Ahmedabad', onLocationChange }) {
                       key={city}
                       onClick={() => {
                         onLocationChange?.(city)
-                        setOpen(false)
+                        setMobileOpen(false)
                       }}
                       type="button"
+                      role="option"
+                      aria-selected={location === city}
                     >
                       <span className="inline-flex items-center gap-2">
                         <span className="material-symbols-outlined text-lg text-slate-400">
-                          {city === 'Use my location' ? 'my_location' : 'location_city'}
+                          location_city
+                        </span>
+                        {city}
+                      </span>
+                      {location === city ? (
+                        <span className="material-symbols-outlined text-lg text-primary">check</span>
+                      ) : null}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+          </div>
+
+          <div className="relative hidden w-[380px] shrink-0 md:block lg:w-[420px] xl:w-[480px]" ref={desktopLocationRef}>
+            <div className="flex min-h-[42px] min-w-0 items-center overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm focus-within:outline-none focus-within:ring-0">
+              <button
+                className="inline-flex shrink-0 items-center gap-1.5 px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50 lg:gap-2 lg:px-4"
+                onClick={() => setDesktopOpen((v) => !v)}
+                type="button"
+                aria-expanded={desktopOpen}
+                aria-haspopup="listbox"
+              >
+                <span className="material-symbols-outlined text-lg text-primary">location_on</span>
+                <span className="max-w-[5.5rem] truncate sm:max-w-[7rem]">{location}</span>
+                <span className="material-symbols-outlined text-lg text-slate-400">expand_more</span>
+              </button>
+              <div className="h-6 w-px shrink-0 bg-slate-200" />
+              <div className="flex min-w-0 flex-1 items-center gap-2 px-2 py-2 focus-within:outline-none lg:px-3">
+                <span className="material-symbols-outlined shrink-0 text-lg text-slate-400">search</span>
+                <input
+                  className="min-w-0 flex-1 border-none bg-transparent text-sm placeholder:text-slate-500 outline-none ring-0 focus:border-transparent focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+                  placeholder="Search events, causes..."
+                  type="search"
+                />
+              </div>
+            </div>
+
+            {desktopOpen ? (
+              <div
+                className="absolute left-0 top-[calc(100%+8px)] z-[100] w-[min(100%,20rem)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl"
+                role="listbox"
+              >
+                <div className="border-b border-slate-100 p-4">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    Select city
+                  </p>
+                  <p className="mt-1 text-xs text-slate-500">Used for recommendations and “Near you”.</p>
+                </div>
+                <div className="p-2">
+                  {LOCATIONS.map((city) => (
+                    <button
+                      className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold transition-colors hover:bg-slate-50 ${
+                        location === city ? 'text-primary' : 'text-slate-700'
+                      }`}
+                      key={city}
+                      onClick={() => {
+                        onLocationChange?.(city)
+                        setDesktopOpen(false)
+                      }}
+                      type="button"
+                      role="option"
+                      aria-selected={location === city}
+                    >
+                      <span className="inline-flex items-center gap-2">
+                        <span className="material-symbols-outlined text-lg text-slate-400">
+                          location_city
                         </span>
                         {city}
                       </span>
@@ -84,7 +165,7 @@ function Navbar({ location = 'Ahmedabad', onLocationChange }) {
           </div>
         </div>
 
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav className="hidden shrink-0 items-center gap-6 lg:flex lg:gap-8">
           <NavLink className={navLinkClass} to="/home">
             Home
           </NavLink>

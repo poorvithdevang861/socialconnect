@@ -123,12 +123,22 @@ function RegistrationConfirmationPage() {
       </div>
 
       <div className="mt-12 overflow-hidden cc-card shadow-lg">
-        <div className="flex items-center justify-between border-b border-slate-100 p-6">
-          <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-primary">location_on</span>
-            <span className="font-bold text-slate-900">Oakwood Valley Park, Entrance B</span>
+        <div className="flex flex-col gap-3 border-b border-slate-100 p-6 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex gap-3">
+            <span className="material-symbols-outlined shrink-0 text-primary">location_on</span>
+            <div>
+              <p className="font-bold leading-snug text-slate-900">Ahmedabad City Park, North Entrance</p>
+              <p className="mt-1 text-sm text-slate-600">
+                Sabarmati Riverfront Road, Ahmedabad, Gujarat 380001
+              </p>
+            </div>
           </div>
-          <a className="text-xs font-bold uppercase tracking-wider text-primary hover:underline" href="#">
+          <a
+            className="shrink-0 text-xs font-bold uppercase tracking-wider text-primary hover:underline"
+            href="https://maps.google.com/?q=Ahmedabad+City+Park"
+            rel="noreferrer"
+            target="_blank"
+          >
             Get Directions
           </a>
         </div>
