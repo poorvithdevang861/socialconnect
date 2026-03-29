@@ -187,13 +187,38 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
     return filtered
   }, [activeCause])
 
+  const mobileFriends = useMemo(
+    () => [
+      {
+        title: 'Animal Shelter Help',
+        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCMD61qWrxeBzh7U61Bk82_Ghs0vRlnSOflvGLBtlGTo6o5ATjibiydEuAKYiin050eRWPbLueejmQXv2nTo17tRWvwLAhFD36TiL6jqAQbpW0A8_6o6erO_kdZFGzXOlGEoLCDTcZECnABfaeDcGs5E0f8yT6XqR3bMCT1QOzQaEk6Anr97NjApamsNHrBmYRlxL11pBl0gYD2-ko2zSWN0Q50YzcW6Do60jraLz9jjnhchBPndZd4nLBpw33JEPtLloqednWda8s',
+        avatars: [
+          'https://lh3.googleusercontent.com/aida-public/AB6AXuCo71jIgykmb3Kid1rq-u6PsRxMx0nePiAqMQnv7F7IWFXtNcIwHGiKXlZRlQtEHYsJpKNEf8fgBVPTXtIKMkkyir5BBxnntgUt29EX6K6iOLicxiEcpT6z7fIxrUABTsEomWMsTDYKVa0oYa6sG-BIM91_fSrFzOihqqg5VvdZAyMcJAnAbidF7u677qfWT2sTty342TUjvwpASIG3eJpCBHdNE7C2JkBVPbdP3kSudNxLzVg9i6nrLTNqcXcuH1Qe6XcRFuUkAwk',
+          'https://lh3.googleusercontent.com/aida-public/AB6AXuA1BBtJF904-uPnZ6CS_nsHVr_4d2B1ZAQtyp1Qy2uIQaZzLTLZA1jiYJoz7VYawTS8A5DliIZ75AXBia_uvEQRtwwcj7vGIiYAiho3l_q0_Il-085IVoag4WfeI3G4D5wlHhJiGb-U1pTb8rYJ2xMiXXRBrCy3jD8x8jfs3JLx1XEAOfzP-QIzyCqH_aqeBOKYM2W0It8KjZQ0_JeBeTIigtxx0f0stcO-pFJuYbdnZlZ9-L1vj3CPYktdv-OEUmrOry8n1PwNaJU',
+          'https://lh3.googleusercontent.com/aida-public/AB6AXuAGsoJ4bPrnz3KB1xsgr4tvOtBkT4MKO5gM6Y_pDVvPdXgAKqccN5uiB0jnRypZkIeYE-VT7fuWzKP8Cyr2DcoKrI9h8wa6om3fIZk8SAj5aHMHE6nKukcKX_KZcFBau47Xlp3Yvz_VZb-PMYQKyEnOB4BOmhmW2LcJM4kl4SLJ3MyIMlEpIo0149YDGTGE4vl9jMurrPFY--y9gRv8PDVkLR3rvtxxzx1SoDObBjWZYjyNGQN-5TVZg4n9BEzbhuar8pjvS3Uashk',
+        ],
+        more: '+4 more',
+      },
+      {
+        title: 'Teach Kids Weekend',
+        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAlQ6Wer9hHblywoFP1vSixJI8iLqpWkLOkV8nP6eKc1UBKgKvENolXj_COzpTryyUYuqSxE6-kQvXdjMwCGUerzqeQpSLYhGqcEzJEwXN8Rtr4AFluEyuGmq7wKziWdqSw2fDuYNgKTXP1FJ6g6-0Psmh_40x_ScLDs_a1Q6KXzn1xdPBrd2cpZRXhorn-IgjaBIyHMAFMy9R2VxT9Bqt2lCa1LaOuuyhpnyXvJAuBbebLV4CzmWTyjLANn6lfjL4q4YrYn3NSKgE',
+        avatars: [
+          'https://lh3.googleusercontent.com/aida-public/AB6AXuDt8i2LhA9zg5xW1LzUjSIpzUWIS0vmPja6A8Rcai8tBsxYjDbC8LY8B0xL_mt4ORTsm620H2aNUtU8JG12zDcSvmYE03H_vJVMN4tVycKAv-NlsV49dpaKpAGCnSnqh14KKe7x0PYyWe5pA6MNXa_iFpvxfjLAZbcsmoZ2E7WY-eX7yOWgb4RKVNCbAMDKrkdPzJoOly92ZcADYjOiACtcJxNIZ4W5eE03SPbM9hiW9hBnAoldxh5E-gaqYApbI0fbHHn4Lp0mpE8',
+          'https://lh3.googleusercontent.com/aida-public/AB6AXuBuVxDnfrS3n75JAn7K9Dx9Mu9yTiNS9qZUibEH84iVhA8aICoj0nBBUdeaWYAKFM6J2SQ0f79JzY1O68WG0bRAeG58dXXi8R0wXVTIJu6Wa7c2X1EchZd5ztMrTlpiqtvacyEbjC8-wCXNIj-5aP5OdlV5QxvjX6Xg8ZKZ3KuhO629mDnvEqTbVS9G-8mvfeFBVbv0vBBu8pmWU6mAk2gwzt9ZGoZii6th6JKIYgosqBMWBzwCFxBmtsYy0CSobk2-X1rNxzFWpOM',
+        ],
+        more: '+2 more',
+      },
+    ],
+    [],
+  )
+
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 md:px-10">
-        <section className="mb-10">
-          <h2 className="text-3xl font-black leading-tight text-slate-900 md:text-4xl">
+    <main className="mx-auto max-w-7xl px-3 pb-[max(92px,calc(72px+env(safe-area-inset-bottom)))] pt-5 sm:px-4 md:px-10 md:py-8">
+        <section className="mb-8 md:mb-10">
+          <h2 className="text-[clamp(1.95rem,8.5vw,2.35rem)] font-black leading-tight text-slate-900 md:text-4xl">
             Welcome back, <span className="text-primary">Arjun!</span>
           </h2>
-          <p className="mt-2 text-lg text-slate-500">
+          <p className="mt-2 text-[clamp(0.95rem,3.9vw,1.1rem)] text-slate-500 md:text-lg">
             There are 12 new volunteering opportunities in {location} today.
           </p>
         </section>
@@ -219,12 +244,12 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
         </div>
 
         <div className="mb-10 grid grid-cols-1 gap-4 md:grid-cols-[1fr_auto] md:items-center">
-          <div className="hide-scrollbar flex gap-3 overflow-x-auto pb-2">
+          <div className="hide-scrollbar flex gap-2.5 overflow-x-auto pb-2 sm:gap-3">
             {causes.map((c) => {
               const active = activeCause === c.key
               return (
                 <button
-                  className={`flex items-center gap-2 whitespace-nowrap rounded-xl px-5 py-2 text-sm font-bold transition-colors ${
+                  className={`flex items-center gap-2 whitespace-nowrap rounded-xl px-4 py-2 text-[13px] font-bold transition-colors sm:px-5 sm:text-sm ${
                     active
                       ? 'bg-primary text-white'
                       : 'border border-slate-200 bg-white text-slate-700 hover:border-primary'
@@ -290,10 +315,10 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="hide-scrollbar -mx-3 flex gap-4 overflow-x-auto px-3 pb-1 sm:-mx-4 sm:px-4 md:mx-0 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 lg:grid-cols-3">
                 {nearYou.map((item) => (
                   <div
-                    className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all hover:shadow-xl"
+                    className="group min-w-[85vw] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all hover:shadow-xl sm:min-w-[280px] md:min-w-0"
                     key={item.title}
                     onClick={item.route ? () => navigate(item.route) : undefined}
                     onKeyDown={
@@ -327,8 +352,8 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
                         </div>
                       ) : null}
                     </div>
-                    <div className="p-5">
-                      <h4 className="mb-2 text-xl font-bold leading-tight transition-colors group-hover:text-primary">
+                    <div className="p-4 sm:p-5">
+                      <h4 className="mb-2 text-[clamp(1.05rem,4.8vw,1.25rem)] font-bold leading-tight transition-colors group-hover:text-primary">
                         {item.title}
                       </h4>
                       <p className="mb-4 line-clamp-2 text-sm text-slate-500">{item.desc}</p>
@@ -360,12 +385,19 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
 
             <section>
               <div className="mb-6 flex items-center justify-between">
-                <h3 className="flex items-center gap-2 text-2xl font-extrabold">
+                <h3 className="flex items-center gap-2 text-[22px] font-semibold md:text-2xl md:font-extrabold">
                   <span className="material-symbols-outlined text-primary">trending_up</span>
                   Trending This Week
                 </h3>
+                <button
+                  className="text-sm font-medium text-primary md:hidden"
+                  onClick={() => navigate('/events')}
+                  type="button"
+                >
+                  See All
+                </button>
               </div>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="hide-scrollbar -mx-3 flex gap-4 overflow-x-auto px-3 pb-1 sm:-mx-4 sm:px-4 md:mx-0 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 lg:grid-cols-3">
                 {[
                   {
                     tag: 'Education',
@@ -390,13 +422,17 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
                   },
                 ].map((t) => (
                   <div
-                    className="flex gap-4 rounded-xl border border-slate-200 bg-white p-4 transition-colors hover:border-primary/50"
+                    className="min-w-[85vw] rounded-2xl border border-slate-100 bg-white p-4 shadow-sm transition-colors hover:border-primary/50 sm:min-w-[280px] md:min-w-0 md:flex md:items-start md:gap-4"
                     key={t.title}
                   >
-                    <div className="h-24 w-24 shrink-0 overflow-hidden rounded-lg">
+                    <div className="relative h-[160px] overflow-hidden rounded-xl md:h-24 md:w-24 md:shrink-0 md:rounded-lg">
                       <img alt={t.title} className="h-full w-full object-cover" src={t.img} />
+                      <div className="absolute left-3 top-3 flex items-center gap-1 rounded-lg bg-white/90 px-2 py-1 text-[10px] font-bold uppercase tracking-wider md:hidden">
+                        <span className="material-symbols-outlined text-[14px] text-blue-500">verified</span>
+                        Verified
+                      </div>
                     </div>
-                    <div className="flex min-w-0 flex-1 flex-col justify-between">
+                    <div className="mt-3 flex min-w-0 flex-1 flex-col justify-between md:mt-0">
                       <div>
                         <span className={`text-[10px] font-black uppercase tracking-wider ${t.tagClass}`}>
                           {t.tag}
@@ -404,11 +440,10 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
                         <h5 className="line-clamp-1 font-bold text-slate-900">{t.title}</h5>
                         <p className="mt-1 text-xs text-slate-500">{t.meta}</p>
                       </div>
-                      <button
-                        className="mt-3 flex items-center gap-1 text-sm font-bold text-primary transition-all hover:gap-2"
-                        onClick={() => navigate('/event')}
-                        type="button"
-                      >
+                      <button className="mt-3 rounded-lg bg-[#22c55e] px-3 py-1.5 text-[12px] font-bold text-white md:hidden" onClick={() => navigate('/event')} type="button">
+                        View Details
+                      </button>
+                      <button className="mt-3 hidden items-center gap-1 text-sm font-bold text-primary transition-all hover:gap-2 md:flex" onClick={() => navigate('/event')} type="button">
                         Learn more <span className="material-symbols-outlined text-sm">arrow_forward</span>
                       </button>
                     </div>
@@ -522,7 +557,32 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
               </div>
             </section>
 
-            <div className="grid grid-cols-1 gap-8 border-t border-slate-200 pt-8 lg:grid-cols-2">
+            <section className="md:hidden">
+              <div className="mb-4 px-1">
+                <h3 className="text-[20px] font-semibold leading-tight text-slate-900">Friends Are Volunteering</h3>
+              </div>
+              <div className="space-y-3">
+                {mobileFriends.map((item) => (
+                  <div className="flex items-center gap-3 rounded-xl border border-slate-100 bg-white p-3" key={item.title}>
+                    <img alt={item.title} className="size-14 rounded-lg object-cover" src={item.img} />
+                    <div className="min-w-0 flex-1">
+                      <h4 className="truncate text-[15px] font-semibold text-slate-900">{item.title}</h4>
+                      <div className="mt-1 flex items-center -space-x-2">
+                        {item.avatars.map((a) => (
+                          <img alt="Friend avatar" className="size-6 rounded-full border-2 border-white object-cover" key={a} src={a} />
+                        ))}
+                        <span className="pl-3 text-[10px] text-slate-500">{item.more}</span>
+                      </div>
+                    </div>
+                    <button className="rounded-lg bg-primary px-4 py-2 text-[12px] font-bold text-white" type="button">
+                      Join
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <div className="hidden grid-cols-1 gap-8 border-t border-slate-200 pt-8 md:grid lg:grid-cols-2">
               <section className="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6">
                 <div>
                   <h3 className="mb-6 flex items-center gap-2 text-xl font-extrabold">
@@ -597,7 +657,7 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
               </div>
             </div>
 
-            <div className="group relative h-64 cursor-pointer overflow-hidden rounded-2xl border border-slate-200">
+            <div className="group relative hidden h-64 cursor-pointer overflow-hidden rounded-2xl border border-slate-200 md:block">
               <img
                 alt="Map of Ahmedabad"
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
@@ -610,7 +670,7 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
               </div>
             </div>
         </div>
-      </main>
+    </main>
   )
 }
 

@@ -105,7 +105,7 @@ function RegistrationConfirmationPage() {
 
           <div className="mt-6 flex flex-col items-center gap-4">
             <button
-              className="flex w-full items-center justify-center gap-3 rounded-xl bg-primary py-5 text-lg font-black uppercase tracking-wider text-white shadow-xl shadow-primary/20 transition-all hover:bg-primary/90"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 text-base font-black uppercase tracking-normal text-white shadow-xl shadow-primary/20 transition-all hover:bg-primary/90 sm:gap-3 sm:py-5 sm:text-lg sm:tracking-wider"
               onClick={() => {
                 registerGreenEarthEvent()
                 navigate('/event/success')

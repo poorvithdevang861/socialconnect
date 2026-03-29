@@ -13,6 +13,181 @@ function EventDetailsPage() {
 
   return (
     <main className="mx-auto max-w-[1440px] pb-20">
+      <div className="min-h-screen w-full bg-white pb-[max(116px,calc(104px+env(safe-area-inset-bottom)))] md:hidden">
+        <div className="relative h-[260px] w-full overflow-hidden bg-slate-200">
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage:
+                "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%), url('https://lh3.googleusercontent.com/aida-public/AB6AXuCI5L64VCMp7RFxFZXVayQCDJXVfw-tGkrBtgyqXvThtwy8mCOOQHYugNlaR5XzCH64Pou42No7Ls2sApXNTRGL3Ivq5aNRiVhkHfeAvOQsrc-bhL1zRm_LAdL7boe8m3xOSczGXhVGI86lrYoCq30f02l8OOmKIF4zXp7nqYxc6_ji0W6MN30CZgn-lwzrXYtE4P8dVpQ5P5JRGrZV4D-P6i1nC0zdfmqMv20pGNe4-ZYY3PQVIqeB0IyjpCfLOTP_Ocy8hfvRCuU')",
+            }}
+          />
+          <div className="absolute left-4 right-4 top-4 flex items-center justify-between">
+            <button
+              className="flex size-10 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-md"
+              onClick={handleBack}
+              type="button"
+            >
+              <span className="material-symbols-outlined">arrow_back</span>
+            </button>
+            <button className="flex size-10 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-md" type="button">
+              <span className="material-symbols-outlined">share</span>
+            </button>
+          </div>
+          <div className="absolute bottom-4 left-4">
+            <span className="rounded-full bg-green-500 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
+              Environment
+            </span>
+          </div>
+          <div className="absolute bottom-4 right-4 flex items-center gap-1 rounded-full bg-primary/90 px-3 py-1 text-xs font-semibold text-white">
+            <span className="material-symbols-outlined text-[14px]">verified</span>
+            <span>Verified</span>
+          </div>
+        </div>
+
+        <div className="px-4 pb-4 pt-5 sm:px-5 sm:pt-6">
+          <h1 className="text-[22px] font-semibold leading-tight text-slate-900">
+            Green Earth Tree Plantation
+          </h1>
+          <p className="mt-2 text-base text-slate-600">EcoWarriors Organization</p>
+          <div className="mt-2 flex items-center gap-1">
+            <span className="material-symbols-outlined fill-1 text-lg text-yellow-500">star</span>
+            <span className="text-sm font-bold">4.8</span>
+            <span className="text-sm text-slate-500">(120 reviews)</span>
+          </div>
+        </div>
+
+        <div className="px-4 sm:px-5">
+          <div className="space-y-4 rounded-xl bg-[#F9F9F9] p-5">
+            <div className="flex items-center gap-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <span className="material-symbols-outlined">calendar_today</span>
+              </div>
+              <div>
+                <p className="text-sm font-semibold">Sat, 24 Oct</p>
+                <p className="text-xs text-slate-500">08:00 AM - 12:00 PM</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <span className="material-symbols-outlined">schedule</span>
+              </div>
+              <div>
+                <p className="text-sm font-semibold">4 hours</p>
+                <p className="text-xs text-slate-500">Duration</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <span className="material-symbols-outlined">location_on</span>
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-semibold">Ahmedabad City Park, North Entrance</p>
+                <p className="text-xs text-slate-500">Sabarmati Riverfront Road, Ahmedabad</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <span className="material-symbols-outlined">group</span>
+              </div>
+              <div>
+                <p className="text-sm font-semibold">32 volunteers going</p>
+                <p className="text-xs text-slate-500">8 slots remaining</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 px-4 sm:px-5">
+          <h2 className="mb-3 text-lg font-semibold">Friends Attending</h2>
+          <div className="flex items-center gap-3">
+            <div className="flex -space-x-3 overflow-hidden">
+              <img className="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALtYMSPoL8r1t95GkS9OzKImRcsBfQK-qC9SE4X0-6Msb6GfpQ21z1R5EPbvnVVs7RbOXE4Gt3czG91HFUjsSjSXjv_KkothysL7l5GOiZpD8GYiA3YMrOD5L5tDF3uGDRWK6kRLyeofKWmvEaYnjMc-FpI972g4TVNwXdRzfIZq0efR5D05JM-1o4P49Ilf2042v08WoX1aXngsP0vtpSgRC9JYdztUoEx8-1MR_M5-J_BG3BhkpGutuQF4pXdiSiVMhuqWvmr9U" alt="Friend 1" />
+              <img className="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZLuI2upBqx9_KT_WxJ7w-5qsCgtWO_cmtL-NA9XyoPlAkYslyrjIU0fgwCToPB0T4SgUTO7KVcNh6gDT37yA7yQKSpyNVBJTzBh5Ro5VDaPr-5sIWtXXc0e2fXfNTqVkfFsDjhw3e-2WzR6CnJIIldTTGo8FkgO7MBnGgnv6ntBP6OJ89dWGnWgWCXVpVnQLNTiVUrVj0PuauYg8rzyJ1atpxr3E91pjE9lT0KC7hIx8vHF3kC9JqLDOYwYNX_-mK5dLhQfu-CkE" alt="Friend 2" />
+              <img className="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjZvEOu4fIy7itLsjFWm-jkcoEhBKewN4lJRl1rIfy-OZg-pN33J3gcC9cA7y2AKCafiPCKhdzEQuYmTv0Dn6q_UrSw_azRqdGapd1epMcCa9VPHiGus0Y-qd4dpcP01oEVttsze9TU1sbn_HKT7rtbTt_W_mbAHgEnFEgaZCiPkAH7wUMS3DdAw4OsqaqCa4dHj3b7gu6U86T7eWBOIW2-x6UZYFRCZpmHCfcXyV4iyxk8gZmmbA0FEUuJfeVkni9c4jE0NU5LVU" alt="Friend 3" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-xs font-medium ring-2 ring-white">
+                +1
+              </div>
+            </div>
+            <p className="text-sm text-slate-600">You and 3 friends are going</p>
+          </div>
+        </div>
+
+        <div className="mt-8 px-4 sm:px-5">
+          <h2 className="mb-3 text-lg font-semibold">About This Event</h2>
+          <p className="text-sm leading-relaxed text-slate-600">
+            Join us for our biggest reforestation initiative of the year! We are aiming to plant
+            over 500 indigenous tree saplings in the northern corridor of the City Park. This
+            project is crucial for increasing the local canopy cover and providing habitat for
+            native bird species.
+          </p>
+          <button className="mt-2 text-sm font-semibold text-primary" type="button">Read More</button>
+        </div>
+
+        <div className="mt-8">
+          <h2 className="mb-4 px-4 text-lg font-semibold sm:px-5">Impact From Previous Events</h2>
+          <div className="hide-scrollbar flex gap-3 overflow-x-auto px-4 pb-2 sm:gap-4 sm:px-5">
+            <div className="w-36 flex-none rounded-xl border border-green-100 bg-green-50 p-4 sm:w-40">
+              <span className="material-symbols-outlined mb-2 text-green-600">park</span>
+              <p className="text-xl font-bold text-green-700">1,200+</p>
+              <p className="text-xs font-medium text-green-600">Trees Planted to Date</p>
+            </div>
+            <div className="w-36 flex-none rounded-xl border border-green-100 bg-green-50 p-4 sm:w-40">
+              <span className="material-symbols-outlined mb-2 text-green-600">restaurant</span>
+              <p className="text-xl font-bold text-green-700">500+</p>
+              <p className="text-xs font-medium text-green-600">Meals Served Together</p>
+            </div>
+            <div className="w-36 flex-none rounded-xl border border-green-100 bg-green-50 p-4 sm:w-40">
+              <span className="material-symbols-outlined mb-2 text-green-600">volunteer_activism</span>
+              <p className="text-xl font-bold text-green-700">40</p>
+              <p className="text-xs font-medium text-green-600">Volunteers Last Event</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 px-4 pb-12 sm:px-5">
+          <h2 className="mb-4 text-lg font-semibold">Community Feedback</h2>
+          <div className="space-y-6">
+            <div className="flex gap-3">
+              <img className="h-10 w-10 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAO648chqeyGae-2Xjqud1u8imQMe6WQtd9pQIetK85_Onu9SOHvJZbIg_G3nVB4HpquwFJrDJlBbrcffCTO0dyMHbZGHlAZGPlLD4JhKYp9oDYFzp3TLGuadYj_PaAh2q5KvshzQsThjur9obpfDvqDKgXw-eiTP15KAKhilyubNf7pLl267fBVbw_uJW5yalOyvIXQ8Svq5FNobmj_U91EB5RSFPFAmiV62LLlZf6MVqPNcPyu3Qks0IvNdE5IH1Wf-xns5zTftg" alt="Arjun Patel" />
+              <div className="flex-1">
+                <div className="flex items-start justify-between">
+                  <h4 className="text-sm font-bold">Arjun Patel</h4>
+                  <div className="flex text-yellow-500">
+                    <span className="material-symbols-outlined fill-1 text-sm">star</span>
+                    <span className="material-symbols-outlined fill-1 text-sm">star</span>
+                    <span className="material-symbols-outlined fill-1 text-sm">star</span>
+                    <span className="material-symbols-outlined fill-1 text-sm">star</span>
+                    <span className="material-symbols-outlined fill-1 text-sm">star</span>
+                  </div>
+                </div>
+                <p className="mb-1 text-xs text-slate-400">2 days ago</p>
+                <p className="text-sm text-slate-600">
+                  Great organization and very friendly team. Felt good to contribute!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="fixed inset-x-0 bottom-0 z-50 w-full border-t border-slate-100 bg-white/95 p-4 backdrop-blur sm:p-5">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-lg font-bold">4 hours</p>
+              <p className="text-xs font-semibold uppercase text-slate-500">Commitment</p>
+            </div>
+            <button
+              className="rounded-xl bg-primary px-6 py-3 text-sm font-bold text-white shadow-lg shadow-primary/20 sm:px-10"
+              onClick={() => navigate('/event/confirm')}
+              type="button"
+            >
+              Join Event
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="hidden md:block">
       <section className="px-6 py-6">
         <div className="group relative h-[480px] w-full overflow-hidden rounded-2xl">
           <img
@@ -327,21 +502,7 @@ function EventDetailsPage() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-slate-200 bg-white p-4 lg:hidden">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <p className="mb-1 text-xs font-bold uppercase leading-none tracking-widest text-slate-400">
-              Saturday, 24 Oct
-            </p>
-            <p className="text-sm font-black text-slate-900">Free • 8 slots left</p>
-          </div>
-          <button
-            className="rounded-xl bg-primary px-8 py-3 text-sm font-black text-white shadow-lg shadow-primary/25"
-            onClick={() => navigate('/event/confirm')}
-          >
-            Join Event
-          </button>
-        </div>
+      {/* desktop/tablet uses right-side sticky join card */}
       </div>
     </main>
   )

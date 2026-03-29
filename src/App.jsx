@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import { useCallback, useState } from 'react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -23,6 +23,7 @@ function App() {
   const showShell = !['/', '/login', '/signup', '/interests', '/interests/filters'].includes(
     location.pathname,
   )
+  const showMobileBottomNav = ['/home', '/events', '/impact', '/profile'].includes(location.pathname)
 
   const openInterests = useCallback(() => setInterestsOpen(true), [])
   const closeInterests = useCallback(() => setInterestsOpen(false), [])
@@ -33,10 +34,18 @@ function App() {
         <Navbar location={locationCity} onLocationChange={setLocationCity} />
       ) : null}
       {showShell ? <InterestsModal open={interestsOpen} onClose={closeInterests} /> : null}
-      <div className="flex-1">
+      <div className={`flex-1 ${showMobileBottomNav ? 'pb-[max(76px,calc(64px+env(safe-area-inset-bottom)))] md:pb-0' : ''}`}>
         <Routes>
         <Route path="/" element={<SplashPage />} />
-        <Route path="/home" element={<HomePage location={locationCity} onOpenFilters={openInterests} />} />
+        <Route
+          path="/home"
+          element={
+            <HomePage
+              location={locationCity}
+              onOpenFilters={openInterests}
+            />
+          }
+        />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/interests" element={<InterestsPage />} />
@@ -50,6 +59,37 @@ function App() {
         <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       </div>
+      {showMobileBottomNav ? (
+        <nav className="fixed inset-x-0 bottom-0 z-40 mx-auto grid h-[72px] w-full grid-cols-3 items-center border-t border-slate-100 bg-white/95 px-2 pb-[max(6px,env(safe-area-inset-bottom))] backdrop-blur md:hidden">
+          <NavLink
+            className={({ isActive }) =>
+              `flex flex-col items-center gap-1 ${isActive ? 'text-primary' : 'text-slate-400'}`
+            }
+            to="/home"
+          >
+            <span className="material-symbols-outlined fill-1">home</span>
+            <span className="text-[11px] font-medium">Home</span>
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              `flex flex-col items-center gap-1 ${isActive ? 'text-primary' : 'text-slate-400'}`
+            }
+            to="/events"
+          >
+            <span className="material-symbols-outlined">event</span>
+            <span className="text-[11px] font-medium">Events</span>
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              `flex flex-col items-center gap-1 ${isActive ? 'text-primary' : 'text-slate-400'}`
+            }
+            to="/impact"
+          >
+            <span className="material-symbols-outlined">analytics</span>
+            <span className="text-[11px] font-medium">Impact</span>
+          </NavLink>
+        </nav>
+      ) : null}
       {showShell ? <Footer /> : null}
     </div>
   )

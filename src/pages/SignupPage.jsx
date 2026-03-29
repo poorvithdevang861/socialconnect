@@ -84,7 +84,7 @@ function SignupPage() {
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-background-dark/70">Full Name</label>
                 <input
-                  className="h-12 w-full rounded-lg border-none bg-background-light text-background-dark placeholder:text-background-dark/30 focus:ring-2 focus:ring-primary"
+                  className="h-12 w-full rounded-lg border-none bg-background-light px-4 text-[15px] leading-tight text-background-dark placeholder:text-background-dark/35 focus:ring-2 focus:ring-primary"
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Arjun Patel"
                   required
@@ -95,7 +95,7 @@ function SignupPage() {
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-background-dark/70">Email Address</label>
                 <input
-                  className="h-12 w-full rounded-lg border-none bg-background-light text-background-dark placeholder:text-background-dark/30 focus:ring-2 focus:ring-primary"
+                  className="h-12 w-full rounded-lg border-none bg-background-light px-4 text-[15px] leading-tight text-background-dark placeholder:text-background-dark/35 focus:ring-2 focus:ring-primary"
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@email.com"
                   required
@@ -106,7 +106,7 @@ function SignupPage() {
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-background-dark/70">Password</label>
                 <input
-                  className="h-12 w-full rounded-lg border-none bg-background-light text-background-dark placeholder:text-background-dark/30 focus:ring-2 focus:ring-primary"
+                  className="h-12 w-full rounded-lg border-none bg-background-light px-4 text-[15px] leading-tight text-background-dark placeholder:text-background-dark/35 focus:ring-2 focus:ring-primary"
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
