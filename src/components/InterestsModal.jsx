@@ -42,12 +42,6 @@ function InterestsModal({ open, onClose }) {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [open, onClose])
 
-  useEffect(() => {
-    if (!open) return
-    // reset to first step on open for a consistent UX
-    setStep(1)
-  }, [open])
-
   const toggleInterest = (interest) => {
     setSelected((prev) =>
       prev.includes(interest) ? prev.filter((i) => i !== interest) : [...prev, interest],

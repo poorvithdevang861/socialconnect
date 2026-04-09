@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { setAuthenticated, setOnboardingComplete } from '../utils/onboarding'
+
 function SplashPage() {
   const navigate = useNavigate()
   const [progress, setProgress] = useState(35)
 
   useEffect(() => {
-    // Start onboarding from a clean state on app launch.
     setAuthenticated(false)
     setOnboardingComplete(false)
 
@@ -25,9 +25,9 @@ function SplashPage() {
   }, [navigate])
 
   return (
-    <main className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-background-dark text-white">
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 z-10 bg-gradient-to-b from-background-dark/80 via-background-dark/70 to-background-dark" />
+    <main className="relative flex min-h-[100dvh] w-full flex-col overflow-hidden bg-background-dark text-white md:min-h-screen">
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-background-dark/85 via-background-dark/72 to-background-dark" />
         <div
           className="h-full w-full bg-cover bg-center bg-no-repeat"
           style={{
@@ -37,48 +37,52 @@ function SplashPage() {
         />
       </div>
 
-      <div className="relative z-20 flex max-w-lg flex-col items-center px-6 text-center">
-        <div className="mb-8 flex items-center justify-center">
-          <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-primary shadow-2xl shadow-primary/20">
-            <span
-              className="material-symbols-outlined text-6xl text-white"
-              style={{ fontVariationSettings: "'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48" }}
-            >
-              handshake
-            </span>
+      <div className="relative z-20 flex w-full flex-1 flex-col items-stretch justify-between px-5 pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(1.5rem,env(safe-area-inset-top))] sm:px-8 md:items-center md:justify-center md:px-10 md:pt-[max(2.5rem,env(safe-area-inset-top))]">
+        <div className="flex w-full flex-1 flex-col items-center justify-center text-center md:max-w-xl md:flex-none">
+          <div className="mb-8 flex w-full items-center justify-center md:mb-10">
+            <div className="flex h-24 w-24 items-center justify-center rounded-[1.35rem] bg-primary shadow-orange-glow sm:h-28 sm:w-28">
+              <span
+                className="material-symbols-outlined text-6xl text-white sm:text-7xl"
+                style={{ fontVariationSettings: "'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48" }}
+              >
+                handshake
+              </span>
+            </div>
+          </div>
+
+          <h1 className="premium-h1 mb-3 w-full !text-white md:text-[clamp(2rem,5vw,2.75rem)]">
+            CauseConnect
+          </h1>
+          <p className="mx-auto mb-10 max-w-md text-base leading-relaxed text-white/90 md:mb-12">
+            Find verified volunteering near you.
+          </p>
+
+          <div className="w-full max-w-none sm:max-w-md md:mx-auto">
+            <div className="mb-1 flex items-end justify-between px-0.5">
+              <span className="text-xs font-bold uppercase tracking-wider text-primary sm:text-sm">
+                Initializing
+              </span>
+              <span className="text-xs tabular-nums text-white/60">{progress}%</span>
+            </div>
+            <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
+              <div
+                className="h-full rounded-full bg-primary shadow-orange-glow transition-all duration-200"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            <p className="mt-3 text-xs text-white/50">Connecting you to your community…</p>
           </div>
         </div>
 
-        <h1 className="mb-3 text-5xl font-bold tracking-tight">CauseConnect</h1>
-        <p className="mb-12 text-lg font-medium leading-relaxed text-white/90">
-          Find verified volunteering near you.
-        </p>
-
-        <div className="w-full max-w-xs">
-          <div className="mb-1 flex items-end justify-between">
-            <span className="text-sm font-medium uppercase tracking-wide text-primary">
-              Initializing
-            </span>
-            <span className="text-xs text-white/60">{progress}%</span>
+        <div className="mt-8 flex w-full flex-col items-center gap-2 pb-2 md:mt-10 md:max-w-xl">
+          <span className="text-[10px] uppercase tracking-[0.2em] text-white/35">
+            Verified opportunities only
+          </span>
+          <div className="flex gap-5 opacity-50">
+            <span className="material-symbols-outlined text-base">verified_user</span>
+            <span className="material-symbols-outlined text-base">group</span>
+            <span className="material-symbols-outlined text-base">location_on</span>
           </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-            <div
-              className="h-full rounded-full bg-primary transition-all duration-200"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-          <p className="mt-2 text-xs italic text-white/50">Connecting you to your community...</p>
-        </div>
-      </div>
-
-      <div className="absolute bottom-10 z-20 flex flex-col items-center gap-2">
-        <span className="text-[10px] uppercase tracking-[0.2em] text-white/30">
-          Verified Opportunities Only
-        </span>
-        <div className="flex gap-4 opacity-40">
-          <span className="material-symbols-outlined text-sm">verified_user</span>
-          <span className="material-symbols-outlined text-sm">group</span>
-          <span className="material-symbols-outlined text-sm">location_on</span>
         </div>
       </div>
     </main>

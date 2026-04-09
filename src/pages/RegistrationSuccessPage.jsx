@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom'
+import Button from '../components/Button'
 
 function RegistrationSuccessPage() {
   const navigate = useNavigate()
 
   return (
-    <main className="flex flex-grow items-center justify-center px-6 py-12">
+    <main className="flex flex-grow items-center justify-center shell-pad-lg">
       <div className="w-full max-w-xl">
         <div className="animate-fade-up text-center">
           <div className="relative mb-6 inline-flex h-24 w-24 items-center justify-center rounded-full bg-green-100 text-green-600">
@@ -49,12 +50,12 @@ function RegistrationSuccessPage() {
         </div>
 
         <div className="animate-fade-up-delay-2 mb-10 mt-8 w-full space-y-4">
-          <button className="w-full rounded-xl bg-primary py-4 text-lg font-bold text-white transition-all active:scale-[0.98] hover:bg-primary/90">
+          <Button className="w-full py-4 text-lg">
             <span className="inline-flex items-center gap-3">
               <span className="material-symbols-outlined">calendar_add_on</span>
               Add to Calendar
             </span>
-          </button>
+          </Button>
         </div>
 
         <div className="animate-fade-up-delay-2 w-full rounded-2xl border border-primary/10 bg-primary/5 p-6">
@@ -90,18 +91,20 @@ function RegistrationSuccessPage() {
         </div>
 
         <div className="mt-8 flex w-full flex-col gap-4 sm:flex-row">
-          <button
-            className="flex-1 rounded-xl border border-primary/20 py-3 text-center font-semibold text-primary transition-all hover:bg-primary/5"
+          <Button
+            variant="secondary"
+            className="flex-1 py-3 text-center font-semibold"
             onClick={() => navigate('/events')}
           >
             View My Events
-          </button>
-          <button
-            className="flex-1 rounded-xl bg-slate-100 py-3 text-center font-semibold text-slate-700 transition-all hover:bg-slate-200"
+          </Button>
+          <Button
+            variant="dark"
+            className="flex-1 py-3 text-center font-semibold"
             onClick={() => navigate('/home')}
           >
             Back to Home
-          </button>
+          </Button>
         </div>
       </div>
     </main>

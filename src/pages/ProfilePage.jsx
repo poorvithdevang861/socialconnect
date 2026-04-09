@@ -1,32 +1,39 @@
 import { useState } from 'react'
+import Button from '../components/Button'
+import SectionHeader from '../components/SectionHeader'
 import ShareProfileModal from '../components/ShareProfileModal'
 
 function ProfilePage() {
   const [activeTab, setActiveTab] = useState('activity')
-  const [copied, setCopied] = useState(false)
   const [favoriteBadge, setFavoriteBadge] = useState('Community Hero')
   const [shareOpen, setShareOpen] = useState(false)
 
   const copyProfile = async () => {
     try {
       await navigator.clipboard.writeText('https://causeconnect.org/u/arjun-patel')
-      setCopied(true)
-      setTimeout(() => setCopied(false), 1400)
     } catch {
-      setCopied(false)
+      /* clipboard unavailable */
     }
   }
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <main className="mx-auto max-w-[1600px] premium-shell shell-pad-lg">
       <ShareProfileModal
         open={shareOpen}
         onClose={() => setShareOpen(false)}
         onCopy={copyProfile}
       />
+      <section className="mb-6">
+        <SectionHeader
+          title="Your Profile"
+          subtitle="Track your impact identity, badges, and recent activity."
+          titleClassName="premium-h1"
+        />
+      </section>
+
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         <aside className="space-y-6 lg:col-span-3">
-          <div className="cc-card cc-card-pad-lg text-center">
+          <div className="@container cc-card cc-card-pad-lg text-center">
             <div className="relative mb-4 inline-block">
               <div className="mx-auto h-24 w-24 rounded-full bg-gradient-to-tr from-primary to-orange-300 p-1">
                 <img
@@ -39,7 +46,7 @@ function ProfilePage() {
                 verified
               </span>
             </div>
-            <h2 className="text-xl font-bold text-slate-900">Arjun Patel</h2>
+            <h2 className="text-xl font-bold text-slate-900 cq-tight-title">Arjun Patel</h2>
             <span className="mt-1 inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
               Verified Volunteer
             </span>
@@ -81,15 +88,12 @@ function ProfilePage() {
               ))}
             </div>
             <hr className="my-4 border-slate-200" />
-            <button
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 font-bold text-white shadow-md shadow-primary/20 transition-all hover:bg-primary/90"
-              onClick={() => setShareOpen(true)}
-            >
+            <Button className="flex w-full items-center justify-center gap-2 py-3" onClick={() => setShareOpen(true)}>
               <span className="material-symbols-outlined text-sm">
                 share
               </span>
               Share Profile
-            </button>
+            </Button>
           </div>
         </aside>
 
@@ -101,13 +105,13 @@ function ProfilePage() {
               ['Impact Score', '850', 'Global Top 5%', 'workspace_premium'],
             ].map(([label, value, trend, icon]) => (
               <div
-                className="cc-card cc-card-pad group relative flex flex-col items-center justify-center overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-md"
+                className="@container cc-card cc-card-pad group relative flex flex-col items-center justify-center overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-md"
                 key={label}
               >
                 <div className="absolute -right-4 -top-4 h-16 w-16 rounded-full bg-primary/5 transition-transform group-hover:scale-150" />
-                <p className="mb-1 text-sm font-medium text-slate-500">{label}</p>
+                <p className="mb-1 text-sm font-medium text-slate-500 cq-tight-title">{label}</p>
                 <p className="text-4xl font-extrabold text-slate-900">{value}</p>
-                <div className="mt-2 flex items-center text-xs font-bold text-emerald-500">
+                <div className="mt-2 flex items-center text-xs font-bold text-primary">
                   <span className="material-symbols-outlined text-xs">{icon}</span> {trend}
                 </div>
               </div>
@@ -115,7 +119,7 @@ function ProfilePage() {
           </div>
 
           <div className="border-b border-slate-200">
-            <nav className="flex space-x-8" aria-label="Tabs">
+            <nav className="hide-scrollbar flex space-x-4 overflow-x-auto sm:space-x-8" aria-label="Tabs">
               {[
                 ['activity', 'history', 'Activity'],
                 ['badges', 'stars', 'Badges'],
@@ -146,8 +150,8 @@ function ProfilePage() {
                   {[
                     [
                       'forest',
-                      'bg-emerald-100',
-                      'text-emerald-600',
+                      'bg-primary/10',
+                      'text-primary',
                       'Planted 10 trees at Central Park',
                       'Oct 12, 2023',
                       'Environmental conservation project focused on urban canopy restoration.',
@@ -156,8 +160,8 @@ function ProfilePage() {
                     ],
                     [
                       'school',
-                      'bg-blue-100',
-                      'text-blue-600',
+                      'bg-primary/10',
+                      'text-primary',
                       'Tutored 5 students at Metro Library',
                       'Oct 05, 2023',
                       'Provided mathematics and science support for middle school students from underprivileged areas.',
@@ -222,9 +226,9 @@ function ProfilePage() {
                         <div
                           className={`mb-2 flex h-16 w-16 items-center justify-center rounded-full border-2 ${
                             color === 'emerald'
-                              ? 'border-emerald-500 bg-emerald-500/10'
+                              ? 'border-primary bg-primary/10'
                               : color === 'blue'
-                                ? 'border-blue-500 bg-blue-500/10'
+                                ? 'border-primary-dark bg-primary/10'
                                 : color === 'primary'
                                   ? 'border-primary bg-primary/10'
                                   : 'border-slate-400 bg-slate-500/10'
@@ -233,9 +237,9 @@ function ProfilePage() {
                           <span
                             className={`material-symbols-outlined text-3xl ${
                               color === 'emerald'
-                                ? 'text-emerald-500'
+                                ? 'text-primary'
                                 : color === 'blue'
-                                  ? 'text-blue-500'
+                                  ? 'text-primary-dark'
                                   : color === 'primary'
                                     ? 'text-primary'
                                     : 'text-slate-400'

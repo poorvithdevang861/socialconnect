@@ -1,7 +1,16 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Button from '../components/Button'
+
+const DETAIL_TABS = [
+  { id: 'about', label: 'About' },
+  { id: 'details', label: 'Details' },
+  { id: 'reviews', label: 'Reviews' },
+]
 
 function EventDetailsPage() {
   const navigate = useNavigate()
+  const [detailTab, setDetailTab] = useState('about')
 
   const handleBack = () => {
     if (window.history.length > 1) {
@@ -12,9 +21,9 @@ function EventDetailsPage() {
   }
 
   return (
-    <main className="mx-auto max-w-[1440px] pb-20">
-      <div className="min-h-screen w-full bg-white pb-[max(116px,calc(104px+env(safe-area-inset-bottom)))] md:hidden">
-        <div className="relative h-[260px] w-full overflow-hidden bg-slate-200">
+    <main className="mx-auto max-w-[1600px] bg-background-light pb-16">
+      <div className="min-h-screen w-full premium-shell bg-white pb-[max(116px,calc(104px+env(safe-area-inset-bottom)))] md:hidden">
+        <div className="relative h-[280px] w-full overflow-hidden rounded-b-[24px] bg-slate-200">
           <div
             className="absolute inset-0 bg-cover bg-center"
             style={{
@@ -22,20 +31,33 @@ function EventDetailsPage() {
                 "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%), url('https://lh3.googleusercontent.com/aida-public/AB6AXuCI5L64VCMp7RFxFZXVayQCDJXVfw-tGkrBtgyqXvThtwy8mCOOQHYugNlaR5XzCH64Pou42No7Ls2sApXNTRGL3Ivq5aNRiVhkHfeAvOQsrc-bhL1zRm_LAdL7boe8m3xOSczGXhVGI86lrYoCq30f02l8OOmKIF4zXp7nqYxc6_ji0W6MN30CZgn-lwzrXYtE4P8dVpQ5P5JRGrZV4D-P6i1nC0zdfmqMv20pGNe4-ZYY3PQVIqeB0IyjpCfLOTP_Ocy8hfvRCuU')",
             }}
           />
-          <div className="absolute left-4 right-4 top-4 flex items-center justify-between">
+          <div className="absolute left-4 right-4 top-[max(12px,env(safe-area-inset-top))] flex items-center justify-between">
             <button
-              className="flex size-10 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-md"
+              className="flex size-10 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-md"
               onClick={handleBack}
               type="button"
             >
               <span className="material-symbols-outlined">arrow_back</span>
             </button>
-            <button className="flex size-10 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-md" type="button">
-              <span className="material-symbols-outlined">share</span>
-            </button>
+            <div className="flex gap-2">
+              <button
+                className="flex size-10 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-md"
+                type="button"
+                aria-label="Share"
+              >
+                <span className="material-symbols-outlined text-[20px]">share</span>
+              </button>
+              <button
+                className="flex size-10 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-md"
+                type="button"
+                aria-label="Save"
+              >
+                <span className="material-symbols-outlined text-[20px]">favorite</span>
+              </button>
+            </div>
           </div>
           <div className="absolute bottom-4 left-4">
-            <span className="rounded-full bg-green-500 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
+            <span className="rounded-full bg-primary px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
               Environment
             </span>
           </div>
@@ -45,20 +67,40 @@ function EventDetailsPage() {
           </div>
         </div>
 
-        <div className="px-4 pb-4 pt-5 sm:px-5 sm:pt-6">
-          <h1 className="text-[22px] font-semibold leading-tight text-slate-900">
+        <div className="px-4 pb-2 pt-5 sm:px-5 sm:pt-6">
+          <p className="text-xs font-bold uppercase tracking-wider text-primary">Environment</p>
+          <h1 className="mt-1 text-[22px] font-bold leading-tight text-ink">
             Green Earth Tree Plantation
           </h1>
           <p className="mt-2 text-base text-slate-600">EcoWarriors Organization</p>
+          <p className="mt-1 text-sm text-slate-500">Sabarmati Riverfront Road, Ahmedabad</p>
           <div className="mt-2 flex items-center gap-1">
-            <span className="material-symbols-outlined fill-1 text-lg text-yellow-500">star</span>
+            <span className="material-symbols-outlined fill-1 text-lg text-amber-400">star</span>
             <span className="text-sm font-bold">4.8</span>
             <span className="text-sm text-slate-500">(120 reviews)</span>
           </div>
         </div>
 
-        <div className="px-4 sm:px-5">
-          <div className="space-y-4 rounded-xl bg-[#F9F9F9] p-5">
+        <div className="hide-scrollbar flex gap-0 border-b border-slate-200/80 px-4">
+          {DETAIL_TABS.map((t) => {
+            const active = detailTab === t.id
+            return (
+              <button
+                className={`min-w-0 flex-1 border-b-2 py-3 text-center text-sm font-bold transition-colors ${
+                  active ? 'border-primary text-primary' : 'border-transparent text-slate-500'
+                }`}
+                key={t.id}
+                onClick={() => setDetailTab(t.id)}
+                type="button"
+              >
+                {t.label}
+              </button>
+            )
+          })}
+        </div>
+
+        <div className={`px-4 sm:px-5 ${detailTab !== 'details' ? 'hidden' : ''}`}>
+          <div className="mt-4 space-y-4 rounded-2xl bg-white p-5 shadow-card ring-1 ring-black/[0.06]">
             <div className="flex items-center gap-4">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                 <span className="material-symbols-outlined">calendar_today</span>
@@ -98,7 +140,7 @@ function EventDetailsPage() {
           </div>
         </div>
 
-        <div className="mt-8 px-4 sm:px-5">
+        <div className={`mt-8 px-4 sm:px-5 ${detailTab !== 'details' ? 'hidden' : ''}`}>
           <h2 className="mb-3 text-lg font-semibold">Friends Attending</h2>
           <div className="flex items-center gap-3">
             <div className="flex -space-x-3 overflow-hidden">
@@ -113,7 +155,7 @@ function EventDetailsPage() {
           </div>
         </div>
 
-        <div className="mt-8 px-4 sm:px-5">
+        <div className={`mt-8 px-4 sm:px-5 ${detailTab !== 'about' ? 'hidden' : ''}`}>
           <h2 className="mb-3 text-lg font-semibold">About This Event</h2>
           <p className="text-sm leading-relaxed text-slate-600">
             Join us for our biggest reforestation initiative of the year! We are aiming to plant
@@ -124,28 +166,28 @@ function EventDetailsPage() {
           <button className="mt-2 text-sm font-semibold text-primary" type="button">Read More</button>
         </div>
 
-        <div className="mt-8">
+        <div className={`mt-8 ${detailTab !== 'about' ? 'hidden' : ''}`}>
           <h2 className="mb-4 px-4 text-lg font-semibold sm:px-5">Impact From Previous Events</h2>
           <div className="hide-scrollbar flex gap-3 overflow-x-auto px-4 pb-2 sm:gap-4 sm:px-5">
-            <div className="w-36 flex-none rounded-xl border border-green-100 bg-green-50 p-4 sm:w-40">
-              <span className="material-symbols-outlined mb-2 text-green-600">park</span>
-              <p className="text-xl font-bold text-green-700">1,200+</p>
-              <p className="text-xs font-medium text-green-600">Trees Planted to Date</p>
+            <div className="w-36 flex-none rounded-2xl border border-primary/20 bg-primary/5 p-4 sm:w-40">
+              <span className="material-symbols-outlined mb-2 text-primary">park</span>
+              <p className="text-xl font-bold text-primary-dark">1,200+</p>
+              <p className="text-xs font-medium text-primary">Trees Planted to Date</p>
             </div>
-            <div className="w-36 flex-none rounded-xl border border-green-100 bg-green-50 p-4 sm:w-40">
-              <span className="material-symbols-outlined mb-2 text-green-600">restaurant</span>
-              <p className="text-xl font-bold text-green-700">500+</p>
-              <p className="text-xs font-medium text-green-600">Meals Served Together</p>
+            <div className="w-36 flex-none rounded-2xl border border-primary/20 bg-primary/5 p-4 sm:w-40">
+              <span className="material-symbols-outlined mb-2 text-primary">restaurant</span>
+              <p className="text-xl font-bold text-primary-dark">500+</p>
+              <p className="text-xs font-medium text-primary">Meals Served Together</p>
             </div>
-            <div className="w-36 flex-none rounded-xl border border-green-100 bg-green-50 p-4 sm:w-40">
-              <span className="material-symbols-outlined mb-2 text-green-600">volunteer_activism</span>
-              <p className="text-xl font-bold text-green-700">40</p>
-              <p className="text-xs font-medium text-green-600">Volunteers Last Event</p>
+            <div className="w-36 flex-none rounded-2xl border border-primary/20 bg-primary/5 p-4 sm:w-40">
+              <span className="material-symbols-outlined mb-2 text-primary">volunteer_activism</span>
+              <p className="text-xl font-bold text-primary-dark">40</p>
+              <p className="text-xs font-medium text-primary">Volunteers Last Event</p>
             </div>
           </div>
         </div>
 
-        <div className="mt-8 px-4 pb-12 sm:px-5">
+        <div className={`mt-8 px-4 pb-12 sm:px-5 ${detailTab !== 'reviews' ? 'hidden' : ''}`}>
           <h2 className="mb-4 text-lg font-semibold">Community Feedback</h2>
           <div className="space-y-6">
             <div className="flex gap-3">
@@ -170,33 +212,32 @@ function EventDetailsPage() {
           </div>
         </div>
 
-        <div className="fixed inset-x-0 bottom-0 z-50 w-full border-t border-slate-100 bg-white/95 p-4 backdrop-blur sm:p-5">
-          <div className="flex items-center justify-between gap-3">
+        <div className="fixed inset-x-0 bottom-0 z-50 px-4 pb-[max(12px,env(safe-area-inset-bottom))] pt-2 md:hidden">
+          <div className="mx-auto flex max-w-lg items-center justify-between gap-3 rounded-2xl border border-black/[0.06] bg-white/95 p-4 shadow-[0_8px_32px_rgba(234,88,12,0.15)] backdrop-blur-md">
             <div>
               <p className="text-lg font-bold">4 hours</p>
               <p className="text-xs font-semibold uppercase text-slate-500">Commitment</p>
             </div>
-            <button
-              className="rounded-xl bg-primary px-6 py-3 text-sm font-bold text-white shadow-lg shadow-primary/20 sm:px-10"
+            <Button
+              className="px-6 py-3.5 sm:px-10"
               onClick={() => navigate('/event/confirm')}
-              type="button"
             >
               Join Event
-            </button>
+            </Button>
           </div>
         </div>
       </div>
 
-      <div className="hidden md:block">
-      <section className="px-6 py-6">
-        <div className="group relative h-[480px] w-full overflow-hidden rounded-2xl">
+      <div className="mt-4 hidden premium-shell bg-white md:block">
+      <section className="px-4 py-4 lg:px-5 lg:py-5">
+        <div className="group relative h-[460px] w-full overflow-hidden rounded-2xl xl:h-[500px]">
           <img
             alt="Volunteers planting trees"
             className="h-full w-full object-cover"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5rl4AYlwZb0sa2D0rx9umuDX0WuIOUITsB2IZSMYi5kRANvmCwEUsuavlBulk1N1h2Hdf0-UNOGzHN-yFWDlRZqJLcSdWwkY_dfF2kQ85HQEb_H5dQnlzptwcGpKbwVb03E1UttCf49B1RUyALJ6PyxGb_fax5rd6EANvUBFpwjJzYxUIgLInoWfXkkRvkESoPde8Didi7qj1PsjUyhCLNNCa5m98nSSynAOtLzkxuI8a-cNR1jZYpcIOShf4xYfHfBM0GGVjoDk"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-          <div className="absolute left-6 top-6 flex gap-3">
+          <div className="absolute left-5 top-5 flex gap-2.5">
             <button
               className="flex items-center gap-2 rounded-xl bg-white/90 px-4 py-2 text-sm font-bold text-slate-900 shadow-lg backdrop-blur transition-all hover:bg-white"
               onClick={handleBack}
@@ -205,24 +246,24 @@ function EventDetailsPage() {
               Back
             </button>
           </div>
-          <div className="absolute right-6 top-6 flex gap-3">
+          <div className="absolute right-5 top-5 flex gap-2.5">
             <button className="rounded-xl bg-white/90 p-2.5 shadow-lg backdrop-blur transition-all hover:text-primary">
               <span className="material-symbols-outlined">share</span>
             </button>
-            <button className="rounded-xl bg-white/90 p-2.5 shadow-lg backdrop-blur transition-all hover:text-red-500">
+            <button className="rounded-xl bg-white/90 p-2.5 shadow-lg backdrop-blur transition-all hover:text-primary-dark">
               <span className="material-symbols-outlined">favorite</span>
             </button>
           </div>
-          <div className="absolute bottom-8 left-8 text-white">
-            <div className="mb-2 flex items-center gap-2">
+          <div className="absolute bottom-6 left-6 text-white">
+            <div className="mb-2 flex items-center gap-1.5">
               <span className="rounded-full bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-wider">
                 Environmental
               </span>
-              <span className="rounded-full bg-green-600 px-3 py-1 text-[10px] font-bold uppercase tracking-wider">
+              <span className="rounded-full bg-shell-soft px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary">
                 Outdoor
               </span>
             </div>
-            <h1 className="mb-2 text-5xl font-black leading-none tracking-tight">
+            <h1 className="mb-2 text-[2.8rem] font-black leading-none tracking-tight xl:text-5xl">
               Green Earth Tree Plantation
             </h1>
             <div className="flex items-center gap-4 opacity-90">
@@ -239,9 +280,9 @@ function EventDetailsPage() {
         </div>
       </section>
 
-      <div className="mt-4 grid grid-cols-1 gap-12 px-6 lg:grid-cols-12">
-        <div className="space-y-12 lg:col-span-8">
-          <div className="flex flex-wrap items-start justify-between gap-6 border-b border-slate-200 pb-8">
+      <div className="mt-4 grid grid-cols-1 gap-6 px-4 pb-4 lg:grid-cols-[minmax(0,2.1fr)_minmax(320px,1fr)] lg:gap-5 lg:px-5 lg:pb-5 xl:grid-cols-[minmax(0,2.2fr)_minmax(340px,1fr)]">
+        <div className="space-y-6">
+          <div className="flex flex-wrap items-start justify-between gap-4 rounded-2xl border border-black/[0.06] bg-white p-4 md:p-5">
             <div className="flex items-center gap-4">
               <div className="flex size-14 items-center justify-center rounded-full border-2 border-primary/20 bg-primary/10">
                 <span className="material-symbols-outlined text-3xl text-primary">verified_user</span>
@@ -254,7 +295,7 @@ function EventDetailsPage() {
                 <p className="text-sm text-slate-500">Organized 124 events • Verified NGO</p>
               </div>
             </div>
-            <div className="flex items-center gap-4 cc-card p-4">
+            <div className="flex items-center gap-3 rounded-2xl border border-black/[0.06] bg-white px-4 py-3 shadow-sm">
               <div className="text-right">
                 <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Rating</p>
                 <p className="text-xl font-black text-slate-900">
@@ -271,8 +312,8 @@ function EventDetailsPage() {
             </div>
           </div>
 
-          <section>
-            <h4 className="mb-4 text-xl font-bold text-slate-900">About the Event</h4>
+          <section className="rounded-2xl border border-black/[0.06] bg-white p-4 md:p-5">
+            <h4 className="mb-4 text-[1.32rem] font-extrabold tracking-[-0.01em] text-slate-900">About the Event</h4>
             <p className="leading-relaxed text-slate-600">
               Join us for our biggest reforestation initiative of the year! We are aiming to plant
               over 500 indigenous tree saplings in the northern corridor of the City Park. This
@@ -290,8 +331,8 @@ function EventDetailsPage() {
             </button>
           </section>
 
-          <section>
-            <h4 className="mb-6 text-xl font-bold text-slate-900">EcoWarriors Impact</h4>
+          <section className="rounded-2xl border border-black/[0.06] bg-white p-4 md:p-5">
+            <h4 className="mb-5 text-[1.32rem] font-extrabold tracking-[-0.01em] text-slate-900">EcoWarriors Impact</h4>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="flex items-center gap-6 rounded-2xl border border-primary/20 bg-primary/5 p-6">
                 <div className="flex size-16 items-center justify-center rounded-xl bg-primary text-white">
@@ -302,21 +343,21 @@ function EventDetailsPage() {
                   <p className="mt-1 text-sm font-semibold text-primary">Trees Planted to Date</p>
                 </div>
               </div>
-              <div className="flex items-center gap-6 rounded-2xl border border-green-500/20 bg-green-500/5 p-6">
-                <div className="flex size-16 items-center justify-center rounded-xl bg-green-600 text-white">
+              <div className="flex items-center gap-6 rounded-2xl border border-primary/20 bg-primary/5 p-6">
+                <div className="flex size-16 items-center justify-center rounded-xl bg-primary-dark text-white">
                   <span className="material-symbols-outlined text-4xl">restaurant</span>
                 </div>
                 <div>
                   <p className="text-3xl font-black leading-none text-slate-900">500+</p>
-                  <p className="mt-1 text-sm font-semibold text-green-600">Meals Served Together</p>
+                  <p className="mt-1 text-sm font-semibold text-primary">Meals Served Together</p>
                 </div>
               </div>
             </div>
           </section>
 
-          <section>
-            <div className="mb-8 flex items-center justify-between">
-              <h4 className="text-xl font-bold text-slate-900">Community Feedback</h4>
+          <section className="rounded-2xl border border-black/[0.06] bg-white p-4 md:p-5">
+            <div className="mb-6 flex items-center justify-between">
+              <h4 className="text-[1.32rem] font-extrabold tracking-[-0.01em] text-slate-900">Community Feedback</h4>
               <button className="text-sm font-bold text-primary">View all 120 reviews</button>
             </div>
             <div className="space-y-8">
@@ -373,12 +414,12 @@ function EventDetailsPage() {
           </section>
         </div>
 
-        <div className="lg:col-span-4">
-          <div className="sticky-card space-y-6">
+        <div>
+          <div className="sticky-card space-y-5">
             <div className="cc-card border-slate-100 cc-card-pad-lg shadow-xl shadow-slate-200/50">
               <div className="mb-6">
                 <div className="mb-4 flex items-center justify-between">
-                  <span className="animate-pulse rounded-lg bg-red-100 px-3 py-1 text-xs font-bold text-red-600">
+                  <span className="animate-pulse rounded-xl bg-primary/10 px-3 py-1 text-xs font-bold text-primary">
                     8 slots remaining
                   </span>
                   <span className="text-sm font-bold text-slate-900">Free Event</span>
@@ -411,12 +452,12 @@ function EventDetailsPage() {
                   </div>
                 </div>
               </div>
-              <button
-                className="mb-4 w-full rounded-xl bg-primary py-4 font-black text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary/90"
+              <Button
+                className="mb-4 mx-auto flex w-auto min-w-[220px] justify-center px-8 py-3.5"
                 onClick={() => navigate('/event/confirm')}
               >
                 Join Event
-              </button>
+              </Button>
               <div className="text-center">
                 <p className="mb-4 text-sm text-slate-500">
                   <span className="font-bold text-slate-900">32 volunteers</span> are already going

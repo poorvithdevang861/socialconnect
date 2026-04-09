@@ -85,7 +85,7 @@ function ShareProfileModal({
                 rel="noreferrer"
                 target="_blank"
               >
-                <div className="flex size-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600">
+                <div className="flex size-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                   <span className="material-symbols-outlined">chat</span>
                 </div>
                 <span className="text-xs font-black text-slate-900">WhatsApp</span>
@@ -98,7 +98,7 @@ function ShareProfileModal({
                 rel="noreferrer"
                 target="_blank"
               >
-                <div className="flex size-10 items-center justify-center rounded-xl bg-pink-500/10 text-pink-600">
+                <div className="flex size-10 items-center justify-center rounded-2xl bg-primary/15 text-primary-dark">
                   <span className="material-symbols-outlined">photo_camera</span>
                 </div>
                 <span className="text-xs font-black text-slate-900">Instagram</span>
@@ -110,7 +110,7 @@ function ShareProfileModal({
                 rel="noreferrer"
                 target="_blank"
               >
-                <div className="flex size-10 items-center justify-center rounded-xl bg-slate-900/10 text-slate-900">
+                <div className="flex size-10 items-center justify-center rounded-2xl bg-shell-soft text-primary">
                   <span className="material-symbols-outlined">alternate_email</span>
                 </div>
                 <span className="text-xs font-black text-slate-900">X</span>

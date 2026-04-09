@@ -1,6 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Button from '../components/Button'
+import SectionHeader from '../components/SectionHeader'
 import { isAuthenticated, isOnboardingComplete, setOnboardingComplete } from '../utils/onboarding'
+
+const MI_TO_KM = 1.60934
+
+function milesToKm(miles) {
+  return Math.round(miles * MI_TO_KM)
+}
 
 function InterestsFiltersPage() {
   const navigate = useNavigate()
@@ -8,10 +16,12 @@ function InterestsFiltersPage() {
   const [selectedDates, setSelectedDates] = useState(['3', '9'])
   const [duration, setDuration] = useState('2-4h')
   const [commitment, setCommitment] = useState('One-time')
-  const [distance, setDistance] = useState(25)
+  const [distanceMiles, setDistanceMiles] = useState(25)
   const [groupSize, setGroupSize] = useState('Small Group (2-5)')
   const [verifiedOnly, setVerifiedOnly] = useState(true)
   const [friendsGoing, setFriendsGoing] = useState(false)
+
+  const kmEquivalent = useMemo(() => milesToKm(distanceMiles), [distanceMiles])
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -32,7 +42,7 @@ function InterestsFiltersPage() {
     setSelectedDates([])
     setDuration('2-4h')
     setCommitment('One-time')
-    setDistance(25)
+    setDistanceMiles(25)
     setGroupSize('Small Group (2-5)')
     setVerifiedOnly(true)
     setFriendsGoing(false)
@@ -50,235 +60,243 @@ function InterestsFiltersPage() {
   )
 
   return (
-    <main className="min-h-screen bg-background-light text-slate-900">
-      <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
-        <div className="flex flex-1 justify-center px-4 py-8 lg:px-0">
-          <div className="flex max-w-[800px] flex-1 flex-col gap-8">
-            <div className="flex flex-col gap-3 px-4">
-              <div className="flex items-end justify-between gap-6">
-                <div>
-                  <h1 className="text-4xl font-black leading-tight tracking-[-0.033em]">Filters</h1>
-                  <p className="mt-1 text-lg text-slate-500">
-                    Refine opportunities to match your schedule.
-                  </p>
-                </div>
-                <p className="mb-1 rounded-full bg-primary/10 px-3 py-1 text-sm font-bold text-primary">
-                  Step 2 of 2
-                </p>
-              </div>
-              <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-primary/10">
-                <div className="h-full w-full rounded-full bg-primary" />
-              </div>
-              <div className="mt-3 flex flex-wrap items-center gap-2">
+    <main className="mx-auto w-full max-w-[1600px] premium-shell bg-background-light pb-[max(104px,calc(96px+env(safe-area-inset-bottom)))] pt-4 md:pb-6 md:pt-4">
+      <div className="section-gap-lg px-4 pb-4 md:px-5 md:pb-5">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <span className="premium-chip w-fit border-primary/15 bg-primary/10 text-primary">Step 2 of 2</span>
+          <div className="h-2 w-full overflow-hidden rounded-full bg-primary/10 sm:max-w-md sm:flex-1">
+            <div className="h-full w-full rounded-full bg-primary shadow-orange-glow" />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <SectionHeader
+            title="Filters"
+            subtitle="Keep it simple — set your schedule and how far you’ll travel."
+            titleClassName="premium-h1"
+            className="min-w-0 flex-1"
+          />
+          <div className="flex flex-wrap gap-2 sm:shrink-0 sm:pt-1">
+            <Button
+              className="h-10 px-4 py-2 text-xs font-bold"
+              onClick={() => navigate('/interests')}
+              type="button"
+              variant="secondary"
+            >
+              <span className="material-symbols-outlined text-primary">arrow_back</span>
+              Back
+            </Button>
+            <button
+              className="premium-chip h-10 border-primary/20 py-0 text-xs font-bold text-primary hover:bg-primary/5"
+              onClick={clearAll}
+              type="button"
+            >
+              Reset all
+            </button>
+            <button
+              className="premium-chip h-10 border-transparent py-0 text-xs font-bold text-slate-500 hover:text-primary"
+              onClick={completeOnboarding}
+              type="button"
+            >
+              Skip for now
+            </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
+          <section className="premium-section !shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
+            <h2 className="premium-h2 mb-4">Date &amp; time</h2>
+            <div className="mb-4 flex items-center justify-between">
+              <span className="text-sm font-bold text-slate-800">{month}</span>
+              <div className="flex gap-1">
                 <button
-                  className="rounded-xl bg-white px-4 py-2 text-sm font-bold text-slate-600 shadow-sm ring-1 ring-slate-200 transition-colors hover:bg-slate-50"
-                  onClick={() => navigate('/interests')}
+                  className="rounded-full p-2 text-slate-500 transition-colors hover:bg-primary/10 hover:text-primary"
+                  onClick={() => setMonth('September 2024')}
                   type="button"
+                  aria-label="Previous month"
                 >
-                  <span className="inline-flex items-center gap-2">
-                    <span className="material-symbols-outlined text-base">arrow_back</span>
-                    Back
-                  </span>
+                  <span className="material-symbols-outlined text-lg">chevron_left</span>
                 </button>
                 <button
-                  className="rounded-xl bg-white px-4 py-2 text-sm font-bold text-primary shadow-sm ring-1 ring-slate-200 transition-colors hover:bg-primary/5"
-                  onClick={clearAll}
+                  className="rounded-full p-2 text-slate-500 transition-colors hover:bg-primary/10 hover:text-primary"
+                  onClick={() => setMonth('November 2024')}
                   type="button"
+                  aria-label="Next month"
                 >
-                  Reset all
-                </button>
-                <button
-                  className="rounded-xl bg-white px-4 py-2 text-sm font-bold text-primary shadow-sm ring-1 ring-slate-200 transition-colors hover:bg-primary/5"
-                  onClick={completeOnboarding}
-                  type="button"
-                >
-                  Skip for now
+                  <span className="material-symbols-outlined text-lg">chevron_right</span>
                 </button>
               </div>
             </div>
-
-            <div className="grid grid-cols-1 gap-10 px-4 md:grid-cols-2">
-              <section>
-                <h2 className="mb-4 text-lg font-bold text-slate-900">Date &amp; Time</h2>
-                <div className="cc-card-soft p-4">
-                  <div className="mb-4 flex items-center justify-between">
-                    <span className="text-sm font-semibold text-slate-700">{month}</span>
-                    <div className="flex gap-2">
-                      <button
-                        className="rounded-lg p-1 transition-colors hover:bg-slate-100"
-                        onClick={() => setMonth('September 2024')}
-                        type="button"
-                      >
-                        <span className="material-symbols-outlined text-lg">chevron_left</span>
-                      </button>
-                      <button
-                        className="rounded-lg p-1 transition-colors hover:bg-slate-100"
-                        onClick={() => setMonth('November 2024')}
-                        type="button"
-                      >
-                        <span className="material-symbols-outlined text-lg">chevron_right</span>
-                      </button>
-                    </div>
-                  </div>
-                  <div className="mb-2 grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-slate-400">
-                    <span>M</span>
-                    <span>T</span>
-                    <span>W</span>
-                    <span>T</span>
-                    <span>F</span>
-                    <span>S</span>
-                    <span>S</span>
-                  </div>
-                  <div className="grid grid-cols-7 gap-1 text-center">
-                    {dateItems.map((d) => (
-                      <button
-                        className={`py-1 text-xs font-medium transition-colors ${
-                          selectedDates.includes(d)
-                            ? 'rounded-full bg-primary text-white'
-                            : d === '8'
-                              ? 'rounded-full bg-primary/20 text-slate-700'
-                              : 'rounded-full text-slate-700 hover:bg-slate-100'
-                        }`}
-                        key={d}
-                        onClick={() => toggleDate(d)}
-                        type="button"
-                      >
-                        {d}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </section>
-
-              <div className="space-y-8">
-                <section>
-                  <h2 className="mb-4 text-lg font-bold text-slate-900">Duration</h2>
-                  <div className="flex rounded-2xl bg-slate-100 p-1">
-                    {['< 2h', '2-4h', 'Full Day'].map((item) => (
-                      <button
-                        className={`flex-1 rounded-xl py-2 text-sm font-semibold transition-colors ${
-                          duration === item ? 'bg-white text-primary shadow-sm' : 'text-slate-500'
-                        }`}
-                        key={item}
-                        onClick={() => setDuration(item)}
-                        type="button"
-                      >
-                        {item}
-                      </button>
-                    ))}
-                  </div>
-                </section>
-                <section>
-                  <h2 className="mb-4 text-lg font-bold text-slate-900">Commitment Level</h2>
-                  <div className="flex rounded-2xl bg-slate-100 p-1">
-                    {['One-time', 'Recurring'].map((item) => (
-                      <button
-                        className={`flex-1 rounded-xl py-2 text-sm font-semibold transition-colors ${
-                          commitment === item ? 'bg-white text-primary shadow-sm' : 'text-slate-500'
-                        }`}
-                        key={item}
-                        onClick={() => setCommitment(item)}
-                        type="button"
-                      >
-                        {item}
-                      </button>
-                    ))}
-                  </div>
-                </section>
-              </div>
+            <div className="mb-2 grid grid-cols-7 gap-1 text-center text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              <span>M</span>
+              <span>T</span>
+              <span>W</span>
+              <span>T</span>
+              <span>F</span>
+              <span>S</span>
+              <span>S</span>
             </div>
+            <div className="grid grid-cols-7 gap-1 text-center">
+              {dateItems.map((d) => (
+                <button
+                  className={`relative min-h-[36px] rounded-full text-xs font-semibold transition-colors ${
+                    selectedDates.includes(d)
+                      ? 'bg-primary text-white shadow-orange-glow'
+                      : d === '8'
+                        ? 'bg-primary/15 text-slate-800'
+                        : 'text-slate-700 hover:bg-slate-100'
+                  }`}
+                  key={d}
+                  onClick={() => toggleDate(d)}
+                  type="button"
+                >
+                  {d}
+                </button>
+              ))}
+            </div>
+            <p className="premium-body mt-3 text-xs">Tap days you’re free. Today is highlighted lightly.</p>
+          </section>
 
-            <section className="px-4">
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-lg font-bold text-slate-900">Location / Distance</h2>
-                <span className="font-bold text-primary">{distance} miles</span>
+          <div className="space-y-6">
+            <section className="premium-section !shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
+              <h2 className="premium-h2 mb-3">Duration</h2>
+              <div className="flex rounded-full bg-slate-100 p-1">
+                {['< 2h', '2-4h', 'Full Day'].map((item) => (
+                  <button
+                    className={`flex-1 rounded-full py-2.5 text-xs font-bold transition-colors sm:text-sm ${
+                      duration === item ? 'bg-white text-primary shadow-sm' : 'text-slate-500'
+                    }`}
+                    key={item}
+                    onClick={() => setDuration(item)}
+                    type="button"
+                  >
+                    {item}
+                  </button>
+                ))}
               </div>
-              <input
-                className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-slate-200 accent-primary"
-                max={100}
-                min={5}
-                onChange={(e) => setDistance(Number(e.target.value))}
-                type="range"
-                value={distance}
-              />
             </section>
+            <section className="premium-section !shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
+              <h2 className="premium-h2 mb-3">Commitment</h2>
+              <div className="flex rounded-full bg-slate-100 p-1">
+                {['One-time', 'Recurring'].map((item) => (
+                  <button
+                    className={`flex-1 rounded-full py-2.5 text-xs font-bold transition-colors sm:text-sm ${
+                      commitment === item ? 'bg-white text-primary shadow-sm' : 'text-slate-500'
+                    }`}
+                    key={item}
+                    onClick={() => setCommitment(item)}
+                    type="button"
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
+            </section>
+          </div>
+        </div>
 
-            <div className="grid grid-cols-1 gap-10 px-4 pb-24 md:grid-cols-2">
-              <section>
-                <h2 className="mb-4 text-lg font-bold text-slate-900">Group Size</h2>
-                <div className="flex flex-wrap gap-2">
-                  {['Solo', 'Small Group (2-5)', 'Large Team (5+)'].map((item) => (
-                    <button
-                      className={`rounded-xl px-4 py-2 text-sm font-medium transition-colors ${
-                        groupSize === item
-                          ? 'border-2 border-primary bg-primary text-white'
-                          : 'border-2 border-slate-100 bg-white hover:border-primary/30'
-                      }`}
-                      key={item}
-                      onClick={() => setGroupSize(item)}
-                      type="button"
-                    >
-                      {item}
-                    </button>
-                  ))}
-                </div>
-              </section>
-              <section className="space-y-4">
-                <h2 className="mb-4 text-lg font-bold text-slate-900">Preferences</h2>
-                <div className="flex items-center justify-between cc-card-soft px-4 py-3">
-                  <div className="flex items-center gap-3">
-                    <span className="material-symbols-outlined text-primary">verified</span>
-                    <span className="text-sm font-semibold">Verified Only</span>
-                  </div>
-                  <button
-                    className={`relative h-6 w-11 rounded-full transition-all ${
-                      verifiedOnly ? 'bg-primary' : 'bg-slate-300'
-                    }`}
-                    onClick={() => setVerifiedOnly((prev) => !prev)}
-                    type="button"
-                  >
-                    <span
-                      className={`absolute top-[2px] h-5 w-5 rounded-full bg-white transition-all ${
-                        verifiedOnly ? 'left-[22px]' : 'left-[2px]'
-                      }`}
-                    />
-                  </button>
-                </div>
-                <div className="flex items-center justify-between cc-card-soft px-4 py-3">
-                  <div className="flex items-center gap-3">
-                    <span className="material-symbols-outlined text-primary">group</span>
-                    <span className="text-sm font-semibold">Friends Going</span>
-                  </div>
-                  <button
-                    className={`relative h-6 w-11 rounded-full transition-all ${
-                      friendsGoing ? 'bg-primary' : 'bg-slate-300'
-                    }`}
-                    onClick={() => setFriendsGoing((prev) => !prev)}
-                    type="button"
-                  >
-                    <span
-                      className={`absolute top-[2px] h-5 w-5 rounded-full bg-white transition-all ${
-                        friendsGoing ? 'left-[22px]' : 'left-[2px]'
-                      }`}
-                    />
-                  </button>
-                </div>
-              </section>
+        <section className="premium-section !shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
+          <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 className="premium-h2">Search radius</h2>
+              <p className="premium-body mt-1 text-sm">One slider — miles and kilometers stay in sync.</p>
+            </div>
+            <div className="flex flex-wrap items-baseline gap-2 sm:justify-end">
+              <span className="text-2xl font-black tabular-nums text-ink">{distanceMiles} mi</span>
+              <span className="text-sm font-bold text-slate-400">≈</span>
+              <span className="text-xl font-bold tabular-nums text-slate-600">{kmEquivalent} km</span>
             </div>
           </div>
+          <input
+            aria-label="Search radius in miles"
+            className="h-2.5 w-full cursor-pointer appearance-none rounded-full bg-slate-200 accent-primary"
+            max={100}
+            min={5}
+            onChange={(e) => setDistanceMiles(Number(e.target.value))}
+            step={1}
+            type="range"
+            value={distanceMiles}
+          />
+          <div className="mt-2 flex justify-between text-[11px] font-semibold text-slate-400">
+            <span>5 mi</span>
+            <span className="text-slate-300">·</span>
+            <span>100 mi</span>
+          </div>
+        </section>
+
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
+          <section>
+            <h2 className="premium-h2 mb-3">Group size</h2>
+            <div className="flex flex-wrap gap-2">
+              {['Solo', 'Small Group (2-5)', 'Large Team (5+)'].map((item) => (
+                <button
+                  className={`rounded-full px-4 py-2.5 text-xs font-bold transition-all sm:text-sm ${
+                    groupSize === item
+                      ? 'bg-primary text-white shadow-orange-glow'
+                      : 'border border-black/[0.08] bg-white text-slate-600 hover:border-primary/30'
+                  }`}
+                  key={item}
+                  onClick={() => setGroupSize(item)}
+                  type="button"
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="premium-h2 mb-1">Preferences</h2>
+            <div className="flex items-center justify-between rounded-2xl border border-black/[0.06] bg-white px-4 py-3 shadow-[0_6px_18px_rgba(15,15,16,0.05)]">
+              <div className="flex items-center gap-3">
+                <span className="material-symbols-outlined text-primary">verified</span>
+                <span className="text-sm font-bold text-slate-800">Verified only</span>
+              </div>
+              <button
+                aria-pressed={verifiedOnly}
+                className={`relative h-7 w-12 rounded-full transition-all ${
+                  verifiedOnly ? 'bg-primary' : 'bg-slate-300'
+                }`}
+                onClick={() => setVerifiedOnly((prev) => !prev)}
+                type="button"
+              >
+                <span
+                  className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow transition-all ${
+                    verifiedOnly ? 'left-[26px]' : 'left-0.5'
+                  }`}
+                />
+              </button>
+            </div>
+            <div className="flex items-center justify-between rounded-2xl border border-black/[0.06] bg-white px-4 py-3 shadow-[0_6px_18px_rgba(15,15,16,0.05)]">
+              <div className="flex items-center gap-3">
+                <span className="material-symbols-outlined text-primary">group</span>
+                <span className="text-sm font-bold text-slate-800">Friends going</span>
+              </div>
+              <button
+                aria-pressed={friendsGoing}
+                className={`relative h-7 w-12 rounded-full transition-all ${
+                  friendsGoing ? 'bg-primary' : 'bg-slate-300'
+                }`}
+                onClick={() => setFriendsGoing((prev) => !prev)}
+                type="button"
+              >
+                <span
+                  className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow transition-all ${
+                    friendsGoing ? 'left-[26px]' : 'left-0.5'
+                  }`}
+                />
+              </button>
+            </div>
+          </section>
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-primary/10 bg-white/80 p-4 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[800px] items-center justify-end gap-4">
-          <button
-            className="flex h-14 flex-1 items-center justify-center gap-2 rounded-2xl bg-primary font-black text-white shadow-lg shadow-primary/20 transition-all active:scale-[0.98] hover:bg-primary/90 sm:min-w-[240px] sm:flex-none"
-            onClick={completeOnboarding}
-            type="button"
-          >
-            <span>Show Opportunities</span>
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-black/[0.06] bg-white/95 p-4 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-[1600px] justify-end px-4 md:px-5">
+          <Button className="h-12 w-full max-w-md justify-center gap-2 font-black" onClick={completeOnboarding}>
+            <span>Show opportunities</span>
             <span className="material-symbols-outlined">arrow_forward</span>
-          </button>
+          </Button>
         </div>
       </div>
     </main>

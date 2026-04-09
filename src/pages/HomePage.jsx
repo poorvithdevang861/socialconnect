@@ -1,19 +1,135 @@
-import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import Button from '../components/Button'
+import SectionHeader from '../components/SectionHeader'
 
-function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
+const LOCATIONS = ['Ahmedabad', 'Pune', 'Bengaluru', 'Hyderabad']
+
+function parseDateBadge(dateShort) {
+  const parts = String(dateShort).trim().split(/\s+/)
+  if (parts.length >= 2) {
+    const month = parts[0].slice(0, 3).toUpperCase()
+    const day = parts[1].replace(/\D/g, '') || '—'
+    return { day, month }
+  }
+  return { day: '—', month: '---' }
+}
+
+function EventOpportunityCard({ item, navigate, carousel }) {
+  const { day, month } = parseDateBadge(item.dateShort)
+  const timeRange = item.timeRange ?? '07:30 PM – 09:00 PM'
+  const route = item.route ?? '/event'
+  const rating = item.rating ?? 4.8
+  return (
+    <div
+      className={`@container group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-black/[0.06] transition-all duration-300 hover:shadow-card-hover ${
+        carousel
+          ? 'min-w-[min(100%,320px)] w-[85vw] sm:w-[300px] md:min-w-0 md:w-full md:max-w-none'
+          : 'w-full md:h-full md:min-h-[410px]'
+      } md:min-w-0`}
+      onClick={() => navigate(route)}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault()
+          navigate(route)
+        }
+      }}
+      role="button"
+      tabIndex={0}
+    >
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-primary-light md:h-48 md:aspect-auto lg:h-52">
+        <img
+          alt={item.title}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          src={item.img}
+        />
+        <Button
+          variant="none"
+          className="absolute right-2.5 top-2.5 flex size-9 items-center justify-center rounded-xl bg-white/95 text-slate-500 shadow-md ring-1 ring-black/[0.06] transition-colors hover:text-primary"
+          aria-label="Save event"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <span className="material-symbols-outlined text-[20px]">bookmark</span>
+        </Button>
+        <div className="absolute left-3 top-3 flex max-w-[55%] items-center gap-1.5 rounded-lg bg-white/95 px-2.5 py-1 text-[11px] font-bold text-ink shadow-sm backdrop-blur-sm">
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-success-green" /> {item.openings}
+        </div>
+        {item.verified ? (
+          <div className="absolute left-3 top-[3.25rem] rounded-lg bg-primary px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white shadow-md">
+            Verified
+          </div>
+        ) : null}
+        <div className="absolute bottom-3 left-3 flex items-center gap-1 rounded-lg bg-black/55 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm">
+          <span className="material-symbols-outlined fill-1 text-[14px] text-amber-300">star</span>
+          {rating}
+        </div>
+        <div className="absolute bottom-3 right-3 max-w-[55%] rounded-lg bg-black/45 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-white backdrop-blur-sm">
+          {item.cause}
+        </div>
+      </div>
+
+      <div className="relative flex flex-1 flex-col bg-white px-4 pb-4 pt-8 cq-tight-card md:px-5 md:pb-5 md:pt-9">
+        <div className="absolute left-4 top-0 z-10 -translate-y-1/2 rounded-xl bg-white px-2.5 py-1.5 text-center shadow-md ring-1 ring-black/[0.06] md:left-5">
+          <div className="text-xl font-black leading-none text-ink md:text-[1.35rem]">{day}</div>
+          <div className="mt-0.5 text-[10px] font-bold uppercase tracking-wider text-primary">{month}</div>
+        </div>
+
+        <div className="min-w-0 flex-1 pr-6">
+          <h4 className="cq-tight-title text-[clamp(1rem,4vw,1.15rem)] font-bold leading-snug text-ink transition-colors group-hover:text-primary md:text-[clamp(1.02rem,4.2vw,1.2rem)]">
+            {item.title}
+          </h4>
+          <p className="mt-1 text-[13px] font-medium text-slate-600">
+            {item.cause}
+            <span className="text-slate-400"> · </span>
+            {item.joined}
+          </p>
+          <p className="mt-1 text-xs font-semibold text-primary">{timeRange}</p>
+        </div>
+
+        <p className="mt-2 line-clamp-2 text-[13px] leading-relaxed text-slate-500">{item.desc}</p>
+
+        <Button
+          className="mt-4 w-full rounded-2xl py-3 text-[15px]"
+          onClick={(event) => {
+            event.stopPropagation()
+            navigate(route)
+          }}
+        >
+          Join Opportunity
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+function HomePage({ location = 'Ahmedabad', onLocationChange, onOpenFilters }) {
   const navigate = useNavigate()
   const [activeCause, setActiveCause] = useState('All')
   const [nearYouScope, setNearYouScope] = useState('month')
+  const locRef = useRef(null)
+  const [locOpen, setLocOpen] = useState(false)
+  const [promoIdx, setPromoIdx] = useState(0)
+
+  useEffect(() => {
+    function handlePointerDown(event) {
+      if (!locRef.current?.contains(event.target)) setLocOpen(false)
+    }
+    document.addEventListener('mousedown', handlePointerDown)
+    document.addEventListener('touchstart', handlePointerDown)
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown)
+      document.removeEventListener('touchstart', handlePointerDown)
+    }
+  }, [])
 
   const causes = useMemo(
     () => [
       { key: 'All', label: 'All Causes', icon: 'apps', tone: 'text-slate-600' },
-      { key: 'Environment', label: 'Environment', icon: 'eco', tone: 'text-green-600' },
-      { key: 'Education', label: 'Education', icon: 'school', tone: 'text-blue-600' },
-      { key: 'Health', label: 'Health', icon: 'volunteer_activism', tone: 'text-rose-600' },
-      { key: 'Food', label: 'Food Drives', icon: 'restaurant', tone: 'text-amber-600' },
-      { key: 'Community', label: 'Community Care', icon: 'diversity_3', tone: 'text-purple-600' },
+      { key: 'Environment', label: 'Environment', icon: 'eco', tone: 'text-primary' },
+      { key: 'Education', label: 'Education', icon: 'school', tone: 'text-primary-dark' },
+      { key: 'Health', label: 'Health', icon: 'volunteer_activism', tone: 'text-primary' },
+      { key: 'Food', label: 'Food Drives', icon: 'restaurant', tone: 'text-primary-dark' },
+      { key: 'Community', label: 'Community Care', icon: 'diversity_3', tone: 'text-primary' },
     ],
     [],
   )
@@ -116,6 +232,27 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
     [],
   )
 
+  const promoSlides = useMemo(
+    () => [
+      {
+        headline: 'Limited time! Get special priority on new matches.',
+        sub: 'Up to 40% more volunteer openings near you.',
+        img: allNearYou[0]?.img,
+      },
+      {
+        headline: 'Verified NGOs · Weekend slots',
+        sub: 'Find trusted events that fit your schedule.',
+        img: allNearYou[2]?.img,
+      },
+      {
+        headline: 'Team up with friends',
+        sub: 'See where your network is already volunteering.',
+        img: allNearYou[4]?.img,
+      },
+    ],
+    [allNearYou],
+  )
+
   const nearYou = useMemo(() => {
     const causeFiltered = activeCause === 'All' ? allNearYou : allNearYou.filter((e) => e.cause === activeCause)
     if (nearYouScope === 'week') return causeFiltered.slice(0, 3)
@@ -213,27 +350,112 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
   )
 
   return (
-    <main className="mx-auto max-w-7xl px-3 pb-[max(92px,calc(72px+env(safe-area-inset-bottom)))] pt-5 sm:px-4 md:px-10 md:py-8">
-        <section className="mb-8 md:mb-10">
-          <h2 className="text-[clamp(1.95rem,8.5vw,2.35rem)] font-black leading-tight text-slate-900 md:text-4xl">
-            Welcome back, <span className="text-primary">Arjun!</span>
-          </h2>
-          <p className="mt-2 text-[clamp(0.95rem,3.9vw,1.1rem)] text-slate-500 md:text-lg">
-            There are 12 new volunteering opportunities in {location} today.
-          </p>
-        </section>
-
-        {/* Mobile search row (desktop keeps navbar search) */}
-        <div className="pb-2 md:hidden">
-          <div className="flex items-center gap-3 rounded-xl bg-slate-100 px-4 py-3 focus-within:outline-none">
+    <main className="mx-auto w-full max-w-[1600px] premium-shell bg-background-light pb-[max(104px,calc(96px+env(safe-area-inset-bottom)))] pt-0 md:pb-4 md:pt-4">
+      {/* Mobile landing: orange header + search (matches reference flow) */}
+      <section className="relative md:hidden">
+        <div className="rounded-b-[28px] bg-gradient-to-b from-primary to-primary-dark px-4 pb-6 pt-[max(10px,env(safe-area-inset-top))] shadow-orange-glow">
+          <div className="flex items-center gap-2">
+            <div className="relative min-w-0 flex-1" ref={locRef}>
+              <button
+                className={`flex w-full max-w-full items-center gap-1 rounded-xl border px-2 py-1.5 text-left text-white transition-colors ${
+                  locOpen
+                    ? 'border-white/45 bg-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]'
+                    : 'border-white/28 bg-white/[0.08] hover:border-white/40 hover:bg-white/12'
+                } backdrop-blur-sm`}
+                onClick={() => setLocOpen((v) => !v)}
+                type="button"
+                aria-expanded={locOpen}
+                aria-haspopup="listbox"
+                aria-label={`City: ${location}. Change location`}
+              >
+                <span className="material-symbols-outlined shrink-0 text-[18px] text-white/95">
+                  location_on
+                </span>
+                <span className="min-w-0 flex-1 truncate text-[12px] font-semibold leading-tight">
+                  {location}
+                </span>
+                <span
+                  className={`material-symbols-outlined shrink-0 text-[18px] text-white/85 transition-transform ${
+                    locOpen ? 'rotate-180' : ''
+                  }`}
+                >
+                  expand_more
+                </span>
+              </button>
+              {locOpen ? (
+                <div
+                  className="absolute left-0 top-[calc(100%+8px)] z-[100] w-[min(calc(100vw-2rem),320px)] min-w-full overflow-hidden rounded-2xl border border-slate-200/95 bg-white shadow-[0_18px_50px_-12px_rgba(15,23,42,0.28)] ring-1 ring-slate-900/[0.06]"
+                  role="listbox"
+                >
+                  <div className="border-b border-slate-100/90 bg-gradient-to-b from-slate-50/80 to-white p-3">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                      Select city
+                    </p>
+                  </div>
+                  <div className="max-h-64 overflow-y-auto p-1.5">
+                    {LOCATIONS.map((city) => (
+                      <button
+                        className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors hover:bg-primary-light/70 ${
+                          location === city
+                            ? 'bg-primary/[0.07] text-primary ring-1 ring-primary/15'
+                            : 'text-slate-700'
+                        }`}
+                        key={city}
+                        onClick={() => {
+                          onLocationChange?.(city)
+                          setLocOpen(false)
+                        }}
+                        type="button"
+                        role="option"
+                        aria-selected={location === city}
+                      >
+                        <span className="inline-flex items-center gap-2">
+                          <span className="material-symbols-outlined text-lg text-slate-400">
+                            location_city
+                          </span>
+                          {city}
+                        </span>
+                        {location === city ? (
+                          <span className="material-symbols-outlined text-lg text-primary">check</span>
+                        ) : null}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+            <h1 className="shrink-0 px-0.5 text-center text-[15px] font-black leading-none tracking-[-0.02em] text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.12)] sm:text-[16px]">
+              CauseConnect
+            </h1>
+            <div className="flex min-w-0 flex-1 justify-end gap-1.5">
+              <button
+                className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-white/25 bg-white/10 text-white backdrop-blur-sm transition-colors hover:border-white/35 hover:bg-white/16"
+                type="button"
+                aria-label="Wishlist"
+              >
+                <span className="material-symbols-outlined text-[20px]">favorite</span>
+              </button>
+              <Link
+                className="size-10 shrink-0 overflow-hidden rounded-xl border-2 border-white/40 bg-white/20"
+                to="/profile"
+              >
+                <img
+                  alt="Arjun Patel"
+                  className="h-full w-full object-cover"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVVEg_AagAxDk1z2vF07nGovxZSKWhHZg8fr3J_WGiKl6DRxa3JexMSJxVe0SWkIZPsMQ3goHJnODZClQ9865riV1hYX6FSrH6GOzmilItiIMBdsqIUDxIcpUikSoGzwDza9EnP1QYk0L4qWtIue4TfMN9Bu6466a99GTFSHoxxqpRKdbNTDJ-4NOl0DVJVFdu-5VcKxCLw2gsO1vh8dHfJCu00tthveB03fTZwa8d_S9fTHfOOe3FlW2h78vzd2Lj4m0urvIfaKU"
+                />
+              </Link>
+            </div>
+          </div>
+          <div className="mt-5 flex items-center gap-2 rounded-2xl bg-white px-3 py-3 shadow-lg shadow-black/10">
             <span className="material-symbols-outlined text-slate-400">search</span>
             <input
-              className="w-full border-none bg-transparent text-[15px] placeholder:text-slate-400 outline-none ring-0 focus:outline-none focus:ring-0 focus-visible:outline-none"
+              className="min-w-0 flex-1 border-none bg-transparent text-[15px] text-ink placeholder:text-slate-400 outline-none"
               placeholder="Search causes, events..."
               type="search"
             />
             <button
-              className="text-slate-400"
+              className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary-light text-primary"
               onClick={onOpenFilters}
               type="button"
               aria-label="Open filters"
@@ -242,17 +464,116 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
             </button>
           </div>
         </div>
+      </section>
 
-        <div className="mb-10 grid grid-cols-1 gap-4 md:grid-cols-[1fr_auto] md:items-center">
-          <div className="hide-scrollbar flex gap-2.5 overflow-x-auto pb-2 sm:gap-3">
+      <div className="relative z-0 space-y-5 px-4 pb-4 md:space-y-6 md:px-5 md:pb-5">
+        <section className="pt-4 md:pt-0">
+          <SectionHeader
+            title={
+              <>
+                Welcome back, <span className="text-primary">Arjun!</span>
+              </>
+            }
+            subtitle={`There are 12 new volunteering opportunities in ${location} today.`}
+            titleClassName="premium-h1"
+          />
+        </section>
+
+        {/* #SpecialForYou — promo carousel */}
+        <section className="pt-1">
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-xs font-black uppercase tracking-[0.2em] text-slate-500">#SpecialForYou</h2>
+          </div>
+          <div className="overflow-hidden rounded-2xl">
+            <div
+              className="flex transition-transform duration-300 ease-out"
+              style={{ transform: `translateX(-${promoIdx * 100}%)` }}
+            >
+              {promoSlides.map((p, i) => (
+                <div className="flex w-full shrink-0 flex-col" key={String(i)}>
+                  <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-neutral-900 md:aspect-[16/6] lg:max-h-[340px]">
+                    <img alt="" className="h-full w-full object-cover object-[center_42%]" src={p.img} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 p-4 text-white">
+                      <p className="text-[17px] font-black leading-snug">{p.headline}</p>
+                      <p className="mt-1 text-[13px] text-white/85">{p.sub}</p>
+                      <button
+                        className="btn-primary mt-3 rounded-full px-4 py-2 text-[11px] uppercase"
+                        type="button"
+                        onClick={() => navigate('/events')}
+                      >
+                        Claim
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-3 flex justify-center gap-1.5">
+            {promoSlides.map((_, i) => (
+              <button
+                aria-label={`Promo ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all ${promoIdx === i ? 'w-6 bg-primary' : 'w-1.5 bg-slate-300'}`}
+                key={String(i)}
+                onClick={() => setPromoIdx(i)}
+                type="button"
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* Services — circular cause icons (mobile-first) */}
+        <section className="md:hidden">
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="text-lg font-bold text-ink">Causes</h3>
+            <button
+              className="text-sm font-semibold text-primary"
+              onClick={onOpenFilters}
+              type="button"
+            >
+              See all
+            </button>
+          </div>
+          <div className="hide-scrollbar flex gap-4 overflow-x-auto pb-2 pt-1">
             {causes.map((c) => {
               const active = activeCause === c.key
               return (
                 <button
-                  className={`flex items-center gap-2 whitespace-nowrap rounded-xl px-4 py-2 text-[13px] font-bold transition-colors sm:px-5 sm:text-sm ${
+                  className="flex min-w-[72px] flex-col items-center gap-2"
+                  key={c.key}
+                  onClick={() => setActiveCause(c.key)}
+                  type="button"
+                >
+                  <div
+                    className={`flex size-[56px] items-center justify-center rounded-full shadow-md transition-transform active:scale-95 ${
+                      active
+                        ? 'bg-primary text-white ring-2 ring-primary ring-offset-2'
+                        : 'bg-white text-slate-600 ring-1 ring-black/[0.06]'
+                    }`}
+                  >
+                    <span className="material-symbols-outlined text-[26px]">{c.icon}</span>
+                  </div>
+                  <span className="max-w-[76px] text-center text-[10px] font-semibold leading-tight text-slate-700">
+                    {c.label}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+        </section>
+
+        {/* Desktop: pill filters + chips */}
+        <div className="mb-1 hidden grid-cols-1 gap-3 md:grid md:grid-cols-[1fr_auto] md:items-center">
+          <div className="hide-scrollbar flex gap-2 overflow-x-auto pb-2 sm:gap-2.5">
+            {causes.map((c) => {
+              const active = activeCause === c.key
+              return (
+                <button
+                  className={`flex items-center gap-2 whitespace-nowrap rounded-2xl px-4 py-2.5 text-[13px] font-bold transition-all sm:px-5 sm:text-sm ${
                     active
-                      ? 'bg-primary text-white'
-                      : 'border border-slate-200 bg-white text-slate-700 hover:border-primary'
+                      ? 'bg-primary text-white shadow-md shadow-primary/20'
+                      : 'border border-black/[0.08] bg-white text-slate-800 shadow-sm hover:border-primary/40'
                   }`}
                   key={c.key}
                   onClick={() => setActiveCause(c.key)}
@@ -269,7 +590,7 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
 
           <div className="flex items-center justify-start gap-2 md:justify-self-end md:justify-end">
             <button
-              className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-extrabold text-slate-700 shadow-sm ring-1 ring-slate-200 transition-colors hover:bg-slate-50"
+              className="inline-flex items-center gap-2 rounded-2xl border border-black/[0.06] bg-white px-4 py-2.5 text-sm font-extrabold text-ink shadow-card transition-colors hover:bg-beige"
               onClick={onOpenFilters}
               type="button"
             >
@@ -279,7 +600,7 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
           </div>
         </div>
 
-        <div className="space-y-12">
+        <div className="space-y-8 md:space-y-10">
             <section>
               <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-wrap items-center gap-3">
@@ -287,14 +608,14 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
                     <span className="material-symbols-outlined text-primary">near_me</span>
                     Near You
                   </h3>
-                  <div className="flex items-center gap-2 rounded-xl bg-white p-1 ring-1 ring-slate-200">
+                  <div className="flex items-center gap-1 rounded-2xl border border-black/[0.06] bg-white p-1 shadow-sm">
                     {[
                       ['week', 'This week'],
                       ['month', 'This month'],
                     ].map(([key, label]) => (
                       <button
-                        className={`rounded-lg px-3 py-1 text-xs font-black transition-colors ${
-                          nearYouScope === key ? 'bg-primary text-white' : 'text-slate-600 hover:bg-slate-50'
+                        className={`rounded-xl px-3 py-1.5 text-xs font-black transition-colors ${
+                          nearYouScope === key ? 'bg-primary text-white shadow-sm' : 'text-slate-600 hover:bg-beige'
                         }`}
                         key={key}
                         onClick={() => setNearYouScope(key)}
@@ -315,70 +636,9 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
                 </button>
               </div>
 
-              <div className="hide-scrollbar -mx-3 flex gap-4 overflow-x-auto px-3 pb-1 sm:-mx-4 sm:px-4 md:mx-0 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 lg:grid-cols-3">
+              <div className="hide-scrollbar flex gap-4 overflow-x-auto pb-1 md:grid md:grid-cols-2 md:items-stretch md:gap-5 md:overflow-visible lg:grid-cols-3">
                 {nearYou.map((item) => (
-                  <div
-                    className="group min-w-[85vw] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all hover:shadow-xl sm:min-w-[280px] md:min-w-0"
-                    key={item.title}
-                    onClick={item.route ? () => navigate(item.route) : undefined}
-                    onKeyDown={
-                      item.route
-                        ? (event) => {
-                            if (event.key === 'Enter' || event.key === ' ') {
-                              event.preventDefault()
-                              navigate(item.route)
-                            }
-                          }
-                        : undefined
-                    }
-                    role={item.route ? 'button' : undefined}
-                    tabIndex={item.route ? 0 : undefined}
-                  >
-                    <div className="relative h-48 overflow-hidden">
-                      <img
-                        alt={item.title}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        src={item.img}
-                      />
-                      <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-lg bg-white/90 px-3 py-1 text-xs font-bold backdrop-blur">
-                        <span className="h-2 w-2 rounded-full bg-success-green" /> {item.openings}
-                      </div>
-                      <div className="absolute bottom-4 left-4 max-w-[55%] rounded-lg bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white backdrop-blur">
-                        {item.cause}
-                      </div>
-                      {item.verified ? (
-                        <div className="absolute bottom-4 right-4 rounded-lg bg-primary px-3 py-1 text-xs font-bold text-white shadow-lg">
-                          Verified
-                        </div>
-                      ) : null}
-                    </div>
-                    <div className="p-4 sm:p-5">
-                      <h4 className="mb-2 text-[clamp(1.05rem,4.8vw,1.25rem)] font-bold leading-tight transition-colors group-hover:text-primary">
-                        {item.title}
-                      </h4>
-                      <p className="mb-4 line-clamp-2 text-sm text-slate-500">{item.desc}</p>
-                      <div className="mb-6 flex items-center gap-4 text-xs font-semibold text-slate-500">
-                        <div className="flex items-center gap-1">
-                          <span className="material-symbols-outlined text-base">calendar_today</span>
-                          {item.dateShort}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <span className="material-symbols-outlined text-base">group</span>
-                          {item.joined}
-                        </div>
-                      </div>
-                      <button
-                        className="w-full rounded-xl bg-primary py-3 font-bold text-white shadow-md shadow-primary/20 transition-all hover:bg-primary/90"
-                        onClick={(event) => {
-                          event.stopPropagation()
-                          if (item.route) navigate(item.route)
-                        }}
-                        type="button"
-                      >
-                        Join Opportunity
-                      </button>
-                    </div>
-                  </div>
+                  <EventOpportunityCard carousel item={item} key={item.title} navigate={navigate} />
                 ))}
               </div>
             </section>
@@ -397,50 +657,48 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
                   See All
                 </button>
               </div>
-              <div className="hide-scrollbar -mx-3 flex gap-4 overflow-x-auto px-3 pb-1 sm:-mx-4 sm:px-4 md:mx-0 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 lg:grid-cols-3">
+              <div className="hide-scrollbar -mx-3 flex gap-4 overflow-x-auto px-3 pb-1 sm:-mx-4 sm:px-4 md:mx-0 md:grid md:grid-cols-2 md:items-stretch md:gap-6 md:overflow-visible md:px-0 lg:grid-cols-3">
                 {[
                   {
                     tag: 'Education',
-                    tagClass: 'text-blue-500',
+                    tagClass: 'text-primary',
                     title: 'Weekend Tutoring for Kids',
                     meta: '45 volunteers matched',
                     img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBtVjPEQgTa5GnZj8q-80NZ3SjzxnLLVlWmdo1qjEyL1D0d4SwvhtLL77I9FnvUrRh_hmB90eT0WJ_YugBrVEFmAud6wzFUr_7bijy3PPNP9OWgpmxrbjHc5E0BFy2TUUH2AHo1KRXgW-iQZVN4W3I3dfUMW2wmP-OEU9zegVyDhKGAcnqRLdV4uZvepCKja00fmpr_zLQSRxiO-yyLIaUEbz2eNAXr6lOMXBtUSvRFcyyAz2HaSu5J2clatrZIEXT2lpuzN-4af2k',
                   },
                   {
                     tag: 'Social Care',
-                    tagClass: 'text-red-500',
+                    tagClass: 'text-primary-dark',
                     title: 'Community Kitchen Drive',
                     meta: '82 volunteers matched',
                     img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCaTA_trNJ3oVwBlDd5NOyoSGD57zrqwYXcvbv4KkqP2oKAunXaR7EGT_tXXafrlEbGVYEkKFp8I-AERmRinzvja5l0KZOgbBXjTDlVYxoo-z7S7W9RsanPQ2UjYPZy1o8nHNOmX6jpHkRw_oyxgk-pwXqMlx5Ic7o9UsWpOu73f4Mbzl3F2EntNZmcBL2cuQfi4G2eET40eNHqXYX2uNRo0_ZQFFiEzlj3Hop0ku4PbwQZNX8mYaC1Kikv1mtBqGLjyZF5Sxhu6aM',
                   },
                   {
                     tag: 'Environment',
-                    tagClass: 'text-green-500',
+                    tagClass: 'text-primary',
                     title: 'Urban Garden Project',
                     meta: '31 volunteers matched',
                     img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDBOg8TA3Ihi0kIsJEo6ijwacpGoTVX3ByTdbvQKjrvpx_hybl-IqpWwOSfnj74w0b6gs9LPChsGyMfxIzQSzZKSS42_5L1JCmJemCRP5-PD9DYWQd-2yrJU8hTkC0c2A2KnSpPeAVv8JRlsXXcChBG84TzAfFNFb9jWspUJOqv-kXrlE025PsmOElaAC_zhJxvmu7UtADf0-mHprS0QwpvQMo3mV38KLO6J1nNutx7XQDllBTS3WGGe8vRMxmCH8hf8kV23x06_Ss',
                   },
                 ].map((t) => (
                   <div
-                    className="min-w-[85vw] rounded-2xl border border-slate-100 bg-white p-4 shadow-sm transition-colors hover:border-primary/50 sm:min-w-[280px] md:min-w-0 md:flex md:items-start md:gap-4"
+                    className="min-w-[85vw] rounded-2xl border border-black/[0.06] bg-white p-4 shadow-card transition-colors hover:shadow-card-hover sm:min-w-[280px] md:min-h-[220px] md:min-w-0 md:flex md:items-start md:gap-4"
                     key={t.title}
                   >
-                    <div className="relative h-[160px] overflow-hidden rounded-xl md:h-24 md:w-24 md:shrink-0 md:rounded-lg">
+                    <div className="relative h-[160px] overflow-hidden rounded-xl md:h-24 md:w-24 md:shrink-0 md:rounded-xl">
                       <img alt={t.title} className="h-full w-full object-cover" src={t.img} />
-                      <div className="absolute left-3 top-3 flex items-center gap-1 rounded-lg bg-white/90 px-2 py-1 text-[10px] font-bold uppercase tracking-wider md:hidden">
-                        <span className="material-symbols-outlined text-[14px] text-blue-500">verified</span>
+                      <div className="absolute left-3 top-3 flex items-center gap-1 rounded-lg bg-white/95 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm md:hidden">
+                        <span className="material-symbols-outlined text-[14px]">verified</span>
                         Verified
                       </div>
                     </div>
                     <div className="mt-3 flex min-w-0 flex-1 flex-col justify-between md:mt-0">
                       <div>
-                        <span className={`text-[10px] font-black uppercase tracking-wider ${t.tagClass}`}>
-                          {t.tag}
-                        </span>
-                        <h5 className="line-clamp-1 font-bold text-slate-900">{t.title}</h5>
+                        <span className="text-[10px] font-black uppercase tracking-wider text-primary">{t.tag}</span>
+                        <h5 className="line-clamp-1 font-bold text-ink">{t.title}</h5>
                         <p className="mt-1 text-xs text-slate-500">{t.meta}</p>
                       </div>
-                      <button className="mt-3 rounded-lg bg-[#22c55e] px-3 py-1.5 text-[12px] font-bold text-white md:hidden" onClick={() => navigate('/event')} type="button">
+                      <button className="btn-primary mt-3 px-3 py-2 text-[12px] md:hidden" onClick={() => navigate('/event')} type="button">
                         View Details
                       </button>
                       <button className="mt-3 hidden items-center gap-1 text-sm font-bold text-primary transition-all hover:gap-2 md:flex" onClick={() => navigate('/event')} type="button">
@@ -454,23 +712,23 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
 
             <section className="cc-card cc-card-pad-lg overflow-hidden">
               <div className="flex flex-col gap-1">
-                <p className="text-xs font-black uppercase tracking-widest text-slate-400">
+                <p className="text-xs font-black uppercase tracking-widest text-slate-500">
                   CauseConnect picks
                 </p>
-                <h3 className="text-2xl font-extrabold text-slate-900">Explore by cause</h3>
+                <h3 className="text-2xl font-extrabold text-ink">Explore by cause</h3>
                 <p className="mt-1 text-sm text-slate-500">
                   Jump into curated opportunities built around your interests.
                 </p>
               </div>
               <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {[
-                  { title: 'Education', sub: 'Mentor students • Weekend sessions', icon: 'school', tone: 'text-blue-600', bg: 'bg-blue-600/10' },
-                  { title: 'Environment', sub: 'Plant trees • Cleanups • Recycling', icon: 'eco', tone: 'text-green-600', bg: 'bg-green-600/10' },
-                  { title: 'Food Drives', sub: 'Pack meals • Distribute kits', icon: 'restaurant', tone: 'text-amber-600', bg: 'bg-amber-600/10' },
-                  { title: 'Community Care', sub: 'Shelters • Elder care • NGOs', icon: 'diversity_3', tone: 'text-purple-600', bg: 'bg-purple-600/10' },
+                  { title: 'Education', sub: 'Mentor students • Weekend sessions', icon: 'school', tone: 'text-primary', bg: 'bg-primary/10' },
+                  { title: 'Environment', sub: 'Plant trees • Cleanups • Recycling', icon: 'eco', tone: 'text-primary', bg: 'bg-sage/25' },
+                  { title: 'Food Drives', sub: 'Pack meals • Distribute kits', icon: 'restaurant', tone: 'text-primary', bg: 'bg-primary/15' },
+                  { title: 'Community Care', sub: 'Shelters • Elder care • NGOs', icon: 'diversity_3', tone: 'text-primary', bg: 'bg-primary/8' },
                 ].map((c) => (
                   <button
-                    className="cc-card-soft cc-card-pad group flex items-center gap-4 text-left transition-all hover:border-primary/30"
+                    className="cc-card-soft cc-card-pad group flex items-center gap-4 text-left transition-all hover:border-primary/25 hover:shadow-card"
                     key={c.title}
                     onClick={() => setActiveCause(c.title === 'Food Drives' ? 'Food' : c.title)}
                     type="button"
@@ -479,8 +737,8 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
                       <span className="material-symbols-outlined">{c.icon}</span>
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-extrabold text-slate-900">{c.title}</p>
-                      <p className="mt-0.5 text-xs text-slate-500">{c.sub}</p>
+                      <p className="truncate text-sm font-extrabold text-ink">{c.title}</p>
+                      <p className="mt-0.5 text-xs text-slate-600">{c.sub}</p>
                     </div>
                     <span className="material-symbols-outlined text-base text-slate-300 transition-colors group-hover:text-primary">
                       arrow_forward
@@ -505,54 +763,9 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 lg:items-stretch">
                 {featuredGrid.slice(0, 6).map((item) => (
-                  <article
-                    className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all hover:shadow-xl"
-                    key={item.title}
-                  >
-                    <div className="relative h-48 overflow-hidden">
-                      <img
-                        alt={item.title}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        src={item.img}
-                      />
-                      <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-lg bg-white/90 px-3 py-1 text-xs font-bold backdrop-blur">
-                        <span className="h-2 w-2 rounded-full bg-success-green" /> {item.openings}
-                      </div>
-                      <div className="absolute bottom-4 left-4 max-w-[55%] rounded-lg bg-black/45 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white backdrop-blur">
-                        {item.cause}
-                      </div>
-                      {item.verified ? (
-                        <div className="absolute bottom-4 right-4 rounded-lg bg-primary px-3 py-1 text-xs font-bold text-white shadow-lg">
-                          Verified
-                        </div>
-                      ) : null}
-                    </div>
-                    <div className="p-5">
-                      <h4 className="mb-2 text-xl font-bold leading-tight transition-colors group-hover:text-primary">
-                        {item.title}
-                      </h4>
-                      <p className="mb-4 line-clamp-2 text-sm text-slate-500">{item.desc}</p>
-                      <div className="mb-6 flex items-center gap-4 text-xs font-semibold text-slate-500">
-                        <div className="flex items-center gap-1">
-                          <span className="material-symbols-outlined text-base">calendar_today</span>
-                          {item.dateShort}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <span className="material-symbols-outlined text-base">group</span>
-                          {item.joined}
-                        </div>
-                      </div>
-                      <button
-                        className="w-full rounded-xl bg-primary py-3 font-bold text-white shadow-md shadow-primary/20 transition-all hover:bg-primary/90"
-                        onClick={() => navigate('/event')}
-                        type="button"
-                      >
-                        Join Opportunity
-                      </button>
-                    </div>
-                  </article>
+                  <EventOpportunityCard item={item} key={item.title} navigate={navigate} />
                 ))}
               </div>
             </section>
@@ -563,10 +776,10 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
               </div>
               <div className="space-y-3">
                 {mobileFriends.map((item) => (
-                  <div className="flex items-center gap-3 rounded-xl border border-slate-100 bg-white p-3" key={item.title}>
+                  <div className="flex items-center gap-3 rounded-2xl border border-black/[0.06] bg-white p-3 shadow-card" key={item.title}>
                     <img alt={item.title} className="size-14 rounded-lg object-cover" src={item.img} />
                     <div className="min-w-0 flex-1">
-                      <h4 className="truncate text-[15px] font-semibold text-slate-900">{item.title}</h4>
+                      <h4 className="truncate text-[15px] font-semibold text-ink">{item.title}</h4>
                       <div className="mt-1 flex items-center -space-x-2">
                         {item.avatars.map((a) => (
                           <img alt="Friend avatar" className="size-6 rounded-full border-2 border-white object-cover" key={a} src={a} />
@@ -574,7 +787,7 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
                         <span className="pl-3 text-[10px] text-slate-500">{item.more}</span>
                       </div>
                     </div>
-                    <button className="rounded-lg bg-primary px-4 py-2 text-[12px] font-bold text-white" type="button">
+                    <button className="btn-primary px-4 py-2 text-[12px]" type="button">
                       Join
                     </button>
                   </div>
@@ -582,8 +795,8 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
               </div>
             </section>
 
-            <div className="hidden grid-cols-1 gap-8 border-t border-slate-200 pt-8 md:grid lg:grid-cols-2">
-              <section className="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6">
+            <div className="hidden grid-cols-1 gap-8 border-t border-black/[0.06] pt-8 md:grid lg:grid-cols-2">
+              <section className="flex flex-col justify-between rounded-2xl border border-black/[0.06] bg-white p-6 shadow-card">
                 <div>
                   <h3 className="mb-6 flex items-center gap-2 text-xl font-extrabold">
                     <span className="material-symbols-outlined text-primary">groups</span>
@@ -597,7 +810,7 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
                           className="h-12 w-12 rounded-full border-2 border-primary/20 object-cover"
                           src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEmwbHeLtUfBQWBkjm2WsCjanWjpbuhyFGRw8z6K-FlwzXTr6ZYZOQ6jjdUetXkLi02k0DsWqW8jFQkXCJRiY6twm99t9i27SZ6fdGv3f2BpUQQzenZMaGllUwrcCpEbhrl6CV4q4btczVtoBin9TWY9r5WIfHswmKwFiGvkntBeibNeiQ7IQd91bVPPaxOUcX30gwuzRUnlO1GOx5snADkZ46T-iw8RM0a4kJ0UJIPRRElU_tfdjyXjV7Nk_pkZaCIs_WKONKaZQ"
                         />
-                        <div className="absolute -bottom-1 -right-1 rounded-full border-2 border-white bg-success-green p-0.5 text-white">
+                        <div className="absolute -bottom-1 -right-1 rounded-full border-2 border-white bg-sage p-0.5 text-white">
                           <span className="material-symbols-outlined block text-[10px]">check</span>
                         </div>
                       </div>
@@ -626,7 +839,7 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
                   </div>
                 </div>
                 <button
-                  className="mt-8 w-full rounded-xl border border-primary/30 py-2.5 text-sm font-bold text-primary transition-colors hover:bg-primary/5"
+                  className="btn-secondary mt-8 w-full py-2.5"
                   onClick={() => navigate('/profile')}
                   type="button"
                 >
@@ -635,7 +848,7 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
               </section>
 
               <div className="space-y-6">
-                <section className="flex h-full min-h-[200px] flex-col justify-between rounded-2xl bg-gradient-to-br from-primary to-orange-600 p-6 text-white">
+                <section className="flex h-full min-h-[200px] flex-col justify-between rounded-2xl bg-gradient-to-br from-primary to-primary-dark p-6 text-white shadow-lg shadow-primary/15">
                   <div>
                     <h3 className="mb-4 text-lg font-black">Your Impact</h3>
                     <div className="grid grid-cols-2 gap-4">
@@ -657,7 +870,7 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
               </div>
             </div>
 
-            <div className="group relative hidden h-64 cursor-pointer overflow-hidden rounded-2xl border border-slate-200 md:block">
+            <div className="group relative hidden h-64 cursor-pointer overflow-hidden rounded-2xl border border-black/[0.06] shadow-card md:block">
               <img
                 alt="Map of Ahmedabad"
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
@@ -670,6 +883,7 @@ function HomePage({ location = 'Ahmedabad', onOpenFilters }) {
               </div>
             </div>
         </div>
+      </div>
     </main>
   )
 }

@@ -1,18 +1,17 @@
 import { useMemo, useState } from 'react'
+import Button from '../components/Button'
+import SectionHeader from '../components/SectionHeader'
 import ShareProfileModal from '../components/ShareProfileModal'
 
 function ImpactPage() {
   const [range, setRange] = useState('year')
-  const [copied, setCopied] = useState(false)
   const [shareOpen, setShareOpen] = useState(false)
 
   const copyImpactLink = async () => {
     try {
       await navigator.clipboard.writeText('https://causeconnect.org/impact/arjun-patel')
-      setCopied(true)
-      setTimeout(() => setCopied(false), 1300)
     } catch {
-      setCopied(false)
+      /* clipboard unavailable */
     }
   }
 
@@ -30,7 +29,7 @@ function ImpactPage() {
   )
 
   return (
-    <main className="mx-auto w-full max-w-7xl px-6 py-8 lg:px-10 lg:py-12">
+    <main className="mx-auto w-full max-w-[1600px] premium-shell shell-pad-lg">
       <ShareProfileModal
         label="Share impact"
         onClose={() => setShareOpen(false)}
@@ -40,26 +39,19 @@ function ImpactPage() {
         title="Share your impact"
         url="https://causeconnect.org/impact/arjun-patel"
       />
-      <div className="flex flex-col gap-10">
-        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-4xl font-black tracking-tight text-slate-900 lg:text-5xl">
-              Your Impact
-            </h1>
-            <p className="max-w-xl text-lg text-slate-500">
-              Every hour you give helps build a stronger community. You&apos;re making a real
-              difference.
-            </p>
-          </div>
-          <button
-            className="flex items-center gap-2 rounded-xl bg-primary px-8 py-4 font-bold text-white shadow-lg shadow-primary/20 transition-transform hover:bg-primary/90 active:scale-95"
-            onClick={() => setShareOpen(true)}
-            type="button"
-          >
-            <span className="material-symbols-outlined !text-xl">share</span>
-            <span>Share My Impact</span>
-          </button>
-        </div>
+      <div className="section-gap-lg">
+        <SectionHeader
+          className="gap-4"
+          title="Your Impact"
+          subtitle="Every hour you give helps build a stronger community. You&apos;re making a real difference."
+          titleClassName="premium-h1"
+          action={
+            <Button className="px-5 py-3 sm:px-7 sm:py-3.5" onClick={() => setShareOpen(true)}>
+              <span className="material-symbols-outlined !text-xl">share</span>
+              <span>Share My Impact</span>
+            </Button>
+          }
+        />
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <section className="cc-card cc-card-pad-lg group relative overflow-hidden lg:col-span-2">
@@ -72,7 +64,7 @@ function ImpactPage() {
                   </p>
                   <h2 className="text-3xl font-bold text-slate-900">48 Hours Volunteered</h2>
                 </div>
-                <div className="flex items-center gap-1 rounded-full bg-emerald-500/10 px-3 py-1 text-sm font-bold text-emerald-600">
+                <div className="flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-sm font-bold text-primary">
                   <span className="material-symbols-outlined !text-sm">trending_up</span>
                   <span>+12% this month</span>
                 </div>
@@ -126,7 +118,7 @@ function ImpactPage() {
           </aside>
         </div>
 
-        <section className="grid grid-cols-2 gap-6 lg:grid-cols-4">
+        <section className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
           {[
             { label: 'Events Completed', value: '12', icon: 'event_available', tone: 'primary' },
             { label: 'Causes Supported', value: '5', icon: 'favorite', tone: 'success' },
@@ -135,15 +127,15 @@ function ImpactPage() {
           ].map((stat) => {
             const tone =
               stat.tone === 'success'
-                ? 'bg-emerald-500/10 text-emerald-600'
+                ? 'bg-primary/15 text-primary'
                 : stat.tone === 'amber'
-                  ? 'bg-amber-500/10 text-amber-500'
+                  ? 'bg-primary/10 text-primary-dark'
                   : stat.tone === 'blue'
-                    ? 'bg-blue-500/10 text-blue-500'
+                    ? 'bg-primary/20 text-primary'
                     : 'bg-primary/10 text-primary'
             return (
               <div
-                className="cc-card cc-card-pad group transition-colors hover:border-primary/30"
+                className="@container cc-card cc-card-pad group transition-colors hover:border-primary/30"
                 key={stat.label}
               >
                 <div
@@ -151,8 +143,8 @@ function ImpactPage() {
                 >
                   <span className="material-symbols-outlined">{stat.icon}</span>
                 </div>
-                <p className="text-sm font-medium text-slate-500">{stat.label}</p>
-                <p className="mt-1 text-3xl font-black text-slate-900">{stat.value}</p>
+                <p className="text-xs font-medium text-slate-500 sm:text-sm cq-tight-title">{stat.label}</p>
+                <p className="mt-1 text-2xl font-black text-slate-900 xs:text-3xl">{stat.value}</p>
               </div>
             )
           })}
@@ -160,7 +152,7 @@ function ImpactPage() {
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <section className="cc-card cc-card-pad-lg lg:col-span-2">
-            <div className="mb-10 flex items-center justify-between">
+              <div className="mb-10 flex items-center justify-between gap-3 max-w-420:stack">
               <h2 className="text-xl font-bold text-slate-900">Monthly Activity</h2>
               <div className="flex gap-2">
                 <button
@@ -219,11 +211,11 @@ function ImpactPage() {
               ].map((a) => {
                 const tone =
                   a.tone === 'success'
-                    ? 'from-emerald-500/20 to-emerald-500/5 border-emerald-500/30 text-emerald-600 shadow-emerald-500/10'
+                    ? 'from-primary/20 to-primary/5 border-primary/30 text-primary shadow-primary/10'
                     : a.tone === 'blue'
-                      ? 'from-blue-500/20 to-blue-500/5 border-blue-500/30 text-blue-500 shadow-blue-500/10'
+                      ? 'from-primary/30 to-primary/10 border-primary/35 text-primary-dark shadow-primary/15'
                       : a.tone === 'purple'
-                        ? 'from-purple-500/20 to-purple-500/5 border-purple-500/30 text-purple-500 shadow-purple-500/10'
+                        ? 'from-primary/25 to-primary/5 border-primary/25 text-primary shadow-primary/10'
                         : 'from-primary/20 to-primary/5 border-primary/30 text-primary shadow-primary/10'
                 return (
                   <div className="group flex shrink-0 snap-center flex-col items-center gap-3" key={a.label}>

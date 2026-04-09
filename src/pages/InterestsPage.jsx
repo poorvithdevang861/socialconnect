@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Button from '../components/Button'
+import SectionHeader from '../components/SectionHeader'
 import { isAuthenticated, isOnboardingComplete } from '../utils/onboarding'
 
 const INTERESTS = [
@@ -45,151 +47,130 @@ function InterestsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background-light text-slate-900">
-      <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
-        <div className="flex flex-1 justify-center px-4 py-8 lg:px-0">
-          <div className="flex max-w-[800px] flex-1 flex-col gap-8">
-            <div className="flex flex-col gap-3 px-4">
-              <div className="flex items-end justify-between gap-6">
-                <div>
-                  <h1 className="text-4xl font-black leading-tight tracking-[-0.033em]">
-                    What moves you?
-                  </h1>
-                  <p className="mt-1 text-lg text-slate-500">
-                    Help us personalize your volunteer discovery feed.
-                  </p>
-                </div>
-                <p className="mb-1 rounded-full bg-primary/10 px-3 py-1 text-sm font-bold text-primary">
-                  Step 1 of 2
-                </p>
-              </div>
-              <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-primary/10">
-                <div className="h-full w-1/2 rounded-full bg-primary" />
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-4 px-4">
-              <h2 className="text-xl font-bold tracking-tight">Social Causes</h2>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-                {INTERESTS.map((interest) => {
-                  const active = selected.includes(interest)
-                  return (
-                    <button
-                      className={`relative flex flex-col items-center justify-center gap-2 rounded-2xl border-2 p-4 transition-all hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary/40 ${
-                        active
-                          ? 'border-primary bg-primary/5 text-primary'
-                          : 'border-slate-100 bg-white text-slate-600 hover:border-primary/30'
-                      }`}
-                      key={interest}
-                      onClick={() => toggleInterest(interest)}
-                      type="button"
-                    >
-                      <span className="material-symbols-outlined text-3xl">volunteer_activism</span>
-                      <span className="text-sm font-bold">{interest}</span>
-                      <div
-                        className={`absolute right-2 top-2 flex size-5 items-center justify-center rounded-full border-2 transition-colors ${
-                          active ? 'border-primary bg-primary text-white' : 'border-slate-200 bg-white'
-                        }`}
-                        aria-hidden="true"
-                      >
-                        {active ? (
-                          <span className="material-symbols-outlined text-xs">check</span>
-                        ) : null}
-                      </div>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-4 px-4 pb-24">
-              <div className="flex flex-col">
-                <h2 className="text-xl font-bold tracking-tight">
-                  What kind of volunteering do you prefer?
-                </h2>
-                <p className="text-sm text-slate-500">
-                  Choose one or more — we&apos;ll tailor recommendations around it.
-                </p>
-              </div>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <button
-                  className={`group relative flex flex-col rounded-2xl border-2 p-6 focus:outline-none focus:ring-2 focus:ring-primary/40 ${
-                    styles.includes('solo')
-                      ? 'border-primary bg-primary/5'
-                      : 'border-slate-100 bg-white hover:border-primary/30'
-                  }`}
-                  onClick={() => toggleStyle('solo')}
-                  type="button"
-                >
-                  <div className="mb-4 flex items-start justify-between">
-                    <span className="material-symbols-outlined text-4xl text-primary">person</span>
-                    <div
-                      className={`flex size-6 items-center justify-center rounded-full border-2 ${
-                        styles.includes('solo')
-                          ? 'border-primary bg-primary text-white'
-                          : 'border-slate-200 bg-white'
-                      }`}
-                    >
-                      {styles.includes('solo') ? (
-                        <span className="material-symbols-outlined text-[16px]">check</span>
-                      ) : null}
-                    </div>
-                  </div>
-                  <h3 className="text-left text-lg font-bold text-primary">Solo Activities</h3>
-                  <p className="mt-1 text-left text-sm text-slate-600">
-                    Independent tasks, virtual volunteering, and self-paced projects.
-                  </p>
-                </button>
-                <button
-                  className={`group relative flex flex-col rounded-2xl border-2 p-6 focus:outline-none focus:ring-2 focus:ring-primary/40 ${
-                    styles.includes('group')
-                      ? 'border-primary bg-primary/5'
-                      : 'border-slate-100 bg-white hover:border-primary/30'
-                  }`}
-                  onClick={() => toggleStyle('group')}
-                  type="button"
-                >
-                  <div className="mb-4 flex items-start justify-between">
-                    <span
-                      className={`material-symbols-outlined text-4xl ${
-                        styles.includes('group') ? 'text-primary' : 'text-slate-400'
-                      }`}
-                    >
-                      groups_3
-                    </span>
-                    <div
-                      className={`flex size-6 items-center justify-center rounded-full border-2 ${
-                        styles.includes('group')
-                          ? 'border-primary bg-primary text-white'
-                          : 'border-slate-200 bg-white'
-                      }`}
-                    >
-                      {styles.includes('group') ? (
-                        <span className="material-symbols-outlined text-[16px]">check</span>
-                      ) : null}
-                    </div>
-                  </div>
-                  <h3 className="text-left text-lg font-bold">Group Projects</h3>
-                  <p className="mt-1 text-left text-sm text-slate-500">
-                    Community events, team workshops, and social gatherings.
-                  </p>
-                </button>
-              </div>
-            </div>
+    <main className="mx-auto w-full max-w-[1600px] premium-shell bg-background-light pb-[max(104px,calc(96px+env(safe-area-inset-bottom))] pt-4 md:pb-6 md:pt-4">
+      <div className="section-gap-lg px-4 pb-4 md:px-5 md:pb-5">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <span className="premium-chip w-fit border-primary/15 bg-primary/10 text-primary">Step 1 of 2</span>
+          <div className="h-2 w-full overflow-hidden rounded-full bg-primary/10 sm:max-w-md sm:flex-1">
+            <div className="h-full w-1/2 rounded-full bg-primary shadow-orange-glow" />
           </div>
         </div>
+
+        <SectionHeader
+          title="What moves you?"
+          subtitle="Pick causes you care about — we’ll shape your feed around them."
+          titleClassName="premium-h1"
+        />
+
+        <section className="section-gap">
+          <h2 className="premium-h2 section-title-row">Social causes</h2>
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 md:grid-cols-4 md:gap-3">
+            {INTERESTS.map((interest) => {
+              const active = selected.includes(interest)
+              return (
+                <button
+                  className={`relative flex min-h-[88px] flex-col items-center justify-center gap-1.5 rounded-2xl border px-3 py-3 text-center transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
+                    active
+                      ? 'border-primary/40 bg-primary/8 text-primary shadow-[0_6px_20px_rgba(234,88,12,0.12)]'
+                      : 'border-black/[0.06] bg-white text-slate-600 hover:border-primary/25 hover:bg-primary/[0.03]'
+                  }`}
+                  key={interest}
+                  onClick={() => toggleInterest(interest)}
+                  type="button"
+                >
+                  <span
+                    className={`material-symbols-outlined text-2xl ${active ? 'text-primary' : 'text-slate-400'}`}
+                  >
+                    volunteer_activism
+                  </span>
+                  <span className="text-[13px] font-bold leading-tight">{interest}</span>
+                  <span
+                    className={`absolute right-2 top-2 flex size-5 items-center justify-center rounded-full border text-[10px] ${
+                      active ? 'border-primary bg-primary text-white' : 'border-black/[0.08] bg-white text-transparent'
+                    }`}
+                    aria-hidden
+                  >
+                    {active ? <span className="material-symbols-outlined text-[14px]">check</span> : '·'}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+        </section>
+
+        <section className="section-gap border-t border-black/[0.06] pt-6 md:pt-8">
+          <SectionHeader
+            title="How do you like to volunteer?"
+            subtitle="Choose one or both — we’ll match solo tasks and group events."
+            className="section-title-row"
+          />
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+            <button
+              className={`flex flex-col rounded-2xl border p-5 text-left transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 md:p-6 ${
+                styles.includes('solo')
+                  ? 'border-primary/40 bg-primary/8 shadow-[0_8px_24px_rgba(234,88,12,0.1)]'
+                  : 'border-black/[0.06] bg-white hover:border-primary/20'
+              }`}
+              onClick={() => toggleStyle('solo')}
+              type="button"
+            >
+              <div className="mb-3 flex items-start justify-between">
+                <span className="material-symbols-outlined text-3xl text-primary">person</span>
+                <span
+                  className={`flex size-6 items-center justify-center rounded-full border text-[12px] ${
+                    styles.includes('solo')
+                      ? 'border-primary bg-primary text-white'
+                      : 'border-black/[0.1] bg-white text-transparent'
+                  }`}
+                >
+                  {styles.includes('solo') ? <span className="material-symbols-outlined text-[16px]">check</span> : '·'}
+                </span>
+              </div>
+              <h3 className="text-base font-extrabold text-ink">Solo</h3>
+              <p className="premium-body mt-1 text-sm">Independent tasks, virtual help, self-paced projects.</p>
+            </button>
+            <button
+              className={`flex flex-col rounded-2xl border p-5 text-left transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 md:p-6 ${
+                styles.includes('group')
+                  ? 'border-primary/40 bg-primary/8 shadow-[0_8px_24px_rgba(234,88,12,0.1)]'
+                  : 'border-black/[0.06] bg-white hover:border-primary/20'
+              }`}
+              onClick={() => toggleStyle('group')}
+              type="button"
+            >
+              <div className="mb-3 flex items-start justify-between">
+                <span
+                  className={`material-symbols-outlined text-3xl ${styles.includes('group') ? 'text-primary' : 'text-slate-400'}`}
+                >
+                  groups_3
+                </span>
+                <span
+                  className={`flex size-6 items-center justify-center rounded-full border text-[12px] ${
+                    styles.includes('group')
+                      ? 'border-primary bg-primary text-white'
+                      : 'border-black/[0.1] bg-white text-transparent'
+                  }`}
+                >
+                  {styles.includes('group') ? <span className="material-symbols-outlined text-[16px]">check</span> : '·'}
+                </span>
+              </div>
+              <h3 className="text-base font-extrabold text-ink">Group</h3>
+              <p className="premium-body mt-1 text-sm">Community events, workshops, and team gatherings.</p>
+            </button>
+          </div>
+        </section>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-primary/10 bg-white/80 p-4 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[800px] items-center justify-end gap-4">
-          <button
-            className="flex h-14 flex-1 items-center justify-center gap-2 rounded-2xl bg-primary font-black text-white shadow-lg shadow-primary/20 transition-all active:scale-[0.98] hover:bg-primary/90 sm:min-w-[240px] sm:flex-none"
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-black/[0.06] bg-white/95 p-4 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-[1600px] justify-end px-4 md:px-5">
+          <Button
+            className="h-12 w-full max-w-md justify-center gap-2 font-black"
             disabled={selectedCount === 0}
             onClick={handleContinue}
           >
             <span>Continue</span>
             <span className="material-symbols-outlined">arrow_forward</span>
-          </button>
+          </Button>
         </div>
       </div>
     </main>

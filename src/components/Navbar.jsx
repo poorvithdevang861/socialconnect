@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 
 const LOCATIONS = ['Ahmedabad', 'Pune', 'Bengaluru', 'Hyderabad']
 
 const navLinkClass = ({ isActive }) =>
-  `text-sm font-semibold transition-colors hover:text-primary ${
-    isActive ? 'text-primary' : 'text-slate-600'
+  `text-sm font-semibold tracking-[0.01em] transition-colors hover:text-primary ${
+    isActive ? 'text-primary' : 'text-white/80'
   }`
 
 function Navbar({ location = 'Ahmedabad', onLocationChange }) {
+  const { pathname } = useLocation()
+  const hideMobileChrome = pathname === '/home'
   const [mobileOpen, setMobileOpen] = useState(false)
   const [desktopOpen, setDesktopOpen] = useState(false)
   const mobileLocationRef = useRef(null)
@@ -32,13 +34,18 @@ function Navbar({ location = 'Ahmedabad', onLocationChange }) {
     }
   }, [])
 
+  const barSurface =
+    'border-b border-emerald-400/20 bg-[linear-gradient(180deg,rgba(52,211,153,0.11)_0%,rgba(16,185,129,0.05)_32%,transparent_58%),linear-gradient(180deg,rgba(31,29,27,0.86)_0%,rgba(26,23,21,0.9)_48%,rgba(18,16,14,0.92)_100%)] text-white shadow-[0_8px_24px_rgba(0,0,0,0.1),inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-sm backdrop-saturate-150'
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
-      <div className="mx-auto max-w-7xl px-3 sm:px-4 md:px-10">
-        <div className="grid h-14 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-1.5 md:hidden">
+    <header className={`sticky top-0 z-50 w-full ${barSurface}`}>
+      <div className="mx-auto w-full max-w-[1600px] page-gutter-x py-2.5 sm:py-3 md:py-3">
+        <div
+          className={`grid h-14 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-1.5 md:hidden ${hideMobileChrome ? 'hidden' : ''}`}
+        >
           <div className="relative min-w-0" ref={mobileLocationRef}>
             <button
-              className="inline-flex max-w-full items-center gap-1 rounded-xl border border-slate-200 bg-white px-2 py-1.5 text-[11px] font-semibold text-slate-800 sm:text-xs"
+              className="inline-flex max-w-full items-center gap-1 rounded-2xl border border-white/15 bg-white/10 px-2 py-1.5 text-[11px] font-semibold text-white sm:text-xs"
               onClick={() => setMobileOpen((v) => !v)}
               type="button"
               aria-expanded={mobileOpen}
@@ -46,7 +53,7 @@ function Navbar({ location = 'Ahmedabad', onLocationChange }) {
             >
               <span className="material-symbols-outlined text-base text-primary">location_on</span>
               <span className="max-w-[30vw] truncate sm:max-w-[34vw]">{location}</span>
-              <span className="material-symbols-outlined text-base text-slate-400">expand_more</span>
+              <span className="material-symbols-outlined text-base text-white/70">expand_more</span>
             </button>
             {mobileOpen ? (
               <div
@@ -88,114 +95,117 @@ function Navbar({ location = 'Ahmedabad', onLocationChange }) {
               </div>
             ) : null}
           </div>
-          <h2 className="truncate px-1 text-center text-[17px] font-semibold tracking-tight text-slate-900 sm:text-[18px]">
+          <h2 className="truncate px-1 text-center text-[17px] font-bold tracking-tight text-white sm:text-[18px]">
             CauseConnect
           </h2>
           <div className="flex justify-end">
             <Link
-              className="size-8 overflow-hidden rounded-full border border-slate-200 bg-slate-200 sm:size-9"
+              className="size-8 overflow-hidden rounded-full border border-white/20 bg-slate-200 sm:size-9"
               to="/profile"
             >
               <img
-                alt="User Profile"
+                alt="Arjun Patel"
                 className="h-full w-full object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYqJkp3U0Jx0VmBKCdbduBooOcYDvcTkeRIDcrhnAFX8fFe-SkcEqvcbx7-M9QYJ4_wWoZ4q0BQ44HMrYqm0VZi2rRp4C-AnH0dc8dysW1Ilcf97kT7An4Xwip65cOZhypRBXY7-38GkUrCS_4VAr9cHidaRkuQmge2q0yQ3ESyKCilvCLE_zvFJ-9ILwuTN3oAQmF_h23lfFMB8XWfZKZ67ZfmsGi9stdLOrGrCEYYbcYABUqH5aKWJ84DFS_WtXk-zFWbb1_mPE"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVVEg_AagAxDk1z2vF07nGovxZSKWhHZg8fr3J_WGiKl6DRxa3JexMSJxVe0SWkIZPsMQ3goHJnODZClQ9865riV1hYX6FSrH6GOzmilItiIMBdsqIUDxIcpUikSoGzwDza9EnP1QYk0L4qWtIue4TfMN9Bu6466a99GTFSHoxxqpRKdbNTDJ-4NOl0DVJVFdu-5VcKxCLw2gsO1vh8dHfJCu00tthveB03fTZwa8d_S9fTHfOOe3FlW2h78vzd2Lj4m0urvIfaKU"
               />
             </Link>
           </div>
         </div>
 
-        <div className="hidden h-16 items-center justify-between gap-4 md:flex lg:gap-6">
-          <div className="flex min-w-0 items-center gap-5 lg:gap-8">
-            <Link className="flex min-w-0 shrink-0 items-center gap-2 text-primary sm:gap-3" to="/home">
-              <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-white">
+        <div className="relative hidden h-14 md:flex md:items-center">
+          <div className="flex min-w-0 shrink-0 items-center gap-3 lg:gap-4">
+            <Link className="flex min-w-0 items-center gap-2 text-primary sm:gap-3" to="/home">
+              <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-white shadow-orange-glow">
                 <span className="material-symbols-outlined text-2xl">eco</span>
               </div>
-              <h2 className="truncate text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
+              <h2 className="hidden truncate text-lg font-bold tracking-tight text-white sm:block sm:text-xl">
                 CauseConnect
               </h2>
             </Link>
-
-            <div className="relative w-[clamp(300px,36vw,520px)] shrink-0" ref={desktopLocationRef}>
-              <div className="flex min-h-[42px] min-w-0 items-center overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm focus-within:outline-none focus-within:ring-0">
-                <button
-                  className="inline-flex shrink-0 items-center gap-1.5 px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50 lg:gap-2 lg:px-4"
-                  onClick={() => setDesktopOpen((v) => !v)}
-                  type="button"
-                  aria-expanded={desktopOpen}
-                  aria-haspopup="listbox"
-                >
-                  <span className="material-symbols-outlined text-lg text-primary">location_on</span>
-                  <span className="max-w-[5.5rem] truncate sm:max-w-[7rem]">{location}</span>
-                  <span className="material-symbols-outlined text-lg text-slate-400">expand_more</span>
-                </button>
-                <div className="h-6 w-px shrink-0 bg-slate-200" />
-                <div className="flex min-w-0 flex-1 items-center gap-2 px-2 py-2 focus-within:outline-none lg:px-3">
-                  <span className="material-symbols-outlined shrink-0 text-lg text-slate-400">search</span>
-                  <input
-                    className="min-w-0 flex-1 border-none bg-transparent text-sm placeholder:text-slate-500 outline-none ring-0 focus:border-transparent focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
-                    placeholder="Search events, causes..."
-                    type="search"
-                  />
-                </div>
-              </div>
-
-              {desktopOpen ? (
-                <div
-                  className="absolute left-0 top-[calc(100%+8px)] z-[100] w-[min(100%,20rem)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl"
-                  role="listbox"
-                >
-                  <div className="border-b border-slate-100 p-4">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                      Select city
-                    </p>
-                    <p className="mt-1 text-xs text-slate-500">Used for recommendations and “Near you”.</p>
-                  </div>
-                  <div className="p-2">
-                    {LOCATIONS.map((city) => (
-                      <button
-                        className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold transition-colors hover:bg-slate-50 ${
-                          location === city ? 'text-primary' : 'text-slate-700'
-                        }`}
-                        key={city}
-                        onClick={() => {
-                          onLocationChange?.(city)
-                          setDesktopOpen(false)
-                        }}
-                        type="button"
-                        role="option"
-                        aria-selected={location === city}
-                      >
-                        <span className="inline-flex items-center gap-2">
-                          <span className="material-symbols-outlined text-lg text-slate-400">
-                            location_city
-                          </span>
-                          {city}
-                        </span>
-                        {location === city ? (
-                          <span className="material-symbols-outlined text-lg text-primary">check</span>
-                        ) : null}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-            </div>
           </div>
 
-          <nav className="hidden shrink-0 items-center gap-6 lg:flex lg:gap-8">
-          <NavLink className={navLinkClass} to="/home">
-            Home
-          </NavLink>
-          <NavLink className={navLinkClass} to="/events">
-            Events
-          </NavLink>
-          <NavLink className={navLinkClass} to="/impact">
-            Impact
-          </NavLink>
-          <NavLink className={navLinkClass} to="/profile">
-            Profile
-          </NavLink>
+          <div
+            className="absolute left-1/2 top-1/2 w-[min(520px,calc(100vw-18rem))] max-w-[92vw] -translate-x-1/2 -translate-y-1/2 sm:w-[min(520px,calc(100vw-22rem))] lg:w-[min(560px,calc(100vw-28rem))]"
+            ref={desktopLocationRef}
+          >
+            <div className="flex min-h-[44px] min-w-0 items-center overflow-hidden rounded-2xl border border-white/15 bg-white/10 shadow-card focus-within:ring-2 focus-within:ring-primary/25">
+              <button
+                className="inline-flex shrink-0 items-center gap-1.5 px-3 py-2 text-sm font-semibold text-white hover:bg-white/10 lg:gap-2 lg:px-4"
+                onClick={() => setDesktopOpen((v) => !v)}
+                type="button"
+                aria-expanded={desktopOpen}
+                aria-haspopup="listbox"
+              >
+                <span className="material-symbols-outlined text-lg text-primary">location_on</span>
+                <span className="max-w-[4.5rem] truncate sm:max-w-[7rem]">{location}</span>
+                <span className="material-symbols-outlined text-lg text-white/65">expand_more</span>
+              </button>
+              <div className="h-6 w-px shrink-0 bg-white/20" />
+              <div className="flex min-w-0 flex-1 items-center gap-2 px-2 py-2 focus-within:outline-none lg:px-3">
+                <span className="material-symbols-outlined shrink-0 text-lg text-white/70">search</span>
+                <input
+                  className="min-w-0 flex-1 border-none bg-transparent text-sm text-white placeholder:text-white/60 outline-none ring-0 focus:border-transparent focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+                  placeholder="Search events, causes..."
+                  type="search"
+                />
+              </div>
+            </div>
+
+            {desktopOpen ? (
+              <div
+                className="absolute left-0 top-[calc(100%+8px)] z-[100] w-[min(100%,20rem)] overflow-hidden rounded-2xl border border-black/[0.06] bg-white shadow-xl"
+                role="listbox"
+              >
+                <div className="border-b border-slate-100 p-4">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    Select city
+                  </p>
+                  <p className="mt-1 text-xs text-slate-500">Used for recommendations and “Near you”.</p>
+                </div>
+                <div className="p-2">
+                  {LOCATIONS.map((city) => (
+                    <button
+                      className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold transition-colors hover:bg-slate-50 ${
+                        location === city ? 'text-primary' : 'text-slate-700'
+                      }`}
+                      key={city}
+                      onClick={() => {
+                        onLocationChange?.(city)
+                        setDesktopOpen(false)
+                      }}
+                      type="button"
+                      role="option"
+                      aria-selected={location === city}
+                    >
+                      <span className="inline-flex items-center gap-2">
+                        <span className="material-symbols-outlined text-lg text-slate-400">
+                          location_city
+                        </span>
+                        {city}
+                      </span>
+                      {location === city ? (
+                        <span className="material-symbols-outlined text-lg text-primary">check</span>
+                      ) : null}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+          </div>
+
+          <nav className="ml-auto hidden shrink-0 items-center gap-5 lg:flex lg:gap-8">
+            <NavLink className={navLinkClass} to="/home">
+              Home
+            </NavLink>
+            <NavLink className={navLinkClass} to="/events">
+              Events
+            </NavLink>
+            <NavLink className={navLinkClass} to="/impact">
+              Impact
+            </NavLink>
+            <NavLink className={navLinkClass} to="/profile">
+              Profile
+            </NavLink>
           </nav>
         </div>
       </div>
