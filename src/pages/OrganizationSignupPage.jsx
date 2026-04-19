@@ -60,7 +60,7 @@ function OrganizationSignupPage() {
           </p>
         </div>
 
-        <div className="mx-auto flex w-full min-w-0 max-w-md flex-col justify-center pb-1">
+        <div className="mx-auto flex w-full min-w-0 max-w-md flex-col justify-start pb-1 pt-0 lg:justify-center lg:pt-0">
           <div className="cc-card cc-card-pad-lg max-w-full shadow-[0_10px_28px_rgba(15,15,16,0.08)]">
             <div className="mb-6 flex items-center gap-2 lg:hidden">
               <div className="flex size-10 items-center justify-center rounded-xl bg-shell text-brand-yellow shadow-premium">
