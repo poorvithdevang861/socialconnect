@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Button from '../components/Button'
+import FriendAvatar from '../components/FriendAvatar'
 import ProfileCalendarMonth from '../components/ProfileCalendarMonth'
 import SectionHeader from '../components/SectionHeader'
 import ShareProfileModal from '../components/ShareProfileModal'
@@ -106,6 +107,67 @@ function ProfilePage() {
             </p>
           </div>
 
+          <div className="cc-card cc-card-pad-lg">
+            <h3 className="mb-3 flex items-center gap-2 text-sm font-bold text-slate-900">
+              <span className="material-symbols-outlined text-primary">group</span>
+              Volunteer friends
+            </h3>
+            <p className="text-sm text-slate-600">
+              People you add appear on event pages as possible co-volunteers. Nothing is suggested automatically.
+            </p>
+            {friends.length > 0 ? (
+              <ul className="mt-4 max-h-48 space-y-2 overflow-y-auto pr-1">
+                {friends.slice(0, 5).map((f) => (
+                  <li className="flex items-center gap-2" key={f.id}>
+                    <FriendAvatar avatar={f.avatar} name={f.name} />
+                    <p className="min-w-0 flex-1 truncate text-sm font-bold text-slate-900">{f.name}</p>
+                    <button
+                      className="shrink-0 rounded-lg p-1 text-slate-400 transition-colors hover:bg-slate-50 hover:text-red-600"
+                      onClick={() => removeFriend(f.id)}
+                      type="button"
+                      aria-label={`Remove ${f.name}`}
+                    >
+                      <span className="material-symbols-outlined text-[18px]">person_remove</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-3 text-sm font-medium text-slate-500">You haven&apos;t added anyone yet.</p>
+            )}
+            {friends.length > 5 ? (
+              <p className="mt-2 text-xs text-slate-500">Showing 5 of {friends.length}.</p>
+            ) : null}
+            <form className="mt-4 space-y-2" onSubmit={handleAddFriendFromProfile}>
+              <label className="sr-only" htmlFor="profile-friend-name-sidebar">
+                Friend name
+              </label>
+              <div className="flex flex-col gap-2">
+                <input
+                  className="h-10 min-w-0 rounded-xl border border-black/[0.08] bg-background-light px-3 text-sm text-ink outline-none focus:border-primary/40 focus:ring-2 focus:ring-primary/25"
+                  id="profile-friend-name-sidebar"
+                  onChange={(ev) => {
+                    setFriendName(ev.target.value)
+                    setFriendAddError('')
+                  }}
+                  placeholder="Add by name"
+                  value={friendName}
+                />
+                <Button className="h-10 justify-center px-4 py-0 text-sm font-bold" type="submit">
+                  Add
+                </Button>
+              </div>
+              {friendAddError ? <p className="text-xs font-medium text-red-600">{friendAddError}</p> : null}
+            </form>
+            <Link
+              className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline"
+              to="/friends"
+            >
+              Manage friends
+              <span className="material-symbols-outlined text-sm">arrow_forward</span>
+            </Link>
+          </div>
+
           <div className="cc-card cc-card-pad">
             <div className="space-y-1">
               {[
@@ -144,11 +206,12 @@ function ProfilePage() {
         </aside>
 
         <div className="space-y-8 lg:col-span-9">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
               ['Total Events', '12', '+20% this month', 'trending_up'],
               ['Hours Volunteered', '48', '+15% this month', 'trending_up'],
               ['Impact Score', '850', 'Global Top 5%', 'workspace_premium'],
+              ['NGOs Supported', '4', 'Active partnerships', 'corporate_fare'],
             ].map(([label, value, trend, icon]) => (
               <div
                 className="@container cc-card cc-card-pad group relative flex flex-col items-center justify-center overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-md"
@@ -186,187 +249,67 @@ function ProfilePage() {
           </div>
 
           {activeTab === 'activity' ? (
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-              <div className="space-y-4 lg:col-span-2">
-                <h3 className="flex items-center gap-2 text-lg font-bold text-slate-900">
-                  Recent Contributions
-                </h3>
-                <div className="space-y-3">
-                  {[
-                    [
-                      'forest',
-                      'bg-primary/10',
-                      'text-primary',
-                      'Planted 10 trees at Central Park',
-                      'Oct 12, 2023',
-                      'Environmental conservation project focused on urban canopy restoration.',
-                      '+50 Impact Points',
-                      '4 Hours',
-                    ],
-                    [
-                      'school',
-                      'bg-primary/10',
-                      'text-primary',
-                      'Tutored 5 students at Metro Library',
-                      'Oct 05, 2023',
-                      'Provided mathematics and science support for middle school students from underprivileged areas.',
-                      '+80 Impact Points',
-                      '3 Hours',
-                    ],
-                    [
-                      'restaurant',
-                      'bg-orange-100',
-                      'text-orange-600',
-                      'Meal Prep for City Shelter',
-                      'Sep 28, 2023',
-                      'Assisted kitchen staff in preparing over 200 balanced meals for community residents.',
-                      '+45 Impact Points',
-                      '5 Hours',
-                    ],
-                  ].map(([icon, wrapClass, iconClass, title, date, desc, points, hours]) => (
-                    <div
-                      className="cc-card cc-card-pad flex items-start gap-4 transition-all hover:shadow-md"
-                      key={title}
-                    >
-                      <div className={`rounded-lg p-2 ${wrapClass}`}>
-                        <span className={`material-symbols-outlined ${iconClass}`}>{icon}</span>
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-start justify-between">
-                          <h4 className="text-sm font-bold text-slate-900">{title}</h4>
-                          <span className="text-xs text-slate-400">{date}</span>
-                        </div>
-                        <p className="mt-1 text-xs text-slate-500">{desc}</p>
-                        <div className="mt-2 flex items-center gap-2">
-                          <span className="rounded bg-slate-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-tighter text-slate-500">
-                            {points}
-                          </span>
-                          <span className="rounded bg-slate-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-tighter text-slate-500">
-                            {hours}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="flex items-center gap-2 text-lg font-bold text-slate-900">Volunteer friends</h3>
-                <div className="cc-card cc-card-pad-lg">
-                  <p className="text-sm text-slate-600">
-                    Only people you add here are shown on event pages as people you might volunteer with. Nothing is
-                    suggested for you automatically.
-                  </p>
-                  {friends.length > 0 ? (
-                    <ul className="mt-4 space-y-3">
-                      {friends.slice(0, 5).map((f) => (
-                        <li className="flex items-center gap-3" key={f.id}>
-                          <img alt="" className="size-10 shrink-0 rounded-full object-cover ring-2 ring-white" src={f.avatar} />
-                          <p className="min-w-0 flex-1 truncate font-bold text-slate-900">{f.name}</p>
-                          <button
-                            className="shrink-0 rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-50 hover:text-red-600"
-                            onClick={() => removeFriend(f.id)}
-                            type="button"
-                            aria-label={`Remove ${f.name}`}
-                          >
-                            <span className="material-symbols-outlined text-[20px]">person_remove</span>
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="mt-3 text-sm font-medium text-slate-500">You haven&apos;t added anyone yet.</p>
-                  )}
-                  {friends.length > 5 ? (
-                    <p className="mt-2 text-xs text-slate-500">Showing 5 of {friends.length}.</p>
-                  ) : null}
-                  <form className="mt-4 space-y-2" onSubmit={handleAddFriendFromProfile}>
-                    <label className="sr-only" htmlFor="profile-friend-name">
-                      Friend name
-                    </label>
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
-                      <input
-                        className="h-11 min-w-0 flex-1 rounded-xl border border-black/[0.08] bg-background-light px-3 text-sm text-ink outline-none focus:border-primary/40 focus:ring-2 focus:ring-primary/25"
-                        id="profile-friend-name"
-                        onChange={(ev) => {
-                          setFriendName(ev.target.value)
-                          setFriendAddError('')
-                        }}
-                        placeholder="Add by name"
-                        value={friendName}
-                      />
-                      <Button className="h-11 shrink-0 justify-center px-4 py-0 text-sm font-bold" type="submit">
-                        Add
-                      </Button>
-                    </div>
-                    {friendAddError ? <p className="text-xs font-medium text-red-600">{friendAddError}</p> : null}
-                  </form>
-                  <Link
-                    className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-primary hover:underline"
-                    to="/friends"
+            <div className="space-y-4">
+              <h3 className="flex items-center gap-2 text-lg font-bold text-slate-900">
+                Recent Contributions
+              </h3>
+              <div className="space-y-3">
+                {[
+                  [
+                    'forest',
+                    'bg-primary/10',
+                    'text-primary',
+                    'Planted 10 trees at Central Park',
+                    '12 Apr, 2026',
+                    'Environmental conservation project focused on urban canopy restoration.',
+                    '+50 Impact Points',
+                    '4 Hours',
+                  ],
+                  [
+                    'school',
+                    'bg-primary/10',
+                    'text-primary',
+                    'Tutored 5 students at Metro Library',
+                    '8 Jul, 2026',
+                    'Provided mathematics and science support for middle school students from underprivileged areas.',
+                    '+80 Impact Points',
+                    '3 Hours',
+                  ],
+                  [
+                    'restaurant',
+                    'bg-orange-100',
+                    'text-orange-600',
+                    'Meal Prep for City Shelter',
+                    '22 Apr, 2026',
+                    'Assisted kitchen staff in preparing over 200 balanced meals for community residents.',
+                    '+45 Impact Points',
+                    '5 Hours',
+                  ],
+                ].map(([icon, wrapClass, iconClass, title, date, desc, points, hours]) => (
+                  <div
+                    className="cc-card cc-card-pad flex items-start gap-4 transition-all hover:shadow-md"
+                    key={title}
                   >
-                    Manage friends &amp; photo URLs
-                    <span className="material-symbols-outlined text-base">arrow_forward</span>
-                  </Link>
-                </div>
-
-                <h3 className="flex items-center gap-2 text-lg font-bold text-slate-900">Earned Badges</h3>
-                <div className="cc-card cc-card-pad-lg">
-                  <div className="grid grid-cols-2 gap-6">
-                    {[
-                      ['eco', 'Eco Warrior', 'Environmental champion', 'emerald'],
-                      ['menu_book', 'Education Ally', 'Dedicated mentor', 'blue'],
-                      ['volunteer_activism', 'Community Hero', 'Local leader badge', 'primary'],
-                      ['emergency', 'First Responder', 'Locked', 'slate'],
-                    ].map(([icon, title, sub, color]) => (
-                      <div className="flex flex-col items-center text-center" key={title}>
-                        <div
-                          className={`mb-2 flex h-16 w-16 items-center justify-center rounded-full border-2 ${
-                            color === 'emerald'
-                              ? 'border-primary bg-primary/10'
-                              : color === 'blue'
-                                ? 'border-primary-dark bg-primary/10'
-                                : color === 'primary'
-                                  ? 'border-primary bg-primary/10'
-                                  : 'border-slate-400 bg-slate-500/10'
-                          }`}
-                        >
-                          <span
-                            className={`material-symbols-outlined text-3xl ${
-                              color === 'emerald'
-                                ? 'text-primary'
-                                : color === 'blue'
-                                  ? 'text-primary-dark'
-                                  : color === 'primary'
-                                    ? 'text-primary'
-                                    : 'text-slate-400'
-                            }`}
-                          >
-                            {icon}
-                          </span>
-                        </div>
-                        <p className="text-[10px] font-bold uppercase tracking-tight text-slate-900">{title}</p>
-                        <p className="mt-1 text-[9px] leading-tight text-slate-500">{sub}</p>
+                    <div className={`rounded-lg p-2 ${wrapClass}`}>
+                      <span className={`material-symbols-outlined ${iconClass}`}>{icon}</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-start justify-between">
+                        <h4 className="text-sm font-bold text-slate-900">{title}</h4>
+                        <span className="text-xs text-slate-400">{date}</span>
                       </div>
-                    ))}
+                      <p className="mt-1 text-xs text-slate-500">{desc}</p>
+                      <div className="mt-2 flex items-center gap-2">
+                        <span className="rounded bg-slate-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-tighter text-slate-500">
+                          {points}
+                        </span>
+                        <span className="rounded bg-slate-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-tighter text-slate-500">
+                          {hours}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
-                  <div className="mb-2 flex items-center gap-2">
-                    <span className="material-symbols-outlined text-sm text-primary">auto_graph</span>
-                    <span className="text-xs font-bold uppercase text-primary">Impact Growth</span>
-                  </div>
-                  <div className="flex h-16 w-full items-end gap-1 px-2">
-                    <div className="h-4 flex-1 rounded-t-sm bg-primary/30 transition-all hover:h-5" />
-                    <div className="h-8 flex-1 rounded-t-sm bg-primary/40 transition-all hover:h-9" />
-                    <div className="h-6 flex-1 rounded-t-sm bg-primary/50 transition-all hover:h-7" />
-                    <div className="h-10 flex-1 rounded-t-sm bg-primary/60 transition-all hover:h-11" />
-                    <div className="h-12 flex-1 rounded-t-sm bg-primary/70 transition-all hover:h-14" />
-                    <div className="h-14 flex-1 rounded-t-sm bg-primary/80 transition-all hover:h-15" />
-                    <div className="h-16 flex-1 rounded-t-sm bg-primary transition-all hover:h-[68px]" />
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           ) : null}
@@ -378,15 +321,15 @@ function ProfilePage() {
                 My calendar
               </h3>
               <p className="text-sm text-slate-600">
-                Days with a <span className="font-semibold text-primary">saved</span> event are highlighted. Tap a day
-                to see details and open Google Calendar.
+                Registered events appear here automatically. Days with an event are highlighted — hover a day for a
+                soft focus, or tap to see details below.
               </p>
               {calendarEntries.length === 0 ? (
                 <div className="cc-card cc-card-pad-lg text-center">
                   <span className="material-symbols-outlined mb-2 text-4xl text-slate-300">calendar_month</span>
-                  <p className="font-medium text-slate-700">Nothing saved yet</p>
+                  <p className="font-medium text-slate-700">Nothing on your calendar yet</p>
                   <p className="mt-1 text-sm text-slate-500">
-                    Use &quot;Add to my calendar&quot; on the success screen or on an event in My Events.
+                    Join an event to see it here. You can also add dates from My Events or the success screen.
                   </p>
                 </div>
               ) : (

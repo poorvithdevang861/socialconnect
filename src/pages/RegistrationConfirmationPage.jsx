@@ -60,8 +60,8 @@ function RegistrationConfirmationPage() {
               <div className="h-1.5 w-full bg-gradient-to-r from-primary to-orange-400" />
               <div className="p-5 md:p-7 lg:p-8">
                 {/* Grid 1 — date & commitment */}
-                <div className="grid grid-cols-1 gap-5 border-b border-slate-100 pb-6 sm:grid-cols-2 sm:gap-6 md:gap-8">
-                  <div className="flex min-w-0 gap-4">
+                <div className="grid grid-cols-1 gap-5 border-b border-slate-100 pb-6 sm:grid-cols-2 sm:gap-6 md:gap-8 lg:grid-cols-4">
+                  <div className="flex min-w-0 gap-4 lg:col-span-2">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/15">
                       <span className="material-symbols-outlined leading-none">calendar_month</span>
                     </div>
@@ -69,11 +69,11 @@ function RegistrationConfirmationPage() {
                       <p className="mb-1 text-[11px] font-bold uppercase tracking-widest text-slate-500">
                         Date &amp; Time
                       </p>
-                      <p className="text-lg font-extrabold leading-snug text-slate-900">Sat, 24 Oct, 2026</p>
-                      <p className="mt-0.5 text-sm text-slate-700">08:00 AM – 12:00 PM</p>
+                      <p className="text-lg font-extrabold leading-snug text-slate-900">Sat, 18 Jul, 2026</p>
+                      <p className="mt-0.5 text-sm text-slate-700">09:00 AM – 12:00 PM</p>
                     </div>
                   </div>
-                  <div className="flex min-w-0 gap-4">
+                  <div className="flex min-w-0 gap-4 lg:col-span-2">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/15">
                       <span className="material-symbols-outlined leading-none">schedule</span>
                     </div>
@@ -81,18 +81,18 @@ function RegistrationConfirmationPage() {
                       <p className="mb-1 text-[11px] font-bold uppercase tracking-widest text-slate-500">
                         Time Commitment
                       </p>
-                      <p className="text-lg font-extrabold leading-snug text-slate-900">4 Hours</p>
+                      <p className="text-lg font-extrabold leading-snug text-slate-900">3 Hours</p>
                       <p className="mt-0.5 text-sm text-slate-700">One-time volunteer session</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Grid 2 — left: what to bring + friends · right: safety */}
-                <div className="grid grid-cols-1 gap-6 border-b border-slate-100 py-6 md:py-7 lg:grid-cols-2 lg:gap-8">
-                  <div className="min-w-0 space-y-6 lg:space-y-7">
+                <div className="grid grid-cols-1 gap-6 border-b border-slate-100 py-6 md:py-7 lg:grid-cols-4 lg:gap-8">
+                  <div className="min-w-0 space-y-6 lg:col-span-2 lg:space-y-7">
                     <div>
                       <SectionHeading icon="inventory_2">What to bring</SectionHeading>
-                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-3">
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 sm:gap-3">
                         {[
                           ['water_drop', 'Water bottle'],
                           ['footprint', 'Sturdy shoes'],
@@ -115,7 +115,7 @@ function RegistrationConfirmationPage() {
                       </div>
                     </div>
                   </div>
-                  <div className="min-w-0 lg:border-l lg:border-slate-100 lg:pl-8">
+                  <div className="min-w-0 lg:col-span-2 lg:border-l lg:border-slate-100 lg:pl-8">
                     <SectionHeading icon="health_and_safety">Safety &amp; guidelines</SectionHeading>
                     <ul className="grid gap-3">
                       {[

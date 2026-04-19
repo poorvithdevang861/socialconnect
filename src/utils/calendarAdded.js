@@ -11,8 +11,8 @@ export const CALENDAR_EVENTS_BY_ID = {
     id: GREEN_EARTH_EVENT.id,
     title: GREEN_EARTH_EVENT.title,
     location: GREEN_EARTH_EVENT.location,
-    startIso: '2026-10-24T09:00:00',
-    endIso: '2026-10-24T12:00:00',
+    startIso: '2026-07-18T09:00:00',
+    endIso: '2026-07-18T12:00:00',
     details:
       'Volunteering with CauseConnect — Green Earth Tree Plantation. Bring a water bottle and sturdy shoes.',
   },
@@ -48,7 +48,7 @@ export function buildGoogleCalendarUrl(ev) {
   return `https://calendar.google.com/calendar/render?${params.toString()}`
 }
 
-/** @param {{ id: string, title: string, location: string, dateTime?: string }} reg */
+/** @param {{ id: string, title: string, location: string, dateTime?: string, startIso?: string, endIso?: string }} reg */
 export function calendarMetaFromRegistration(reg) {
   const known = CALENDAR_EVENTS_BY_ID[reg.id]
   if (known) return known
@@ -56,8 +56,8 @@ export function calendarMetaFromRegistration(reg) {
     id: reg.id,
     title: reg.title,
     location: reg.location,
-    startIso: '2026-10-24T09:00:00',
-    endIso: '2026-10-24T12:00:00',
+    startIso: reg.startIso ?? '2026-07-18T09:00:00',
+    endIso: reg.endIso ?? '2026-07-18T12:00:00',
     details: `Volunteering: ${reg.title}`,
   }
 }
@@ -122,14 +122,30 @@ export function openGoogleCalendarFromRegistration(reg) {
 
 /** @returns {CalendarEventMeta[]} */
 export function getCalendarEntriesForProfile() {
-  const ids = getCalendarAddedIds()
   const registered = getRegisteredEvents()
-  return ids
-    .map((id) => {
-      const meta = CALENDAR_EVENTS_BY_ID[id]
-      if (meta) return meta
-      const reg = registered.find((r) => r.id === id)
-      return reg ? calendarMetaFromRegistration(reg) : null
-    })
-    .filter(Boolean)
+  const calIds = getCalendarAddedIds()
+  const byId = new Map()
+
+  for (const reg of registered) {
+    const meta = calendarMetaFromRegistration(reg)
+    if (meta) byId.set(meta.id, meta)
+  }
+
+  for (const id of calIds) {
+    if (byId.has(id)) continue
+    const meta = CALENDAR_EVENTS_BY_ID[id]
+    if (meta) {
+      byId.set(id, meta)
+      continue
+    }
+    const reg = registered.find((r) => r.id === id)
+    if (reg) {
+      const m = calendarMetaFromRegistration(reg)
+      if (m) byId.set(id, m)
+    }
+  }
+
+  return [...byId.values()].sort(
+    (a, b) => new Date(a.startIso).getTime() - new Date(b.startIso).getTime(),
+  )
 }

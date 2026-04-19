@@ -1,5 +1,4 @@
-import { useMemo, useState } from 'react'
-import { buildGoogleCalendarUrl } from '../utils/calendarAdded'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
@@ -34,6 +33,19 @@ function ProfileCalendarMonth({ events }) {
     return new Date(d.getFullYear(), d.getMonth(), 1)
   })
   const [selected, setSelected] = useState(() => new Date())
+  const syncedMonth = useRef(false)
+
+  useEffect(() => {
+    if (events.length === 0) {
+      syncedMonth.current = false
+      return
+    }
+    if (syncedMonth.current) return
+    const d = new Date(events[0].startIso)
+    setCursor(new Date(d.getFullYear(), d.getMonth(), 1))
+    setSelected(new Date(d.getFullYear(), d.getMonth(), d.getDate()))
+    syncedMonth.current = true
+  }, [events])
 
   const byDay = useMemo(() => eventDayKeys(events), [events])
 
@@ -66,41 +78,28 @@ function ProfileCalendarMonth({ events }) {
   const selectedEvents = byDay.get(selectedKey) ?? []
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h3 className="text-lg font-bold text-slate-900">
+    <div className="group/cal space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-0.5">
+        <button
+          className="flex size-8 shrink-0 items-center justify-center rounded-lg text-slate-400 opacity-70 transition-all hover:bg-slate-100 hover:text-slate-700 hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 group-hover/cal:opacity-90"
+          onClick={goPrev}
+          type="button"
+          aria-label="Previous month"
+        >
+          <span className="material-symbols-outlined text-xl leading-none">chevron_left</span>
+        </button>
+        <h3 className="min-w-0 flex-1 text-center text-lg font-bold text-slate-900">
           {cursor.toLocaleString(undefined, { month: 'long', year: 'numeric' })}
         </h3>
-        <div className="flex items-center gap-1">
-          <button
-            className="inline-flex size-10 items-center justify-center rounded-xl border border-black/[0.08] bg-white text-slate-700 transition-colors hover:bg-slate-50"
-            onClick={goPrev}
-            type="button"
-            aria-label="Previous month"
-          >
-            <span className="material-symbols-outlined text-xl">chevron_left</span>
-          </button>
-          <button
-            className="inline-flex size-10 items-center justify-center rounded-xl border border-black/[0.08] bg-white text-slate-700 transition-colors hover:bg-slate-50"
-            onClick={goNext}
-            type="button"
-            aria-label="Next month"
-          >
-            <span className="material-symbols-outlined text-xl">chevron_right</span>
-          </button>
-        </div>
+        <button
+          className="flex size-8 shrink-0 items-center justify-center rounded-lg text-slate-400 opacity-70 transition-all hover:bg-slate-100 hover:text-slate-700 hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 group-hover/cal:opacity-90"
+          onClick={goNext}
+          type="button"
+          aria-label="Next month"
+        >
+          <span className="material-symbols-outlined text-xl leading-none">chevron_right</span>
+        </button>
       </div>
-
-      <p className="flex flex-wrap items-center gap-3 text-xs text-slate-500">
-        <span className="inline-flex items-center gap-1.5">
-          <span className="inline-block size-3 rounded-sm bg-primary/25 ring-2 ring-primary/50" />
-          Day with a saved event
-        </span>
-        <span className="inline-flex items-center gap-1.5">
-          <span className="inline-block size-3 rounded-sm border-2 border-primary" />
-          Selected day
-        </span>
-      </p>
 
       <div className="overflow-hidden rounded-2xl border border-black/[0.08] bg-white">
         <div className="grid grid-cols-7 border-b border-black/[0.06] bg-slate-50/90">
@@ -121,9 +120,9 @@ function ProfileCalendarMonth({ events }) {
             const isSelected = sameDay(date, selected)
             return (
               <button
-                className={`flex min-h-[72px] flex-col items-stretch border border-transparent bg-white p-1.5 text-left transition-colors hover:bg-slate-50/90 sm:min-h-[80px] sm:p-2 ${
-                  isSelected ? 'z-[1] ring-2 ring-primary ring-inset' : ''
-                } ${hasSaved ? 'bg-primary/[0.12]' : ''}`}
+                className={`flex min-h-[72px] flex-col items-stretch rounded-md border border-transparent bg-white p-1.5 text-left transition-colors duration-150 hover:border-primary/15 hover:bg-primary/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25 sm:min-h-[80px] sm:p-2 ${
+                  isSelected ? 'bg-primary/[0.06] ring-1 ring-inset ring-primary/25' : ''
+                } ${hasSaved && !isSelected ? 'bg-primary/[0.09]' : ''}`}
                 key={cell.key}
                 onClick={() => setSelected(new Date(date))}
                 type="button"
@@ -157,7 +156,7 @@ function ProfileCalendarMonth({ events }) {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-black/[0.08] bg-slate-50/80 p-4">
+      <div className="rounded-2xl border border-black/[0.06] bg-slate-50/80 p-4">
         <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
           {selected.toLocaleDateString(undefined, {
             weekday: 'long',
@@ -167,15 +166,15 @@ function ProfileCalendarMonth({ events }) {
           })}
         </p>
         {selectedEvents.length === 0 ? (
-          <p className="mt-2 text-sm text-slate-600">No saved events on this day.</p>
+          <p className="mt-2 text-sm text-slate-600">No events on this day.</p>
         ) : (
           <ul className="mt-3 space-y-3">
             {selectedEvents.map((ev) => (
-              <li className="rounded-xl border border-primary/25 bg-white p-3 shadow-sm" key={ev.id}>
+              <li className="rounded-xl border border-primary/20 bg-white p-3 shadow-sm" key={ev.id}>
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   <p className="font-bold text-slate-900">{ev.title}</p>
-                  <span className="shrink-0 rounded-full bg-primary/15 px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-primary">
-                    Saved
+                  <span className="shrink-0 rounded-full bg-primary/12 px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-primary">
+                    On your calendar
                   </span>
                 </div>
                 <p className="mt-1 text-sm text-slate-600">{ev.location}</p>
@@ -190,15 +189,6 @@ function ProfileCalendarMonth({ events }) {
                     minute: '2-digit',
                   })}
                 </p>
-                <a
-                  className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-primary hover:underline"
-                  href={buildGoogleCalendarUrl(ev)}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Open in Google Calendar
-                  <span className="material-symbols-outlined text-base">open_in_new</span>
-                </a>
               </li>
             ))}
           </ul>

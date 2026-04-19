@@ -53,8 +53,8 @@ function ImpactPage() {
           }
         />
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          <section className="cc-card cc-card-pad-lg group relative overflow-hidden lg:col-span-2">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
+          <section className="cc-card cc-card-pad-lg group relative overflow-hidden lg:col-span-3">
             <div className="absolute -right-32 -top-32 h-64 w-64 rounded-full bg-primary/5 blur-3xl transition-colors group-hover:bg-primary/10" />
             <div className="relative z-10">
               <div className="mb-8 flex items-start justify-between">
@@ -87,7 +87,7 @@ function ImpactPage() {
             </div>
           </section>
 
-          <aside className="cc-card flex flex-col overflow-hidden">
+          <aside className="cc-card flex flex-col overflow-hidden lg:col-span-1">
             <div className="relative h-40">
               <img
                 alt="Reforestation Event"
@@ -118,7 +118,7 @@ function ImpactPage() {
           </aside>
         </div>
 
-        <section className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
+        <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
           {[
             { label: 'Events Completed', value: '12', icon: 'event_available', tone: 'primary' },
             { label: 'Causes Supported', value: '5', icon: 'favorite', tone: 'success' },
@@ -150,51 +150,89 @@ function ImpactPage() {
           })}
         </section>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          <section className="cc-card cc-card-pad-lg lg:col-span-2">
-              <div className="mb-10 flex items-center justify-between gap-3 max-w-420:stack">
-              <h2 className="text-xl font-bold text-slate-900">Monthly Activity</h2>
-              <div className="flex gap-2">
-                <button
-                  className={`rounded px-3 py-1 text-xs font-bold ${
-                    range === 'half'
-                      ? 'bg-primary text-white shadow-md shadow-primary/20'
-                      : 'bg-slate-100 text-slate-500'
-                  }`}
-                  onClick={() => setRange('half')}
-                  type="button"
-                >
-                  6 Months
-                </button>
-                <button
-                  className={`rounded px-3 py-1 text-xs font-bold ${
-                    range === 'year'
-                      ? 'bg-primary text-white shadow-md shadow-primary/20'
-                      : 'bg-slate-100 text-slate-500'
-                  }`}
-                  onClick={() => setRange('year')}
-                  type="button"
-                >
-                  1 Year
-                </button>
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
+          <section className="rounded-2xl border border-primary/20 bg-primary/[0.04] p-5 sm:p-6 lg:col-span-3">
+            <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-primary">calendar_month</span>
+                <h2 className="text-lg font-extrabold text-slate-900">Monthly activity</h2>
               </div>
+              <p className="text-sm text-slate-600 sm:max-w-xs sm:text-right">
+                Hours volunteered by month — summary stats below reflect the selected range.
+              </p>
             </div>
 
-            <div className="flex h-48 w-full items-end justify-between gap-2 px-2 md:gap-4">
-              {months.map((m) => (
-                <div className="flex flex-1 flex-col items-center gap-2" key={m.label}>
-                  <div className={`relative w-full rounded-t-lg bg-slate-100 ${m.height}`}>
-                    <div
-                      className={`absolute bottom-0 w-full rounded-t-lg transition-colors ${m.strength} h-full`}
-                    />
+            <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {[
+                { label: 'Hours (range)', value: range === 'year' ? '42' : '18', sub: 'total volunteer time', icon: 'schedule' },
+                { label: 'Sessions', value: range === 'year' ? '14' : '6', sub: 'events logged', icon: 'event' },
+                { label: 'Peak month', value: 'Apr', sub: '8 hours', icon: 'trending_up' },
+                { label: 'Avg / month', value: range === 'year' ? '6' : '3', sub: 'hours', icon: 'calendar_view_month' },
+              ].map((s) => (
+                <div
+                  className="rounded-xl border border-primary/15 bg-white/90 px-3 py-3 shadow-sm ring-1 ring-black/[0.04]"
+                  key={s.label}
+                >
+                  <div className="flex items-center gap-1.5 text-primary">
+                    <span className="material-symbols-outlined text-[18px]">{s.icon}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wide text-slate-500">{s.label}</span>
                   </div>
-                  <span className="text-[10px] font-bold uppercase text-slate-400">{m.label}</span>
+                  <p className="mt-1 text-2xl font-black text-slate-900">{s.value}</p>
+                  <p className="text-[11px] text-slate-500">{s.sub}</p>
                 </div>
               ))}
             </div>
+
+            <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 sm:p-5">
+              <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-sm text-primary">show_chart</span>
+                  <span className="text-xs font-bold uppercase tracking-wide text-primary">Hours by month</span>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    className={`rounded-full px-3 py-1.5 text-xs font-bold transition-colors ${
+                      range === 'half'
+                        ? 'bg-primary text-white shadow-md shadow-primary/20'
+                        : 'bg-white/80 text-slate-600 ring-1 ring-black/[0.06] hover:bg-white'
+                    }`}
+                    onClick={() => setRange('half')}
+                    type="button"
+                  >
+                    6 months
+                  </button>
+                  <button
+                    className={`rounded-full px-3 py-1.5 text-xs font-bold transition-colors ${
+                      range === 'year'
+                        ? 'bg-primary text-white shadow-md shadow-primary/20'
+                        : 'bg-white/80 text-slate-600 ring-1 ring-black/[0.06] hover:bg-white'
+                    }`}
+                    onClick={() => setRange('year')}
+                    type="button"
+                  >
+                    1 year
+                  </button>
+                </div>
+              </div>
+              <div className="flex h-48 w-full items-end justify-between gap-1.5 px-1 sm:gap-2 md:gap-3">
+                {months.map((m) => (
+                  <div className="flex min-w-0 flex-1 flex-col items-center gap-2" key={m.label}>
+                    <div className={`relative w-full rounded-t-md bg-slate-100/90 ${m.height}`}>
+                      <div
+                        className={`absolute bottom-0 w-full rounded-t-md transition-colors ${m.strength} h-full`}
+                      />
+                    </div>
+                    <span className="text-[10px] font-bold uppercase text-slate-500">{m.label}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-3 text-xs text-slate-500">
+                Tap a range to compare — peaks show when you volunteered most.
+              </p>
+            </div>
           </section>
 
-          <section className="cc-card cc-card-pad-lg flex flex-col gap-6 overflow-hidden">
+          <section className="cc-card cc-card-pad-lg flex flex-col gap-6 overflow-hidden lg:col-span-1">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold text-slate-900">Achievements</h2>
               <button className="text-xs font-bold uppercase tracking-widest text-primary hover:underline" type="button">

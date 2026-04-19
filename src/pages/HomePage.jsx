@@ -182,7 +182,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         title: 'Green Earth Tree Plantation',
         cause: 'Environment',
         desc: "Help us restore the green cover of Ahmedabad. We're planting 500 indigenous saplings.",
-        dateShort: 'July 15',
+        dateShort: 'April 12',
         joined: '50+ Joined',
         openings: '12 Openings',
         verified: true,
@@ -207,7 +207,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         title: 'Weekend Tutoring',
         cause: 'Education',
         desc: 'Help underprivileged children with their weekend lessons.',
-        dateShort: 'July 20',
+        dateShort: 'April 20',
         joined: '15 Joined',
         openings: '5 Openings',
         rating: 4.4,
@@ -231,7 +231,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         title: 'Community Kitchen',
         cause: 'Food',
         desc: 'Help prepare and distribute meals to those in need this weekend.',
-        dateShort: 'July 16',
+        dateShort: 'April 16',
         joined: '42 Joined',
         openings: '10 Openings',
         verified: true,
@@ -256,7 +256,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         title: 'Lake Shore Cleanup',
         cause: 'Environment',
         desc: 'Help clear plastic waste from the Kankaria lake front area.',
-        dateShort: 'July 25',
+        dateShort: 'April 28',
         joined: '85 Joined',
         openings: '30 Openings',
         rating: 4.5,
@@ -280,7 +280,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         title: 'City Park Restoration',
         cause: 'Environment',
         desc: 'General maintenance and beautification of public park spaces.',
-        dateShort: 'July 30',
+        dateShort: 'April 30',
         joined: '34 Joined',
         openings: '20 Openings',
         rating: 4.1,
@@ -305,7 +305,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         title: 'Library Reading Buddies',
         cause: 'Education',
         desc: 'Read with kids and help improve confidence in 90 minutes.',
-        dateShort: 'July 23',
+        dateShort: 'April 23',
         joined: '22+ Joined',
         openings: '6 Openings',
         rating: 4.6,
@@ -330,7 +330,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         title: 'Street Animal Care',
         cause: 'Community',
         desc: 'Help feed and check on community dogs with local NGOs.',
-        dateShort: 'July 25',
+        dateShort: 'April 25',
         joined: '40+ Joined',
         openings: '10 Openings',
         rating: 4.5,
@@ -355,7 +355,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         title: 'Senior Companion Walk',
         cause: 'Community',
         desc: 'Join a small group to accompany seniors for an evening walk.',
-        dateShort: 'July 27',
+        dateShort: 'April 27',
         joined: '18+ Joined',
         openings: '5 Openings',
         rating: 4.3,
@@ -382,7 +382,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
 
   const featuredVisible = useMemo(() => {
     if (featuredExpanded) return featuredGrid
-    return featuredGrid.slice(0, 3)
+    return featuredGrid.slice(0, 4)
   }, [featuredExpanded, featuredGrid])
 
   const mobileFriends = useMemo(
@@ -565,11 +565,17 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
 
         {/* Quick filters — circular cause icons (mobile-first) */}
         <section className="md:hidden">
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4 flex items-center justify-between gap-3">
             <h3 className="text-lg font-bold text-neutral-900">Quick filters</h3>
-            <span className="rounded-full border border-neutral-200 bg-neutral-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-neutral-700">
-              By cause
-            </span>
+            <a
+              className="inline-flex shrink-0 items-center gap-1 rounded-full border border-neutral-200 bg-white px-3 py-2 text-xs font-bold text-neutral-900 shadow-sm transition-colors hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
+              href={googleMapsSearchHref(`Volunteer opportunities near ${location}`)}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <span className="material-symbols-outlined text-[18px]">map</span>
+              Map
+            </a>
           </div>
           <div className="hide-scrollbar flex gap-4 overflow-x-auto pb-2 pt-1">
             {causes.map((c) => {
@@ -601,35 +607,41 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
           </div>
         </section>
 
-        {/* Desktop: quick filter pills */}
-        <div className="mb-1 hidden grid-cols-1 gap-3 md:grid md:grid-cols-[1fr_auto] md:items-center">
-          <div className="hide-scrollbar flex gap-2 overflow-x-auto pb-2 sm:gap-2.5">
-            {causes.map((c) => {
-              const active = activeCause === c.key
-              return (
-                <button
-                  className={`flex items-center gap-2 whitespace-nowrap rounded-2xl px-4 py-2.5 text-[13px] font-bold transition-all sm:px-5 sm:text-sm ${
-                    active ? FILTER_ACTIVE_PILL : FILTER_INACTIVE_PILL
-                  }`}
-                  key={c.key}
-                  onClick={() => setActiveCause(c.key)}
-                  type="button"
-                >
-                  <span
-                    className={`material-symbols-outlined text-lg ${active ? 'text-emerald-900' : 'text-neutral-500'}`}
+        {/* Quick filters — tablet/desktop (View map in filter row) */}
+        <div className="mb-1 hidden md:block">
+          <h3 className="mb-3 text-lg font-bold text-neutral-900">Quick filters</h3>
+          <div className="flex flex-wrap items-end gap-2">
+            <div className="hide-scrollbar flex min-w-0 flex-1 gap-2 overflow-x-auto pb-2 sm:gap-2.5">
+              {causes.map((c) => {
+                const active = activeCause === c.key
+                return (
+                  <button
+                    className={`flex shrink-0 items-center gap-2 whitespace-nowrap rounded-2xl px-4 py-2.5 text-[13px] font-bold transition-all sm:px-5 sm:text-sm ${
+                      active ? FILTER_ACTIVE_PILL : FILTER_INACTIVE_PILL
+                    }`}
+                    key={c.key}
+                    onClick={() => setActiveCause(c.key)}
+                    type="button"
                   >
-                    {c.icon}
-                  </span>
-                  {c.label}
-                </button>
-              )
-            })}
-          </div>
-
-          <div className="flex items-center justify-start gap-2 md:justify-self-end md:justify-end">
-            <span className="rounded-2xl border border-neutral-200 bg-neutral-50 px-4 py-2.5 text-sm font-extrabold text-neutral-900">
-              Browse by cause
-            </span>
+                    <span
+                      className={`material-symbols-outlined text-lg ${active ? 'text-emerald-900' : 'text-neutral-500'}`}
+                    >
+                      {c.icon}
+                    </span>
+                    {c.label}
+                  </button>
+                )
+              })}
+            </div>
+            <a
+              className="mb-2 inline-flex shrink-0 items-center gap-1.5 rounded-2xl border border-neutral-200 bg-white px-4 py-2.5 text-[13px] font-bold text-neutral-900 shadow-sm transition-colors hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
+              href={googleMapsSearchHref(`Volunteer opportunities near ${location}`)}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <span className="material-symbols-outlined text-lg">map</span>
+              View map
+            </a>
           </div>
         </div>
 
@@ -661,18 +673,9 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                     ))}
                   </div>
                 </div>
-
-                <a
-                  className="self-start text-sm font-bold text-neutral-900 underline-offset-2 transition-colors hover:text-emerald-900 hover:underline sm:self-auto"
-                  href={googleMapsSearchHref(`Volunteer opportunities near ${location}`)}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  View map
-                </a>
               </div>
 
-              <div className="hide-scrollbar flex gap-4 overflow-x-auto pb-1 md:grid md:grid-cols-2 md:items-stretch md:gap-5 md:overflow-visible lg:grid-cols-3">
+              <div className="hide-scrollbar flex gap-4 overflow-x-auto pb-1 md:grid md:grid-cols-2 md:items-stretch md:gap-5 md:overflow-visible lg:grid-cols-4">
                 {nearYou.map((item) => (
                   <EventOpportunityCard carousel item={item} key={item.id ?? item.title} navigate={navigate} />
                 ))}
@@ -693,7 +696,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                   See All
                 </button>
               </div>
-              <div className="hide-scrollbar -mx-3 flex gap-3 overflow-x-auto px-3 pb-1 sm:-mx-4 sm:px-4 md:mx-0 md:grid md:grid-cols-2 md:items-start md:gap-4 md:overflow-visible md:px-0 lg:grid-cols-3">
+              <div className="hide-scrollbar -mx-3 flex gap-3 overflow-x-auto px-3 pb-1 sm:-mx-4 sm:px-4 md:mx-0 md:grid md:grid-cols-2 md:items-start md:gap-4 md:overflow-visible md:px-0 lg:grid-cols-4">
                 {[
                   {
                     tag: 'Education',
@@ -715,6 +718,13 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                     title: 'Urban Garden Project',
                     meta: '31 volunteers matched',
                     img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDBOg8TA3Ihi0kIsJEo6ijwacpGoTVX3ByTdbvQKjrvpx_hybl-IqpWwOSfnj74w0b6gs9LPChsGyMfxIzQSzZKSS42_5L1JCmJemCRP5-PD9DYWQd-2yrJU8hTkC0c2A2KnSpPeAVv8JRlsXXcChBG84TzAfFNFb9jWspUJOqv-kXrlE025PsmOElaAC_zhJxvmu7UtADf0-mHprS0QwpvQMo3mV38KLO6J1nNutx7XQDllBTS3WGGe8vRMxmCH8hf8kV23x06_Ss',
+                  },
+                  {
+                    tag: 'Health',
+                    tagClass: 'text-neutral-600',
+                    title: 'Wellness & blood donation drive',
+                    meta: '56 volunteers matched',
+                    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBHFg7Lb1J2UB23UIzivsG38PCbA_c-m8AsYnHhVdYIZWBEUgF2f1-PUAqHttRpyBndUM6WegLt-VYdkLI-4hrm7wQVnvQwfOkIzNNivEPrljPFkFhBzi0IiI05YdrOD8IBx7EvE4sBCl6YMaGdtQRWeFVwNpz27x5tMwVZSQwq7Z_lzeiV2kOIIaiXILdzZmoOGGlRyLZavPc-7qCzajqGxct-FQvYIYCiOqYfvl7BPc1W4YWCqERRPGKTsCC1NLwOxfQQb0ieeak',
                   },
                 ].map((t) => (
                   <div
@@ -753,7 +763,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                   <span className="material-symbols-outlined shrink-0 text-neutral-900">view_module</span>
                   Featured Opportunities
                 </h3>
-                {featuredGrid.length > 3 ? (
+                {featuredGrid.length > 4 ? (
                   <button
                     className="inline-flex shrink-0 items-center gap-1 text-sm font-bold text-neutral-900 transition-colors hover:text-emerald-900 hover:underline"
                     onClick={() => setFeaturedExpanded((v) => !v)}
@@ -775,7 +785,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                 ) : null}
               </div>
 
-              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 lg:items-stretch">
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:items-stretch">
                 {featuredVisible.map((item) => (
                   <EventOpportunityCard item={item} key={item.id ?? item.title} navigate={navigate} />
                 ))}
@@ -852,7 +862,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                 </div>
                 <button
                   className="btn-secondary mt-8 w-full py-2.5"
-                  onClick={() => navigate('/profile')}
+                  onClick={() => navigate('/friends')}
                   type="button"
                 >
                   Find More Friends

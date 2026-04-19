@@ -19,6 +19,10 @@ import SignupPage from './pages/SignupPage'
 import OrganizationSignupPage from './pages/OrganizationSignupPage'
 import PostOpportunitiesPage from './pages/PostOpportunitiesPage'
 import SplashPage from './pages/SplashPage'
+import AboutPage from './pages/AboutPage'
+import ContactPage from './pages/ContactPage'
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
+import NgoPartnershipPage from './pages/NgoPartnershipPage'
 
 function App() {
   const location = useLocation()
@@ -71,6 +75,10 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/friends" element={<FriendsPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/privacy" element={<PrivacyPolicyPage />} />
+        <Route path="/ngo-partnership" element={<NgoPartnershipPage />} />
         <Route path="/event" element={<EventDetailsPage />} />
         <Route path="/event/confirm" element={<RegistrationConfirmationPage />} />
         <Route path="/event/success" element={<RegistrationSuccessPage />} />

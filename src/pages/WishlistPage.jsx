@@ -41,7 +41,7 @@ function WishlistPage() {
         <div className="space-y-6">
           {items.map((event) => (
             <article className="@container cc-card overflow-hidden shadow-lg shadow-primary/5" key={event.id}>
-              <div className="grid grid-cols-1 md:grid-cols-[340px_1fr] lg:grid-cols-[380px_1fr]">
+              <div className="grid grid-cols-1 sm:grid-cols-[minmax(260px,340px)_1fr] lg:grid-cols-[minmax(280px,380px)_1fr]">
                 <img alt={event.title} className="h-full w-full object-cover" src={event.img} />
                 <div className="p-6 cq-tight-card">
                   <div className="flex flex-wrap items-start justify-between gap-3">

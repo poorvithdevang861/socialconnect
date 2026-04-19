@@ -68,8 +68,8 @@ function RegistrationSuccessPage() {
           </div>
 
           {/* Body — 1 col mobile, 2 cols lg (event | share + actions) */}
-          <div className="grid grid-cols-1 items-stretch gap-6 p-4 sm:p-6 lg:grid-cols-2 lg:gap-8 lg:p-8">
-            <article className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-2xl border border-black/[0.08] bg-white shadow-[0_8px_24px_rgba(15,15,16,0.06)] lg:h-full">
+          <div className="grid grid-cols-1 items-stretch gap-6 p-4 sm:p-6 lg:grid-cols-4 lg:gap-8 lg:p-8">
+            <article className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-2xl border border-black/[0.08] bg-white shadow-[0_8px_24px_rgba(15,15,16,0.06)] lg:col-span-2 lg:h-full">
               <div className="relative aspect-[16/10] w-full min-h-0 sm:aspect-video">
                 <img
                   className="h-full w-full object-cover"
@@ -87,18 +87,18 @@ function RegistrationSuccessPage() {
                 <h2 className="text-xl font-extrabold leading-snug text-neutral-900 sm:text-2xl">
                   Green Earth Tree Plantation
                 </h2>
-                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
-                  <div className="flex min-w-0 gap-3">
+                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+                  <div className="flex min-w-0 gap-3 lg:col-span-2">
                     <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
                       <span className="material-symbols-outlined text-[22px]">calendar_today</span>
                     </span>
                     <div className="min-w-0">
                       <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">When</p>
-                      <p className="mt-0.5 font-semibold text-neutral-900">Saturday, 24 Oct</p>
-                      <p className="text-sm text-neutral-600">09:00 AM</p>
+                      <p className="mt-0.5 font-semibold text-neutral-900">Saturday, 18 Jul 2026</p>
+                      <p className="text-sm text-neutral-600">09:00 AM – 12:00 PM</p>
                     </div>
                   </div>
-                  <div className="flex min-w-0 gap-3">
+                  <div className="flex min-w-0 gap-3 lg:col-span-2">
                     <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
                       <span className="material-symbols-outlined text-[22px]">location_on</span>
                     </span>
@@ -113,7 +113,7 @@ function RegistrationSuccessPage() {
               </div>
             </article>
 
-            <aside className="flex min-h-0 min-w-0 flex-col gap-6 rounded-2xl border border-black/[0.08] bg-neutral-50/90 p-6 sm:p-7 lg:h-full">
+            <aside className="flex min-h-0 min-w-0 flex-col gap-6 rounded-2xl border border-black/[0.08] bg-neutral-50/90 p-6 sm:p-7 lg:col-span-2 lg:h-full">
               <div className="space-y-3">
                 <h3 className="flex items-center gap-2 text-lg font-extrabold text-neutral-900">
                   <span className="material-symbols-outlined text-emerald-800">group</span>
@@ -151,7 +151,7 @@ function RegistrationSuccessPage() {
 
               <div className="space-y-3">
                 <p className="text-[10px] font-semibold uppercase tracking-wider text-neutral-500">Share on</p>
-                <div className="grid grid-cols-3 gap-3.5 sm:max-w-none">
+                <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 sm:max-w-none lg:grid-cols-4">
                   <button
                     className="flex h-12 w-full max-h-14 items-center justify-center rounded-full bg-[#25D366] text-white transition-opacity hover:opacity-90"
                     title="Share on WhatsApp"

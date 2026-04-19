@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Button from '../components/Button'
+import FriendAvatar from '../components/FriendAvatar'
 import SectionHeader from '../components/SectionHeader'
 import { addFriend, getFriends, removeFriend, subscribeFriends } from '../utils/friends'
 
@@ -90,11 +91,7 @@ function FriendsPage() {
               <ul className="mt-4 divide-y divide-slate-100">
                 {friends.map((f) => (
                   <li className="flex items-center gap-4 py-4 first:pt-0" key={f.id}>
-                    <img
-                      alt=""
-                      className="size-12 shrink-0 rounded-full object-cover ring-2 ring-white"
-                      src={f.avatar}
-                    />
+                    <FriendAvatar avatar={f.avatar} name={f.name} size="lg" />
                     <div className="min-w-0 flex-1">
                       <p className="font-bold text-slate-900">{f.name}</p>
                     </div>

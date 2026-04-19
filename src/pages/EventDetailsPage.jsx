@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import Button from '../components/Button'
 import FriendsAttendingBlock from '../components/FriendsAttendingBlock'
 import { GREEN_EARTH_WISHLIST } from '../utils/registrations'
-import { getFriends, subscribeFriends } from '../utils/friends'
 import { isWishlisted, subscribeWishlist, toWishlistPayload, toggleWishlist } from '../utils/wishlist'
 import { GREEN_EARTH_VENUE_QUERY, googleMapsSearchHref } from '../utils/maps'
 
@@ -17,16 +16,8 @@ function EventDetailsPage() {
   const navigate = useNavigate()
   const [detailTab, setDetailTab] = useState('about')
   const [, setWishTick] = useState(0)
-  const [friends, setFriends] = useState(getFriends)
-
   useEffect(() => {
     return subscribeWishlist(() => setWishTick((t) => t + 1))
-  }, [])
-
-  useEffect(() => {
-    const sync = () => setFriends(getFriends())
-    sync()
-    return subscribeFriends(sync)
   }, [])
 
   const wishlisted = isWishlisted(GREEN_EARTH_WISHLIST.id)
@@ -134,8 +125,8 @@ function EventDetailsPage() {
                 <span className="material-symbols-outlined">calendar_today</span>
               </div>
               <div>
-                <p className="text-sm font-semibold">Sat, 24 Oct</p>
-                <p className="text-xs text-slate-500">08:00 AM - 12:00 PM</p>
+                <p className="text-sm font-semibold">Sat, 18 Jul 2026</p>
+                <p className="text-xs text-slate-500">09:00 AM – 12:00 PM</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
@@ -143,7 +134,7 @@ function EventDetailsPage() {
                 <span className="material-symbols-outlined">schedule</span>
               </div>
               <div>
-                <p className="text-sm font-semibold">4 hours</p>
+                <p className="text-sm font-semibold">3 hours</p>
                 <p className="text-xs text-slate-500">Duration</p>
               </div>
             </div>
@@ -177,7 +168,10 @@ function EventDetailsPage() {
 
         <div className={`mt-8 px-4 sm:px-5 ${detailTab !== 'details' ? 'hidden' : ''}`}>
           <h2 className="mb-3 text-lg font-semibold">Friends on your list</h2>
-          <FriendsAttendingBlock />
+          <FriendsAttendingBlock
+            inviteEventTitle="Green Earth Tree Plantation"
+            showInviteButton
+          />
         </div>
 
         <div className={`mt-8 px-4 sm:px-5 ${detailTab !== 'about' ? 'hidden' : ''}`}>
@@ -240,7 +234,7 @@ function EventDetailsPage() {
         <div className="fixed inset-x-0 bottom-0 z-50 px-4 pb-[max(12px,env(safe-area-inset-bottom))] pt-2 md:hidden">
           <div className="mx-auto flex max-w-lg items-center justify-between gap-3 rounded-2xl border border-black/[0.06] bg-white/95 p-4 shadow-[0_8px_32px_rgba(234,88,12,0.15)] backdrop-blur-md">
             <div>
-              <p className="text-lg font-bold">4 hours</p>
+              <p className="text-lg font-bold">3 hours</p>
               <p className="text-xs font-semibold uppercase text-slate-500">Commitment</p>
             </div>
             <Button
@@ -355,7 +349,7 @@ function EventDetailsPage() {
 
           <section className="rounded-2xl border border-black/[0.06] bg-white p-4 md:p-5">
             <h4 className="mb-5 text-[1.32rem] font-extrabold tracking-[-0.01em] text-slate-900">EcoWarriors Impact</h4>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               <div className="flex items-center gap-6 rounded-2xl border border-primary/20 bg-primary/5 p-6">
                 <div className="flex size-16 items-center justify-center rounded-xl bg-primary text-white">
                   <span className="material-symbols-outlined text-4xl">park</span>
@@ -456,7 +450,8 @@ function EventDetailsPage() {
                       <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
                         Date &amp; Time
                       </p>
-                      <p className="text-sm font-bold text-slate-900">Saturday, 24 Oct • 4 Hours</p>
+                      <p className="text-sm font-bold text-slate-900">Saturday, 18 Jul 2026</p>
+                      <p className="mt-0.5 text-xs font-semibold text-slate-600">09:00 AM – 12:00 PM · 3 hrs</p>
                     </div>
                   </div>
                   <a
@@ -551,23 +546,10 @@ function EventDetailsPage() {
 
             <div className="cc-card border-slate-100 cc-card-pad-lg">
               <h5 className="mb-4 font-bold text-slate-900">Friends on your list</h5>
-              {friends.length === 0 ? (
-                <p className="text-sm text-slate-500">
-                  Add friends from your profile to see them when you join events.
-                </p>
-              ) : (
-                <div className="space-y-4">
-                  {friends.map((f) => (
-                    <div className="flex items-center gap-3" key={f.id}>
-                      <img alt="" className="size-10 rounded-full object-cover" src={f.avatar} />
-                      <div>
-                        <p className="text-sm font-bold text-slate-900">{f.name}</p>
-                        <p className="text-xs text-slate-500">May join this opportunity</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <FriendsAttendingBlock
+                inviteEventTitle="Green Earth Tree Plantation"
+                showInviteButton
+              />
             </div>
           </div>
         </div>

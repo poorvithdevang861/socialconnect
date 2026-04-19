@@ -4,6 +4,17 @@ import Button from '../components/Button'
 import GoogleGIcon from '../components/GoogleGIcon'
 import { setAuthenticated, setOnboardingComplete } from '../utils/onboarding'
 
+/** Keeps Material icons optically centered next to label text in pill buttons. */
+function BtnIcon({ children, className = '' }) {
+  return (
+    <span
+      className={`inline-flex size-[22px] shrink-0 items-center justify-center leading-none [&_.material-symbols-outlined]:!text-[20px] [&_.material-symbols-outlined]:leading-none ${className}`.trim()}
+    >
+      {children}
+    </span>
+  )
+}
+
 function SignupPage() {
   const navigate = useNavigate()
   const [name, setName] = useState('')
@@ -30,131 +41,156 @@ function SignupPage() {
   }
 
   const inputClass =
-    'h-12 w-full rounded-2xl border border-black/[0.08] bg-background-light px-4 text-[15px] leading-tight text-ink placeholder:text-slate-400 outline-none transition-shadow focus:border-primary/40 focus:ring-2 focus:ring-primary/25'
+    'h-12 w-full rounded-2xl border border-black/[0.12] bg-beige px-4 text-[15px] leading-snug text-ink placeholder:text-slate-500 outline-none transition-shadow focus:border-primary/50 focus:ring-2 focus:ring-primary/25'
+
+  const socialBtnClass =
+    'inline-flex min-h-[48px] w-full items-center justify-center gap-2.5 rounded-full border border-black bg-black px-5 text-sm font-bold tracking-[0.01em] text-white shadow-[0_4px_14px_rgba(15,15,16,0.06)] transition-all hover:bg-black/90 active:scale-[0.98]'
 
   return (
-    <main className="page-gutter-x mx-auto flex min-h-[100dvh] w-full max-w-[1600px] flex-col premium-shell bg-background-light py-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] md:min-h-screen md:py-6 md:pb-6">
+    <main
+      className="mx-auto w-full max-w-[1600px] premium-shell bg-background-light pb-4 pt-4 md:min-h-screen md:pb-5 md:pt-4"
+      style={{
+        boxShadow:
+          '0px 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px 0px rgba(0, 0, 0, 0), 0px 10px 28px 0px rgba(15, 15, 16, 0.08)',
+      }}
+    >
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute -left-[10%] -top-[10%] h-[38%] w-[45%] rounded-full bg-primary/12 blur-[100px]" />
-        <div className="absolute -bottom-[10%] -right-[10%] h-[38%] w-[45%] rounded-full bg-primary/6 blur-[100px]" />
+        <div className="absolute -left-[10%] -top-[10%] h-[38%] w-[45%] rounded-full bg-primary/10 blur-[100px]" />
+        <div className="absolute -bottom-[10%] -right-[10%] h-[38%] w-[45%] rounded-full bg-primary/5 blur-[100px]" />
       </div>
 
-      <div className="grid flex-1 grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
-        <div className="hidden flex-col gap-5 lg:flex lg:pr-8">
-          <div className="flex items-center gap-3">
-            <div className="flex size-11 items-center justify-center rounded-2xl bg-primary text-white shadow-orange-glow">
-              <span className="material-symbols-outlined text-[26px]">volunteer_activism</span>
-            </div>
-            <span className="text-xl font-black tracking-tight text-ink">CauseConnect</span>
-          </div>
-          <h2 className="premium-h1 text-[clamp(1.85rem,3vw,2.75rem)]">
-            Start small.
-            <br />
-            <span className="text-primary">Serve big.</span>
-          </h2>
-          <p className="premium-body max-w-md text-base">
-            Join a trusted volunteering network, find causes near you, and contribute to community
-            impact from day one.
-          </p>
-        </div>
-
-        <div className="mx-auto flex w-full max-w-md flex-col justify-center">
-          <div className="cc-card cc-card-pad-lg shadow-[0_10px_28px_rgba(15,15,16,0.08)]">
-            <div className="mb-6 flex items-center gap-2 lg:hidden">
-              <div className="flex size-10 items-center justify-center rounded-xl bg-primary text-white shadow-orange-glow">
-                <span className="material-symbols-outlined text-2xl">volunteer_activism</span>
+      <div className="section-gap-lg px-4 pb-4 md:px-5 md:pb-5">
+        <div className="mx-auto flex min-h-[calc(100dvh-8.5rem)] w-full max-w-6xl items-center justify-center py-4 md:min-h-[calc(100vh-9.25rem)] md:py-6">
+          <div className="grid grid-cols-1 place-items-center gap-10 lg:grid-cols-2 lg:items-center lg:gap-14">
+            <div className="flex flex-col items-center gap-5 text-center">
+              <div className="flex items-center justify-center gap-3">
+                <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-shell text-brand-yellow shadow-premium">
+                  <span className="material-symbols-outlined text-[26px] leading-none text-brand-yellow">
+                    volunteer_activism
+                  </span>
+                </div>
+                <span className="text-xl font-black tracking-tight text-shell">CauseConnect</span>
               </div>
-              <span className="text-lg font-black text-ink">CauseConnect</span>
-            </div>
-
-            <div className="mb-6">
-              <h1 className="premium-h1 text-ink">Create an account</h1>
-              <p className="premium-body mt-1">Start your volunteering journey today.</p>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <button
-                className="inline-flex h-12 w-full items-center justify-center gap-3 rounded-full border border-black/[0.1] bg-white text-sm font-bold text-slate-800 shadow-[0_4px_14px_rgba(15,15,16,0.06)] transition-all hover:bg-slate-50 active:scale-[0.98]"
-                onClick={handleGoogle}
-                type="button"
-              >
-                <GoogleGIcon />
-                Continue with Google
-              </button>
-
-              <Button
-                variant="secondary"
-                className="h-12 w-full justify-center gap-2 border-black/[0.08] font-bold"
-                onClick={handleGuest}
-                type="button"
-              >
-                <span className="material-symbols-outlined text-primary">travel_explore</span>
-                Continue as guest
-              </Button>
-            </div>
-
-            <div className="relative my-7">
-              <div aria-hidden="true" className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-black/[0.08]" />
-              </div>
-              <div className="relative flex justify-center text-xs font-semibold uppercase tracking-wider text-slate-400">
-                <span className="bg-white px-3">Or email</span>
-              </div>
-            </div>
-
-            <form className="space-y-4" onSubmit={handleSignup}>
-              <div>
-                <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-500">
-                  Full name
-                </label>
-                <input
-                  className={inputClass}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Arjun Patel"
-                  required
-                  type="text"
-                  value={name}
-                />
-              </div>
-              <div>
-                <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-500">
-                  Email
-                </label>
-                <input
-                  className={inputClass}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@email.com"
-                  required
-                  type="email"
-                  value={email}
-                />
-              </div>
-              <div>
-                <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-500">
-                  Password
-                </label>
-                <input
-                  className={inputClass}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  required
-                  type="password"
-                  value={password}
-                />
-              </div>
-              <Button className="mt-2 h-12 w-full justify-center gap-2 font-bold" type="submit">
-                Get started
-                <span className="material-symbols-outlined text-lg">arrow_forward</span>
-              </Button>
-            </form>
-
-            <div className="mt-8 text-center text-sm">
-              <p className="text-slate-600">
-                Already have an account?{' '}
-                <Link className="font-bold text-primary hover:underline" to="/login">
-                  Log in
-                </Link>
+              <h2 className="premium-h1 text-[clamp(1.85rem,3vw,2.75rem)]">
+                Start small.
+                <br />
+                <span className="text-primary">Serve big.</span>
+              </h2>
+              <p className="premium-body max-w-md text-base">
+                Join a trusted volunteering network, find causes near you, and contribute to community impact from day
+                one.
               </p>
+            </div>
+
+            <div className="mx-auto flex w-full max-w-md flex-col items-center text-center">
+              <div className="mb-6 flex items-center justify-center gap-2 lg:hidden">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-shell text-brand-yellow shadow-premium">
+                  <span className="material-symbols-outlined text-2xl leading-none text-brand-yellow">
+                    volunteer_activism
+                  </span>
+                </div>
+                <span className="text-lg font-black text-shell">CauseConnect</span>
+              </div>
+
+              <div className="w-full max-w-sm">
+                <div className="cc-card cc-card-pad-lg shadow-[0_10px_28px_rgba(15,15,16,0.08)]">
+                  <div className="mb-6">
+                    <h1 className="premium-h1 text-ink">Create an account</h1>
+                    <p className="premium-body mt-1">Start your volunteering journey today.</p>
+                  </div>
+
+                  <div className="flex flex-col gap-3">
+                    <button className={socialBtnClass} onClick={handleGoogle} type="button">
+                      <span className="flex size-5 shrink-0 items-center justify-center [&>svg]:block">
+                        <GoogleGIcon className="h-5 w-5" />
+                      </span>
+                      <span className="leading-snug">Continue with Google</span>
+                    </button>
+
+                    <Button
+                      variant="secondary"
+                      className="min-h-[48px] w-full gap-2.5 px-5 font-bold"
+                      onClick={handleGuest}
+                      type="button"
+                    >
+                      <BtnIcon>
+                        <span className="material-symbols-outlined text-primary">travel_explore</span>
+                      </BtnIcon>
+                      <span className="leading-snug">Continue as guest</span>
+                    </Button>
+                  </div>
+
+                  <div className="relative my-7">
+                    <div aria-hidden="true" className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-black/[0.08]" />
+                    </div>
+                    <div className="relative flex justify-center text-xs font-semibold uppercase tracking-wider text-slate-500">
+                      <span className="bg-white px-3">Or email</span>
+                    </div>
+                  </div>
+
+                  <form className="mx-auto w-full space-y-4 text-center" onSubmit={handleSignup}>
+                    <div className="text-center">
+                      <label className="mb-1.5 block text-center text-xs font-bold uppercase tracking-wider text-slate-600">
+                        Full name
+                      </label>
+                      <input
+                        className={inputClass}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Arjun Patel"
+                        required
+                        type="text"
+                        value={name}
+                      />
+                    </div>
+                    <div className="text-center">
+                      <label className="mb-1.5 block text-center text-xs font-bold uppercase tracking-wider text-slate-600">
+                        Email
+                      </label>
+                      <input
+                        className={inputClass}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="name@email.com"
+                        required
+                        type="email"
+                        value={email}
+                      />
+                    </div>
+                    <div className="text-center">
+                      <label className="mb-1.5 block text-center text-xs font-bold uppercase tracking-wider text-slate-600">
+                        Password
+                      </label>
+                      <input
+                        className={inputClass}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="••••••••"
+                        required
+                        type="password"
+                        value={password}
+                      />
+                    </div>
+                    <Button
+                      variant="action"
+                      className="mt-2 min-h-[48px] w-full gap-2.5 px-5 font-bold"
+                      type="submit"
+                    >
+                      <span className="leading-snug">Get started</span>
+                      <BtnIcon>
+                        <span className="material-symbols-outlined text-white">arrow_forward</span>
+                      </BtnIcon>
+                    </Button>
+                  </form>
+
+                  <div className="mt-8 text-center text-sm">
+                    <p className="text-slate-600">
+                      Already have an account?{' '}
+                      <Link className="font-bold text-primary hover:underline" to="/login">
+                        Log in
+                      </Link>
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

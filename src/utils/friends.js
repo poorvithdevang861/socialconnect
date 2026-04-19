@@ -10,7 +10,12 @@ export function getFriends() {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (raw === null) return []
     const parsed = JSON.parse(raw)
-    return Array.isArray(parsed) ? parsed : []
+    if (!Array.isArray(parsed)) return []
+    return parsed.map((f) =>
+      f && typeof f === 'object'
+        ? { ...f, avatar: f.avatar === undefined ? '' : f.avatar }
+        : f,
+    )
   } catch {
     return []
   }
@@ -29,9 +34,7 @@ export function addFriend(input) {
   if (getFriends().some((f) => f.name.trim().toLowerCase() === lower)) return false
 
   const id = input.id ?? `friend-${Date.now()}`
-  const avatar =
-    input.avatar?.trim() ||
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuBVVEg_AagAxDk1z2vF07nGovxZSKWhHZg8fr3J_WGiKl6DRxa3JexMSJxVe0SWkIZPsMQ3goHJnODZClQ9865riV1hYX6FSrH6GOzmilItiIMBdsqIUDxIcpUikSoGzwDza9EnP1QYk0L4qWtIue4TfMN9Bu6466a99GTFSHoxxqpRKdbNTDJ-4NOl0DVJVFdu-5VcKxCLw2gsO1vh8dHfJCu00tthveB03fTZwa8d_S9fTHfOOe3FlW2h78vzd2Lj4m0urvIfaKU'
+  const avatar = input.avatar?.trim() ?? ''
   const next = [...getFriends().filter((f) => f.id !== id), { id, name: nameTrimmed, avatar }]
   persistAndNotify(next)
   return true

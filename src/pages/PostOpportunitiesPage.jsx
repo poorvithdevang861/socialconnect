@@ -88,7 +88,7 @@ function PostOpportunitiesPage() {
   }
 
   return (
-    <NgoLayout title="Post an opportunity" subtitle={`${profile.orgName} · ${profile.city}`} maxWidthClass="max-w-4xl">
+    <NgoLayout title="Post an opportunity" subtitle={`${profile.orgName} · ${profile.city}`}>
       {posted ? (
         <div className="cc-card cc-card-pad-lg shadow-[0_14px_32px_rgba(15,15,16,0.08)]">
           <div className="flex flex-col items-center gap-4 text-center">

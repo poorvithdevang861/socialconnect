@@ -42,12 +42,8 @@ function NgoProfilePage() {
   }
 
   return (
-    <NgoLayout
-      title="Organization profile"
-      subtitle="Same details you entered at signup — keep them accurate for volunteers."
-      maxWidthClass="max-w-3xl"
-    >
-      <div className="space-y-8">
+    <NgoLayout title="Organization profile" subtitle="Same details you entered at signup — keep them accurate for volunteers.">
+      <div className="mx-auto w-full max-w-3xl space-y-8">
         <section className="cc-card cc-card-pad-lg">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
             <div className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-shell text-brand-yellow shadow-premium">
