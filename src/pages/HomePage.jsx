@@ -31,6 +31,7 @@ function EventOpportunityCard({ item, navigate, carousel }) {
   const timeRange = item.timeRange ?? '07:30 PM – 09:00 PM'
   const route = item.route ?? '/event'
   const saved = item.id ? isWishlisted(item.id) : false
+  const rating = typeof item.rating === 'number' ? item.rating : 4.5
   return (
     <div
       className={`@container group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-black/[0.06] transition-all duration-300 hover:shadow-card-hover ${
@@ -54,23 +55,36 @@ function EventOpportunityCard({ item, navigate, carousel }) {
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           src={item.img}
         />
-        <Button
-          variant="none"
-          className={`absolute right-2.5 top-2.5 flex size-9 items-center justify-center rounded-xl bg-white/95 shadow-md ring-1 ring-black/[0.06] transition-colors hover:text-primary ${
-            saved ? 'text-primary ring-primary/35' : 'text-slate-500'
-          }`}
-          aria-label={saved ? 'Remove from wishlist' : 'Save to wishlist'}
-          onClick={(e) => {
-            e.stopPropagation()
-            if (!item.id) return
-            toggleWishlist(toWishlistPayload(item))
-          }}
-          type="button"
-        >
-          <span className={`material-symbols-outlined text-[20px] ${saved ? 'fill-1 text-primary' : ''}`}>
-            bookmark
-          </span>
-        </Button>
+        <div className="absolute right-2.5 top-2.5 z-[2] flex h-8 items-center gap-2">
+          <div
+            className="inline-flex h-8 min-w-0 items-center gap-0.5 rounded-lg bg-black/50 px-2 text-[11px] font-bold leading-none text-white shadow-sm backdrop-blur-[2px]"
+            title={`${rating.toFixed(1)} out of 5`}
+          >
+            <span className="material-symbols-outlined fill-1 text-[15px] leading-none text-amber-300">
+              star
+            </span>
+            <span className="tabular-nums leading-none">{rating.toFixed(1)}</span>
+          </div>
+          <Button
+            variant="none"
+            className={`group flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/95 p-0 shadow-md ring-1 ring-black/[0.06] transition-colors ${
+              saved ? 'text-primary ring-primary/35' : 'text-slate-500 hover:text-primary'
+            }`}
+            aria-label={saved ? 'Remove from saved' : 'Save for later'}
+            onClick={(e) => {
+              e.stopPropagation()
+              if (!item.id) return
+              toggleWishlist(toWishlistPayload(item))
+            }}
+            type="button"
+          >
+            <span
+              className={`material-symbols-outlined text-[18px] leading-none transition-colors ${saved ? 'fill-1 text-primary' : 'text-slate-500 group-hover:text-primary'}`}
+            >
+              favorite
+            </span>
+          </Button>
+        </div>
         <div className="absolute left-3 top-3 flex max-w-[55%] items-center gap-1.5 rounded-lg bg-white/95 px-2.5 py-1 text-[11px] font-bold text-ink shadow-sm backdrop-blur-sm">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-success-green" /> {item.openings}
         </div>
@@ -124,7 +138,6 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
   const [nearYouScope, setNearYouScope] = useState('month')
   const locRef = useRef(null)
   const [locOpen, setLocOpen] = useState(false)
-  const [promoIdx, setPromoIdx] = useState(0)
   const [featuredExpanded, setFeaturedExpanded] = useState(false)
   const [, setWishTick] = useState(0)
 
@@ -173,6 +186,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         joined: '50+ Joined',
         openings: '12 Openings',
         verified: true,
+        rating: 4.8,
         route: '/event',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCdHY3U9iXi2PjUs2zf6o6CEcIdI9b9DekpZ2Jg_KmD5bjXzx8orawvH0Fj5AFhz7AWwaz7O5cai9llap37-AtCWcpGJj7fwVYxxbLWEZrq-x44_FLuBhGxIEeexa1Jd515zvePM5vY31QEEYcwMACuFJ2gHAz7WyMEUG9PzUKALQJg9z64ii_clerVdOhfNKH75XE6DlU6_BK5eIqLbEiMc17gmaRVj0yIED44M-5v7wqBNOJvmc982OJVvvca9fcEi24mTpZBVvM',
       },
@@ -184,6 +198,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         dateShort: 'July 18',
         joined: '120+ Joined',
         openings: '24 Openings',
+        rating: 4.3,
         route: '/event',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCKfMCYSYKMNIiPUrKfBcM1Cc1pnOLCOzaMv5y0jN7Kx1nG7VETRpbnEHg9uC8jMZ0NneugB_Y7CAjw5Lx862R6QqOxMlKQi_NjqY-VxNk35KVHx7fkk8HW0ig7sZh6iju6NBWmyLUTR4kFLAc6pGg-5JOHLM10aUoH67Pg9gIiBVdBJkKbPKZuflWjIazykJV5CCsHukgMqh7sQNUAQJdYMv1Ibdgn-zX4WeFX_MT4dy-NKWfVrEmmW1TI_imDMDOIJUPiWOjUbXM',
       },
@@ -195,6 +210,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         dateShort: 'July 20',
         joined: '15 Joined',
         openings: '5 Openings',
+        rating: 4.4,
         route: '/event',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBtVjPEQgTa5GnZj8q-80NZ3SjzxnLLVlWmdo1qjEyL1D0d4SwvhtLL77I9FnvUrRh_hmB90eT0WJ_YugBrVEFmAud6wzFUr_7bijy3PPNP9OWgpmxrbjHc5E0BFy2TUUH2AHo1KRXgW-iQZVN4W3I3dfUMW2wmP-OEU9zegVyDhKGAcnqRLdV4uZvepCKja00fmpr_zLQSRxiO-yyLIaUEbz2eNAXr6lOMXBtUSvRFcyyAz2HaSu5J2clatrZIEXT2lpuzN-4af2k',
       },
@@ -206,6 +222,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         dateShort: 'July 22',
         joined: '28 Joined',
         openings: '8 Openings',
+        rating: 4.6,
         route: '/event',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAPOrDglRZ_wuQVrQsE5owpPUsvYKtHrz0atEFKl7kp3IF-faTZCjTY04O6QabfNnTZPe3snyokSVNuOHp4TfHeI73jpyPzaABY9aQejwle60djEiXH3gxfmXG7rA_auW3T2n2YmO3T8sd6mJY64KsNdpSBCcyu2xsbUA8D-9SKrvHkYnMt9uOqNpZBgzXAfVWRb6601yU7B6ro3ff-AM-Jd79DWoXyr9WESvP7UgVL64JPrEKX21bOHus33M9KFi17Fp1PYWnlXaE',
       },
@@ -218,6 +235,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         joined: '42 Joined',
         openings: '10 Openings',
         verified: true,
+        rating: 4.8,
         route: '/event',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCaTA_trNJ3oVwBlDd5NOyoSGD57zrqwYXcvbv4KkqP2oKAunXaR7EGT_tXXafrlEbGVYEkKFp8I-AERmRinzvja5l0KZOgbBXjTDlVYxoo-z7S7W9RsanPQ2UjYPZy1o8nHNOmX6jpHkRw_oyxgk-pwXqMlx5Ic7o9UsWpOu73f4Mbzl3F2EntNZmcBL2cuQfi4G2eET40eNHqXYX2uNRo0_ZQFFiEzlj3Hop0ku4PbwQZNX8mYaC1Kikv1mtBqGLjyZF5Sxhu6aM',
       },
@@ -229,6 +247,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         dateShort: 'July 19',
         joined: '12 Joined',
         openings: '4 Openings',
+        rating: 4.3,
         route: '/event',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA66_jD8TF4ysqx4OYkh5RD6Tdr3E-a5rUq8Lf5T6dR-SGXUKoBUEnxyvzA38qWq2Ls3vLruM6KwcMYYXDzvigEdeYsn2EJLOiRarmBxesop2-Ccgl9Nm37Futqd4tNI33N3cg7MwPdTZTU2548Ute-ArUYN61Wwl9MWbw7gWFWz65TfN1PvhtxotWrRUFVI6Gvu2qY-Div7QX3khtnf_p6B6Rqq0CIRSdwljQpRMou1zw6ktVsPdD0nqCkb1EJOcuCSwokIWNgIpQ',
       },
@@ -240,6 +259,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         dateShort: 'July 25',
         joined: '85 Joined',
         openings: '30 Openings',
+        rating: 4.5,
         route: '/event',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDBoLBpZ4KJzaPgk_2rAcHwq3hb9YH3Wj5pmepV9LDb7gKIkdcUkHcROVws-o7rJAC4nGqgtQ5hSDUZ4E_vQ4iM7OBANbchW5lGP6xVP1IFaHKoM8hsNWeGG0lvmcvyyUudHf8dRTnyAEY4iPi8WfwQHjcS-svqNkqPrChFzxGe8bDBnfUGm41bpEojIy5BVfZSESzJ5zaGYx9Y7XbBYu8l5ATfA3T7urj80q9OcMAi8E0U-1r6CVnoHWDeonspkDZBlk_DsdrVxJA',
       },
@@ -251,6 +271,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         dateShort: 'July 27',
         joined: '19 Joined',
         openings: '15 Openings',
+        rating: 4.2,
         route: '/event',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB955WI-Xxi58AJFQCtWuzroH2HeBtbHQMSG0qKutwmpI7X2vNIopogHTiwmD078qwbo7Zrc5-kn6WS25jnWGv6aSslXIkR0JaWrs_yFzXyS2vK1koDRH3eUrwRBDpVzXCgWd8oGKK8MgxnH_ibo6Y7IlwkpteDmEeFQgId_ZjItZ2hL0YZ8BVja23KbvZpwZkfFxGDkg6CFX3P1dxbaZcHSzOtQciC7L339fpOxk_PCoHLPwbFL3PkLCtdAl1iyo7aJ7buj6scMOk',
       },
@@ -262,32 +283,12 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         dateShort: 'July 30',
         joined: '34 Joined',
         openings: '20 Openings',
+        rating: 4.1,
         route: '/event',
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHTta6FADEfrAViXEl3aRVVM73dBKy0qi3QjL3wRmkLOlf72Z5uP_Hi40V4Cms4VGHxEi6lb_3dD3nu4Oq0q4rTuWzsy3RZLXWmViGQZ6BIvZ4GYsvz_hdaT1Qbbm2V-i4sW7gdNasZaAaxZQAOHYV4X-J0Ro96RxxZov7n6a74vphV7NoB1lVROD8sTlp2Dwui45dz1y2ROIpmW6o0E0Zcysi1kru1xuB3d3Oj8YMQwHhQtOukaaUdWrw3894rh_nYLpbtzc-B58',
       },
     ],
     [],
-  )
-
-  const promoSlides = useMemo(
-    () => [
-      {
-        headline: 'Limited time! Get special priority on new matches.',
-        sub: 'Up to 40% more volunteer openings near you.',
-        img: allNearYou[0]?.img,
-      },
-      {
-        headline: 'Verified NGOs · Weekend slots',
-        sub: 'Find trusted events that fit your schedule.',
-        img: allNearYou[2]?.img,
-      },
-      {
-        headline: 'Team up with friends',
-        sub: 'See where your network is already volunteering.',
-        img: allNearYou[4]?.img,
-      },
-    ],
-    [allNearYou],
   )
 
   const nearYou = useMemo(() => {
@@ -307,6 +308,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         dateShort: 'July 23',
         joined: '22+ Joined',
         openings: '6 Openings',
+        rating: 4.6,
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBtVjPEQgTa5GnZj8q-80NZ3SjzxnLLVlWmdo1qjEyL1D0d4SwvhtLL77I9FnvUrRh_hmB90eT0WJ_YugBrVEFmAud6wzFUr_7bijy3PPNP9OWgpmxrbjHc5E0BFy2TUUH2AHo1KRXgW-iQZVN4W3I3dfUMW2wmP-OEU9zegVyDhKGAcnqRLdV4uZvepCKja00fmpr_zLQSRxiO-yyLIaUEbz2eNAXr6lOMXBtUSvRFcyyAz2HaSu5J2clatrZIEXT2lpuzN-4af2k',
         route: '/event',
       },
@@ -319,6 +321,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         joined: '90+ Joined',
         openings: '15 Openings',
         verified: true,
+        rating: 4.9,
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBHFg7Lb1J2UB23UIzivsG38PCbA_c-m8AsYnHhVdYIZWBEUgF2f1-PUAqHttRpyBndUM6WegLt-VYdkLI-4hrm7wQVnvQwfOkIzNNivEPrljPFkFhBzi0IiI05YdrOD8IBx7EvE4sBCl6YMaGdtQRWeFVwNpz27x5tMwVZSQwq7Z_lzeiV2kOIIaiXILdzZmoOGGlRyLZavPc-7qCzajqGxct-FQvYIYCiOqYfvl7BPc1W4YWCqERRPGKTsCC1NLwOxfQQb0ieeak',
         route: '/event',
       },
@@ -330,6 +333,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         dateShort: 'July 25',
         joined: '40+ Joined',
         openings: '10 Openings',
+        rating: 4.5,
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCKfMCYSYKMNIiPUrKfBcM1Cc1pnOLCOzaMv5y0jN7Kx1nG7VETRpbnEHg9uC8jMZ0NneugB_Y7CAjw5Lx862R6QqOxMlKQi_NjqY-VxNk35KVHx7fkk8HW0ig7sZh6iju6NBWmyLUTR4kFLAc6pGg-5JOHLM10aUoH67Pg9gIiBVdBJkKbPKZuflWjIazykJV5CCsHukgMqh7sQNUAQJdYMv1Ibdgn-zX4WeFX_MT4dy-NKWfVrEmmW1TI_imDMDOIJUPiWOjUbXM',
         route: '/event',
       },
@@ -342,6 +346,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         joined: '55+ Joined',
         openings: '20 Openings',
         verified: true,
+        rating: 4.7,
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCdHY3U9iXi2PjUs2zf6o6CEcIdI9b9DekpZ2Jg_KmD5bjXzx8orawvH0Fj5AFhz7AWwaz7O5cai9llap37-AtCWcpGJj7fwVYxxbLWEZrq-x44_FLuBhGxIEeexa1Jd515zvePM5vY31QEEYcwMACuFJ2gHAz7WyMEUG9PzUKALQJg9z64ii_clerVdOhfNKH75XE6DlU6_BK5eIqLbEiMc17gmaRVj0yIED44M-5v7wqBNOJvmc982OJVvvca9fcEi24mTpZBVvM',
         route: '/event',
       },
@@ -353,6 +358,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         dateShort: 'July 27',
         joined: '18+ Joined',
         openings: '5 Openings',
+        rating: 4.3,
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA5rl4AYlwZb0sa2D0rx9umuDX0WuIOUITsB2IZSMYi5kRANvmCwEUsuavlBulk1N1h2Hdf0-UNOGzHN-yFWDlRZqJLcSdWwkY_dfF2kQ85HQEb_H5dQnlzptwcGpKbwVb03E1UttCf49B1RUyALJ6PyxGb_fax5rd6EANvUBFpwjJzYxUIgLInoWfXkkRvkESoPde8Didi7qj1PsjUyhCLNNCa5m98nSSynAOtLzkxuI8a-cNR1jZYpcIOShf4xYfHfBM0GGVjoDk',
         route: '/event',
       },
@@ -364,6 +370,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         dateShort: 'July 28',
         joined: '70+ Joined',
         openings: '14 Openings',
+        rating: 4.8,
         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCaTA_trNJ3oVwBlDd5NOyoSGD57zrqwYXcvbv4KkqP2oKAunXaR7EGT_tXXafrlEbGVYEkKFp8I-AERmRinzvja5l0KZOgbBXjTDlVYxoo-z7S7W9RsanPQ2UjYPZy1o8nHNOmX6jpHkRw_oyxgk-pwXqMlx5Ic7o9UsWpOu73f4Mbzl3F2EntNZmcBL2cuQfi4G2eET40eNHqXYX2uNRo0_ZQFFiEzlj3Hop0ku4PbwQZNX8mYaC1Kikv1mtBqGLjyZF5Sxhu6aM',
         route: '/event',
       },
@@ -533,47 +540,26 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
           />
         </section>
 
-        {/* #SpecialForYou — promo carousel */}
+        {/* Inspiring tagline — subtle green gradient (aligned with registration success) */}
         <section className="pt-1">
-          <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-xs font-black uppercase tracking-[0.2em] text-neutral-900/75">#SpecialForYou</h2>
-          </div>
-          <div className="overflow-hidden rounded-2xl">
-            <div
-              className="flex transition-transform duration-300 ease-out"
-              style={{ transform: `translateX(-${promoIdx * 100}%)` }}
-            >
-              {promoSlides.map((p, i) => (
-                <div className="flex w-full shrink-0 flex-col" key={String(i)}>
-                  <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-neutral-900 md:aspect-[16/6] lg:max-h-[340px]">
-                    <img alt="" className="h-full w-full object-cover object-[center_42%]" src={p.img} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
-                    <div className="absolute inset-x-0 bottom-0 p-4 text-white">
-                      <p className="text-[17px] font-black leading-snug">{p.headline}</p>
-                      <p className="mt-1 text-[13px] text-white/85">{p.sub}</p>
-                      <button
-                        className="btn-primary mt-3 rounded-full px-4 py-2 text-[11px] uppercase"
-                        type="button"
-                        onClick={() => navigate('/events')}
-                      >
-                        Claim
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
+          <div className="overflow-hidden rounded-2xl border border-black/[0.08] shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
+            <div className="border-b border-black/[0.06] bg-gradient-to-b from-success-green/10 to-white px-5 py-8 text-center sm:px-8 sm:py-10">
+              <div className="mx-auto mb-5 flex size-14 items-center justify-center rounded-full border border-success-green/35 bg-success-green/15 text-emerald-800 shadow-sm sm:size-16">
+                <span className="material-symbols-outlined text-[2rem] sm:text-[2.25rem]">volunteer_activism</span>
+              </div>
+              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-900/85">
+                Why your time matters
+              </p>
+              <h2 className="mt-3 text-pretty text-xl font-extrabold leading-snug tracking-tight text-neutral-900 sm:text-2xl md:text-[1.65rem]">
+                Every hour you give helps someone breathe easier, learn brighter, or stand a little
+                taller.
+              </h2>
+              <p className="premium-body mx-auto mt-3 max-w-lg text-neutral-600">
+                Volunteering is not about being perfect — it is about showing up. Pick a cause that
+                moves you and take the first step today.
+              </p>
+              
             </div>
-          </div>
-          <div className="mt-3 flex justify-center gap-1.5">
-            {promoSlides.map((_, i) => (
-              <button
-                aria-label={`Promo ${i + 1}`}
-                className={`h-1.5 rounded-full transition-all ${promoIdx === i ? 'w-6 bg-neutral-900' : 'w-1.5 bg-neutral-300'}`}
-                key={String(i)}
-                onClick={() => setPromoIdx(i)}
-                type="button"
-              />
-            ))}
           </div>
         </section>
 

@@ -12,173 +12,162 @@ function IconWrap({ children }) {
   )
 }
 
+function SectionHeading({ icon, children }) {
+  return (
+    <h2 className="mb-4 flex items-center gap-2.5 text-lg font-extrabold tracking-tight text-slate-900 md:text-xl">
+      <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/12 text-primary">
+        <span className="material-symbols-outlined text-[22px] leading-none">{icon}</span>
+      </span>
+      <span className="min-w-0">{children}</span>
+    </h2>
+  )
+}
+
 function RegistrationConfirmationPage() {
   const navigate = useNavigate()
 
   return (
-    <main className="mx-auto w-full max-w-[1600px] bg-background-light pb-12 md:pb-16">
-      <div className="px-4 pt-4 md:px-5 md:pt-5 lg:px-6 lg:pt-6">
-        <div className="premium-shell bg-white px-4 py-5 shadow-[0_10px_28px_rgba(15,15,16,0.08)] md:px-6 md:py-6 lg:px-8 lg:py-8">
+    <main className="min-w-0 overflow-x-hidden bg-background-light pb-12 md:pb-16">
+      <div className="mx-auto w-full max-w-[1600px] px-4 pt-4 md:px-5 md:pt-5 lg:px-6 lg:pt-6">
+        <div className="premium-shell min-w-0 bg-white px-4 py-5 shadow-[0_10px_28px_rgba(15,15,16,0.08)] md:px-6 md:py-6 lg:px-8 lg:py-8">
           <div className="section-gap-lg">
             <button
-              className="group flex items-center gap-2 text-slate-500 transition-colors hover:text-primary"
+              className="group flex w-fit max-w-full items-center gap-2 text-slate-500 transition-colors hover:text-primary"
               onClick={() => navigate('/event')}
               type="button"
             >
-              <span className="material-symbols-outlined text-sm leading-none transition-transform group-hover:-translate-x-1">
+              <span className="material-symbols-outlined shrink-0 text-sm leading-none transition-transform group-hover:-translate-x-1">
                 arrow_back
               </span>
-              <span className="text-xs font-bold uppercase tracking-wider">Back to Event Details</span>
+              <span className="text-left text-xs font-bold uppercase tracking-wider">
+                Back to Event Details
+              </span>
             </button>
 
             <div className="section-title-row space-y-3 text-center md:text-left">
-              <span className="premium-chip border-primary/20 bg-primary/10 text-primary">
+              <span className="premium-chip border-primary/25 bg-primary/12 text-primary">
                 Environment &amp; Sustainability
               </span>
-              <h1 className="premium-h1 text-ink">Green Earth Tree Plantation</h1>
-              <p className="premium-body mx-auto max-w-2xl text-slate-600 md:mx-0">
+              <h1 className="premium-h1 text-balance text-ink">Green Earth Tree Plantation</h1>
+              <p className="premium-body mx-auto max-w-2xl text-balance text-slate-700 md:mx-0">
                 Join our community in reforesting the local valley and creating a greener future for
                 everyone.
               </p>
             </div>
 
-            <div className="overflow-hidden rounded-2xl border border-black/[0.06] bg-white shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
-              <div className="h-1.5 w-full bg-primary" />
+            {/* Main card: grid 1 = meta row; grid 2 = two columns (bring+friends | safety); CTA full width */}
+            <div className="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
+              <div className="h-1.5 w-full bg-gradient-to-r from-primary to-orange-400" />
               <div className="p-5 md:p-7 lg:p-8">
-                <div className="grid gap-6 border-b border-slate-100 pb-8 md:grid-cols-2">
-                  <div className="flex gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                {/* Grid 1 — date & commitment */}
+                <div className="grid grid-cols-1 gap-5 border-b border-slate-100 pb-6 sm:grid-cols-2 sm:gap-6 md:gap-8">
+                  <div className="flex min-w-0 gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/15">
                       <span className="material-symbols-outlined leading-none">calendar_month</span>
                     </div>
-                    <div>
-                      <p className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">
+                    <div className="min-w-0">
+                      <p className="mb-1 text-[11px] font-bold uppercase tracking-widest text-slate-500">
                         Date &amp; Time
                       </p>
-                      <p className="text-lg font-bold leading-snug text-slate-900">Sat, 24 Oct, 2024</p>
-                      <p className="text-slate-600">08:00 AM - 12:00 PM</p>
+                      <p className="text-lg font-extrabold leading-snug text-slate-900">Sat, 24 Oct, 2026</p>
+                      <p className="mt-0.5 text-sm text-slate-700">08:00 AM – 12:00 PM</p>
                     </div>
                   </div>
-                  <div className="flex gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <div className="flex min-w-0 gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/15">
                       <span className="material-symbols-outlined leading-none">schedule</span>
                     </div>
-                    <div>
-                      <p className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">
+                    <div className="min-w-0">
+                      <p className="mb-1 text-[11px] font-bold uppercase tracking-widest text-slate-500">
                         Time Commitment
                       </p>
-                      <p className="text-lg font-bold leading-snug text-slate-900">4 Hours</p>
-                      <p className="text-sm text-slate-600">One-time volunteer session</p>
+                      <p className="text-lg font-extrabold leading-snug text-slate-900">4 Hours</p>
+                      <p className="mt-0.5 text-sm text-slate-700">One-time volunteer session</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="border-b border-slate-100 py-8">
-                  <h3 className="mb-6 text-[1.32rem] font-extrabold tracking-[-0.01em] text-slate-900">
-                    <span className="inline-flex items-center gap-2">
-                      <span className="material-symbols-outlined text-primary text-[26px] leading-none">
-                        inventory_2
-                      </span>
-                      What to Bring
-                    </span>
-                  </h3>
-                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
-                    <div className="flex items-center gap-3 rounded-2xl border border-black/[0.06] bg-background-light px-4 py-3.5">
-                      <span className="material-symbols-outlined text-primary leading-none">water_drop</span>
-                      <span className="font-semibold text-slate-800">Water bottle</span>
+                {/* Grid 2 — left: what to bring + friends · right: safety */}
+                <div className="grid grid-cols-1 gap-6 border-b border-slate-100 py-6 md:py-7 lg:grid-cols-2 lg:gap-8">
+                  <div className="min-w-0 space-y-6 lg:space-y-7">
+                    <div>
+                      <SectionHeading icon="inventory_2">What to bring</SectionHeading>
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-3">
+                        {[
+                          ['water_drop', 'Water bottle'],
+                          ['footprint', 'Sturdy shoes'],
+                          ['light_mode', 'Sun hat'],
+                        ].map(([ic, label]) => (
+                          <div
+                            className="flex min-w-0 items-center gap-3 rounded-xl border border-slate-200/90 bg-slate-50/90 px-3.5 py-3 text-slate-900 shadow-sm"
+                            key={label}
+                          >
+                            <span className="material-symbols-outlined shrink-0 text-primary">{ic}</span>
+                            <span className="min-w-0 break-words text-sm font-semibold">{label}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-3 rounded-2xl border border-black/[0.06] bg-background-light px-4 py-3.5">
-                      <span className="material-symbols-outlined text-primary leading-none">footprint</span>
-                      <span className="font-semibold text-slate-800">Sturdy shoes</span>
+                    <div>
+                      <SectionHeading icon="group">Friends</SectionHeading>
+                      <div className="rounded-xl border border-slate-100 bg-slate-50/80 px-4 py-4">
+                        <FriendsAttendingBlock variant="compact" />
+                      </div>
                     </div>
-                    <div className="flex items-center gap-3 rounded-2xl border border-black/[0.06] bg-background-light px-4 py-3.5">
-                      <span className="material-symbols-outlined text-primary leading-none">light_mode</span>
-                      <span className="font-semibold text-slate-800">Sun hat</span>
-                    </div>
+                  </div>
+                  <div className="min-w-0 lg:border-l lg:border-slate-100 lg:pl-8">
+                    <SectionHeading icon="health_and_safety">Safety &amp; guidelines</SectionHeading>
+                    <ul className="grid gap-3">
+                      {[
+                        'Stay hydrated and take breaks as needed. Professional supervisors will be present.',
+                        'Please follow the instructions of your zone coordinator at all times.',
+                        'All heavy tools and gloves will be provided on-site.',
+                      ].map((text) => (
+                        <li
+                          className="flex gap-3 rounded-xl border border-slate-100 bg-white px-3.5 py-3 text-sm leading-relaxed text-slate-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]"
+                          key={text}
+                        >
+                          <span className="material-symbols-outlined mt-0.5 shrink-0 text-[20px] leading-none text-primary">
+                            check_circle
+                          </span>
+                          <span className="min-w-0 break-words">{text}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
 
-                <div className="py-8">
-                  <h3 className="mb-6 text-[1.32rem] font-extrabold tracking-[-0.01em] text-slate-900">
-                    <span className="inline-flex items-center gap-2">
-                      <span className="material-symbols-outlined text-primary text-[26px] leading-none">
-                        health_and_safety
-                      </span>
-                      Safety &amp; Guidelines
-                    </span>
-                  </h3>
-                  <ul className="space-y-4">
-                    <li className="flex items-start gap-3 text-slate-600">
-                      <span className="material-symbols-outlined mt-0.5 shrink-0 text-lg leading-none text-primary">
-                        check_circle
-                      </span>
-                      <span className="leading-relaxed">
-                        Stay hydrated and take breaks as needed. Professional supervisors will be
-                        present.
-                      </span>
-                    </li>
-                    <li className="flex items-start gap-3 text-slate-600">
-                      <span className="material-symbols-outlined mt-0.5 shrink-0 text-lg leading-none text-primary">
-                        check_circle
-                      </span>
-                      <span className="leading-relaxed">
-                        Please follow the instructions of your zone coordinator at all times.
-                      </span>
-                    </li>
-                    <li className="flex items-start gap-3 text-slate-600">
-                      <span className="material-symbols-outlined mt-0.5 shrink-0 text-lg leading-none text-primary">
-                        check_circle
-                      </span>
-                      <span className="leading-relaxed">
-                        All heavy tools and gloves will be provided on-site.
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="border-b border-slate-100 py-8">
-                  <h3 className="mb-4 text-[1.32rem] font-extrabold tracking-[-0.01em] text-slate-900">
-                    <span className="inline-flex items-center gap-2">
-                      <span className="material-symbols-outlined text-primary text-[26px] leading-none">
-                        group
-                      </span>
-                      Friends
-                    </span>
-                  </h3>
-                  <FriendsAttendingBlock variant="compact" />
-                </div>
-
-                <div className="mt-2 flex flex-col items-center gap-4 border-t border-slate-100 pt-8">
-                  <Button
-                    className="mx-auto min-h-[52px] w-auto min-w-[240px] gap-2.5 px-8 py-3.5 text-sm font-black uppercase tracking-wide sm:min-w-[280px] sm:px-10 sm:text-base"
-                    onClick={() => {
-                      registerGreenEarthEvent()
-                      navigate('/event/success')
-                    }}
-                  >
-                    <span className="leading-snug">Confirm Participation</span>
-                    <IconWrap>
-                      <span className="material-symbols-outlined text-white">volunteer_activism</span>
-                    </IconWrap>
-                  </Button>
-                  <p className="max-w-md px-2 text-center text-xs leading-relaxed text-slate-400">
-                    By confirming, you agree to our volunteer code of conduct and safety waiver. You
-                    can cancel your participation up to 24 hours before the event.
-                  </p>
+                <div className="pt-6 md:pt-7">
+                  <div className="grid gap-4 rounded-2xl border-2 border-primary/20 bg-gradient-to-b from-primary/[0.07] to-primary/[0.02] p-5 sm:p-6">
+                    <Button
+                      className="mx-auto w-full max-w-sm justify-center gap-2.5 py-3.5 text-sm font-black uppercase tracking-wide sm:text-base"
+                      onClick={() => {
+                        registerGreenEarthEvent()
+                        navigate('/event/success')
+                      }}
+                    >
+                      <span className="leading-snug">Confirm participation</span>
+                      <IconWrap>
+                        <span className="material-symbols-outlined text-white">volunteer_activism</span>
+                      </IconWrap>
+                    </Button>
+                    <p className="mx-auto max-w-md text-center text-xs leading-relaxed text-slate-600">
+                      By confirming, you agree to our volunteer code of conduct and safety waiver. You can
+                      cancel your participation up to 24 hours before the event.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
+            {/* Map — bottom, full width (original order) */}
             <div className="overflow-hidden rounded-2xl border border-black/[0.06] bg-white shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
               <div className="flex flex-col gap-4 border-b border-slate-100 p-5 sm:flex-row sm:items-start sm:justify-between md:p-6">
-                <div className="flex gap-3">
-                  <span className="material-symbols-outlined shrink-0 text-primary leading-none">
-                    location_on
-                  </span>
-                  <div>
-                    <p className="font-bold leading-snug text-slate-900">
-                      Ahmedabad City Park, North Entrance
-                    </p>
-                    <p className="mt-1 text-sm text-slate-600">
+                <div className="flex min-w-0 gap-3">
+                  <span className="material-symbols-outlined shrink-0 text-primary leading-none">location_on</span>
+                  <div className="min-w-0">
+                    <p className="font-bold leading-snug text-slate-900">Ahmedabad City Park, North Entrance</p>
+                    <p className="mt-1 break-words text-sm text-slate-600">
                       Sabarmati Riverfront Road, Ahmedabad, Gujarat 380001
                     </p>
                   </div>

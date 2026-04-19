@@ -295,25 +295,9 @@ function EventDetailsPage() {
                 Outdoor
               </span>
             </div>
-            <h1 className="mb-2 text-[2.8rem] font-black leading-none tracking-tight xl:text-5xl">
+            <h1 className="text-[2.8rem] font-black leading-none tracking-tight xl:text-5xl">
               Green Earth Tree Plantation
             </h1>
-            <div className="flex flex-wrap items-center gap-4 opacity-90">
-              <a
-                className="flex items-center gap-1 rounded-lg border border-white/0 px-1 py-0.5 transition-colors hover:border-white/40 hover:bg-white/10"
-                href={googleMapsSearchHref(GREEN_EARTH_VENUE_QUERY)}
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Open in Google Maps"
-              >
-                <span className="material-symbols-outlined text-sm">location_on</span>
-                <span className="text-sm font-medium">Ahmedabad City Park</span>
-              </a>
-              <div className="flex items-center gap-1">
-                <span className="material-symbols-outlined text-sm">calendar_today</span>
-                <span className="text-sm font-medium">Sat, 24 Oct • 08:00 AM</span>
-              </div>
-            </div>
           </div>
         </div>
       </section>
