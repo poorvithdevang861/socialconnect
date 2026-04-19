@@ -4,6 +4,9 @@ import Button from '../components/Button'
 import SectionHeader from '../components/SectionHeader'
 import { getWishlist, isWishlisted, subscribeWishlist, toWishlistPayload, toggleWishlist } from '../utils/wishlist'
 import { googleMapsSearchHref } from '../utils/maps'
+import homeBannerImage from '../../banner1.jpg'
+import homeBannerImage2 from '../../banner2.jpg'
+import appLogo from '../../logo.png'
 
 const LOCATIONS = ['Ahmedabad', 'Pune', 'Bengaluru', 'Hyderabad']
 
@@ -146,6 +149,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
   const locRef = useRef(null)
   const [locOpen, setLocOpen] = useState(false)
   const [featuredExpanded, setFeaturedExpanded] = useState(false)
+  const [bannerIndex, setBannerIndex] = useState(0)
   const [, setWishTick] = useState(0)
 
   useEffect(() => {
@@ -155,6 +159,13 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
   useEffect(() => {
     setFeaturedExpanded(false)
   }, [activeCause])
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setBannerIndex((i) => (i + 1) % 2)
+    }, 1500)
+    return () => clearInterval(timer)
+  }, [])
 
   const hasWishlistItems = getWishlist().length > 0
 
@@ -550,18 +561,24 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         {/* Inspiring tagline — subtle green gradient (aligned with registration success) */}
         <section className="pt-1">
           <div className="overflow-hidden rounded-2xl border border-black/[0.08] shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
-            <div className="border-b border-black/[0.06] bg-gradient-to-b from-success-green/10 to-white px-5 py-8 text-center sm:px-8 sm:py-10">
-              <div className="mx-auto mb-5 flex size-14 items-center justify-center rounded-full border border-success-green/35 bg-success-green/15 text-emerald-800 shadow-sm sm:size-16">
-                <span className="material-symbols-outlined text-[2rem] sm:text-[2.25rem]">volunteer_activism</span>
+            <div className="relative border-b border-black/[0.06] px-5 py-8 text-center sm:px-8 sm:py-10">
+              <img
+                alt="Volunteers cleaning a beach"
+                className="absolute inset-0 h-full w-full object-cover opacity-80"
+                src={bannerIndex === 0 ? homeBannerImage : homeBannerImage2}
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/45 to-black/60" />
+              <div className="relative z-[1] mx-auto mb-5 flex size-14 items-center justify-center overflow-hidden rounded-full border border-white/45 shadow-sm sm:size-16">
+                <img alt="CauseConnect logo" className="h-full w-full object-cover" src={appLogo} />
               </div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-900/85">
+              <p className="relative z-[1] text-[11px] font-bold uppercase tracking-[0.18em] text-white/90">
                 Why your time matters
               </p>
-              <h2 className="mt-3 text-pretty text-xl font-extrabold leading-snug tracking-tight text-neutral-900 sm:text-2xl md:text-[1.65rem]">
+              <h2 className="relative z-[1] mt-3 text-pretty text-xl font-extrabold leading-snug tracking-tight text-white sm:text-2xl md:text-[1.65rem]">
                 Every hour you give helps someone breathe easier, learn brighter, or stand a little
                 taller.
               </h2>
-              <p className="premium-body mx-auto mt-3 max-w-lg text-neutral-600">
+              <p className="premium-body relative z-[1] mx-auto mt-3 max-w-lg text-white/90">
                 Volunteering is not about being perfect — it is about showing up. Pick a cause that
                 moves you and take the first step today.
               </p>
