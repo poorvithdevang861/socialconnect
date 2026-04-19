@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Button from '../components/Button'
 import GoogleGIcon from '../components/GoogleGIcon'
 import { setAuthenticated, setOnboardingComplete } from '../utils/onboarding'
+import appLogo from '../../logo.png'
 
 /** Keeps Material icons optically centered next to label text in pill buttons. */
 function BtnIcon({ children, className = '' }) {
@@ -63,12 +64,8 @@ function LoginPage() {
           <div className="grid grid-cols-1 place-items-center gap-10 lg:grid-cols-2 lg:items-center lg:gap-14">
             <div className="flex flex-col items-center gap-5 text-center">
               <div className="flex items-center justify-center gap-3">
-                <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-shell text-brand-yellow shadow-premium">
-                  <span className="material-symbols-outlined text-[26px] leading-none text-brand-yellow">
-                    volunteer_activism
-                  </span>
-                </div>
-                <span className="text-xl font-black tracking-tight text-shell">CauseConnect</span>
+                <img alt="CauseConnect logo" className="size-11 shrink-0 rounded-2xl object-contain shadow-premium" src={appLogo} />
+                <span className="text-2xl font-black tracking-tight text-shell">CauseConnect</span>
               </div>
               <h2 className="premium-h1 text-[clamp(1.85rem,3vw,2.75rem)]">
                 Volunteer local.
@@ -83,12 +80,8 @@ function LoginPage() {
 
             <div className="mx-auto flex w-full max-w-md flex-col items-center text-center">
               <div className="mb-6 flex items-center justify-center gap-2 lg:hidden">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-shell text-brand-yellow shadow-premium">
-                  <span className="material-symbols-outlined text-2xl leading-none text-brand-yellow">
-                    volunteer_activism
-                  </span>
-                </div>
-                <span className="text-lg font-black text-shell">CauseConnect</span>
+                <img alt="CauseConnect logo" className="size-10 shrink-0 rounded-xl object-contain shadow-premium" src={appLogo} />
+                <span className="text-xl font-black text-shell">CauseConnect</span>
               </div>
 
               <div className="mb-6">

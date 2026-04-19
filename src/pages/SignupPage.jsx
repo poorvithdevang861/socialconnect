@@ -69,7 +69,7 @@ function SignupPage() {
                     volunteer_activism
                   </span>
                 </div>
-                <span className="text-xl font-black tracking-tight text-shell">CauseConnect</span>
+                <span className="text-2xl font-black tracking-tight text-shell">CauseConnect</span>
               </div>
               <h2 className="premium-h1 text-[clamp(1.85rem,3vw,2.75rem)]">
                 Start small.
@@ -89,7 +89,7 @@ function SignupPage() {
                     volunteer_activism
                   </span>
                 </div>
-                <span className="text-lg font-black text-shell">CauseConnect</span>
+                <span className="text-xl font-black text-shell">CauseConnect</span>
               </div>
 
               <div className="w-full max-w-sm">

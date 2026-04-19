@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
+import appLogo from '../../logo.png'
 
 function Footer() {
   const { pathname } = useLocation()
@@ -8,11 +9,7 @@ function Footer() {
     <footer className="mt-12 border-t border-white/10 bg-shell py-10 text-white">
       <div className="mx-auto flex w-full max-w-[1600px] flex-col items-center justify-between gap-6 page-gutter-x md:flex-row">
         <div className="flex items-center gap-2 opacity-90">
-          <div className="rounded bg-primary p-1 text-white shadow-orange-glow">
-            <span className="material-symbols-outlined text-sm leading-none">
-              {isNgoRoute ? 'corporate_fare' : 'diversity_3'}
-            </span>
-          </div>
+          <img alt="CauseConnect logo" className="size-7 rounded object-contain shadow-orange-glow" src={appLogo} />
           <p className="text-lg font-black tracking-tight text-white">CauseConnect</p>
         </div>
         {isNgoRoute ? (

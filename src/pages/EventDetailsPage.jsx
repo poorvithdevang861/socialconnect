@@ -182,7 +182,6 @@ function EventDetailsPage() {
             project is crucial for increasing the local canopy cover and providing habitat for
             native bird species.
           </p>
-          <button className="mt-2 text-sm font-semibold text-primary" type="button">Read More</button>
         </div>
 
         <div className={`mt-8 ${detailTab !== 'about' ? 'hidden' : ''}`}>
@@ -342,9 +341,6 @@ function EventDetailsPage() {
               provide light snacks, water, and gloves. Please wear sturdy closed-toe shoes and sun
               protection.
             </p>
-            <button className="mt-4 flex items-center gap-1 text-sm font-bold text-primary hover:underline">
-              Read More <span className="material-symbols-outlined text-sm">expand_more</span>
-            </button>
           </section>
 
           <section className="rounded-2xl border border-black/[0.06] bg-white p-4 md:p-5">

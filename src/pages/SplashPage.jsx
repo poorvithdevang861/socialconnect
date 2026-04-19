@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { setAuthenticated, setOnboardingComplete } from '../utils/onboarding'
+import appLogo from '../../logo.png'
+import splashImage from '../../splash.jpg'
 
 function SplashPage() {
   const navigate = useNavigate()
@@ -27,12 +29,11 @@ function SplashPage() {
   return (
     <main className="relative flex min-h-[100dvh] w-full flex-col overflow-hidden bg-background-dark text-white md:min-h-screen">
       <div className="pointer-events-none absolute inset-0 z-0">
-        <div className="absolute inset-0 z-10 bg-gradient-to-b from-background-dark/85 via-background-dark/72 to-background-dark" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-background-dark/68 via-background-dark/52 to-background-dark/72" />
         <div
           className="h-full w-full bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage:
-              "url('https://lh3.googleusercontent.com/aida-public/AB6AXuCvqpPC9TevLnH9-F8KJK95h9PJVs7WeOlL1MQzkpJbyRmP_hP2drHG6cnUblEHEywJHSyqBh9TdFMRXnWiq9nscjbn0k73XLRAN15xVL7Yxk71yWLnnB1hoF-M2-73FepfXOubq2xx3Kcj53yH21WS49msbkr1hBq7y_ZFhjGkbQNZKnvX4-I3MFHX49_J2vnpz6DWwXgEI-ZJiF4shMwYPkZ7KKNpnt3-YskmEzNL-QlebRf82LC3XGOoSep6rESnZYANL-d_N0A')",
+            backgroundImage: `url(${splashImage})`,
           }}
         />
       </div>
@@ -40,14 +41,11 @@ function SplashPage() {
       <div className="relative z-20 flex w-full flex-1 flex-col items-stretch justify-between px-5 pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(1.5rem,env(safe-area-inset-top))] sm:px-8 md:items-center md:justify-center md:px-10 md:pt-[max(2.5rem,env(safe-area-inset-top))]">
         <div className="flex w-full flex-1 flex-col items-center justify-center text-center md:max-w-xl md:flex-none">
           <div className="mb-8 flex w-full items-center justify-center md:mb-10">
-            <div className="flex h-24 w-24 items-center justify-center rounded-[1.35rem] bg-primary shadow-orange-glow sm:h-28 sm:w-28">
-              <span
-                className="material-symbols-outlined text-6xl text-white sm:text-7xl"
-                style={{ fontVariationSettings: "'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48" }}
-              >
-                handshake
-              </span>
-            </div>
+            <img
+              alt="CauseConnect logo"
+              className="h-24 w-24 rounded-[1.35rem] object-contain shadow-orange-glow sm:h-28 sm:w-28"
+              src={appLogo}
+            />
           </div>
 
           <h1 className="premium-h1 mb-3 w-full !text-white md:text-[clamp(2rem,5vw,2.75rem)]">

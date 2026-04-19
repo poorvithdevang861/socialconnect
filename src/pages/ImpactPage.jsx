@@ -16,17 +16,28 @@ function ImpactPage() {
   }
 
   const months = useMemo(
-    () => [
-      { label: 'Jan', height: 'h-[40%]', strength: 'bg-primary/20 hover:bg-primary' },
-      { label: 'Feb', height: 'h-[60%]', strength: 'bg-primary/40 hover:bg-primary' },
-      { label: 'Mar', height: 'h-[30%]', strength: 'bg-primary/20 hover:bg-primary' },
-      { label: 'Apr', height: 'h-[85%]', strength: 'bg-primary' },
-      { label: 'May', height: 'h-[55%]', strength: 'bg-primary/60 hover:bg-primary' },
-      { label: 'Jun', height: 'h-[45%]', strength: 'bg-primary/40 hover:bg-primary' },
-      { label: 'Jul', height: 'h-[70%]', strength: 'bg-primary/80 hover:bg-primary' },
-    ],
-    [],
+    () =>
+      range === 'year'
+        ? [
+            { label: 'Jan', hours: 4 },
+            { label: 'Feb', hours: 6 },
+            { label: 'Mar', hours: 3 },
+            { label: 'Apr', hours: 8 },
+            { label: 'May', hours: 5 },
+            { label: 'Jun', hours: 4 },
+            { label: 'Jul', hours: 7 },
+          ]
+        : [
+            { label: 'Feb', hours: 2 },
+            { label: 'Mar', hours: 3 },
+            { label: 'Apr', hours: 5 },
+            { label: 'May', hours: 3 },
+            { label: 'Jun', hours: 2 },
+            { label: 'Jul', hours: 4 },
+          ],
+    [range],
   )
+  const maxHours = useMemo(() => Math.max(...months.map((m) => m.hours), 1), [months])
 
   return (
     <main className="mx-auto w-full max-w-[1600px] premium-shell shell-pad-lg">
@@ -53,8 +64,8 @@ function ImpactPage() {
           }
         />
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
-          <section className="cc-card cc-card-pad-lg group relative overflow-hidden lg:col-span-3">
+        <div className="grid grid-cols-1 gap-8">
+          <section className="cc-card cc-card-pad-lg group relative overflow-hidden">
             <div className="absolute -right-32 -top-32 h-64 w-64 rounded-full bg-primary/5 blur-3xl transition-colors group-hover:bg-primary/10" />
             <div className="relative z-10">
               <div className="mb-8 flex items-start justify-between">
@@ -86,36 +97,6 @@ function ImpactPage() {
               </div>
             </div>
           </section>
-
-          <aside className="cc-card flex flex-col overflow-hidden lg:col-span-1">
-            <div className="relative h-40">
-              <img
-                alt="Reforestation Event"
-                className="h-full w-full object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2DylnWNVXzdy8TfZq_PO5eBNBd_2WKsB97WlmKUwmq-bvVlphw1qjAUZDXIXwLf_Z49x9kMJdNdGQlaUr1rS8sJnq6fUMcKOiRmo-96ksq37bQvd7BVngbapXEQodxTKNOD02iTpjJWt0AcJ4LWrMSRRNj3m1JIMgeHchstujMGosv-slP8_r1iVc1WbpZe7hawjU5qQ6Pvn2TF5LvuQaf2RsznG5NuNCMun_xeH97ly2WNfkYuzvnUePGTZtMJuuRVYalyJMTdw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              <div className="absolute bottom-4 left-4">
-                <span className="rounded bg-primary px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
-                  Latest Milestone
-                </span>
-              </div>
-            </div>
-            <div className="cc-card-pad flex flex-col gap-2">
-              <h3 className="text-lg font-bold text-slate-900">Planting Change</h3>
-              <p className="text-sm leading-relaxed text-slate-500">
-                You contributed 6 hours to the Great Green Wall project. Together with 40 others,
-                you planted over 200 saplings in Oakwood Park.
-              </p>
-              <button
-                className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-primary hover:underline"
-                type="button"
-              >
-                Read the full story{' '}
-                <span className="material-symbols-outlined !text-sm">arrow_forward</span>
-              </button>
-            </div>
-          </aside>
         </div>
 
         <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
@@ -214,12 +195,17 @@ function ImpactPage() {
                   </button>
                 </div>
               </div>
-              <div className="flex h-48 w-full items-end justify-between gap-1.5 px-1 sm:gap-2 md:gap-3">
+              <div className="flex h-56 w-full items-end justify-between gap-2 rounded-xl border border-primary/10 bg-white/80 px-3 py-4 sm:gap-3">
                 {months.map((m) => (
                   <div className="flex min-w-0 flex-1 flex-col items-center gap-2" key={m.label}>
-                    <div className={`relative w-full rounded-t-md bg-slate-100/90 ${m.height}`}>
+                    <span className="text-[10px] font-bold text-slate-500">{m.hours}h</span>
+                    <div className="relative flex h-40 w-full max-w-[2.4rem] items-end rounded-md bg-slate-100/90">
                       <div
-                        className={`absolute bottom-0 w-full rounded-t-md transition-colors ${m.strength} h-full`}
+                        className="w-full rounded-md bg-primary transition-all duration-500"
+                        style={{
+                          height: `${Math.max(12, Math.round((m.hours / maxHours) * 100))}%`,
+                          opacity: 0.45 + (m.hours / maxHours) * 0.55,
+                        }}
                       />
                     </div>
                     <span className="text-[10px] font-bold uppercase text-slate-500">{m.label}</span>
@@ -240,7 +226,7 @@ function ImpactPage() {
               </button>
             </div>
 
-            <div className="hide-scrollbar flex snap-x gap-6 overflow-x-auto pb-2">
+            <div className="grid grid-cols-2 gap-4">
               {[
                 { label: 'Eco Warrior', icon: 'eco', tone: 'success' },
                 { label: 'Education Ally', icon: 'menu_book', tone: 'blue' },
@@ -256,16 +242,16 @@ function ImpactPage() {
                         ? 'from-primary/25 to-primary/5 border-primary/25 text-primary shadow-primary/10'
                         : 'from-primary/20 to-primary/5 border-primary/30 text-primary shadow-primary/10'
                 return (
-                  <div className="group flex shrink-0 snap-center flex-col items-center gap-3" key={a.label}>
+                  <div className="group flex min-w-0 flex-col items-center gap-3" key={a.label}>
                     <div
-                      className={`relative flex size-20 items-center justify-center rounded-full bg-gradient-to-br border-2 shadow-lg transition-transform group-hover:scale-105 ${tone}`}
+                      className={`relative flex size-16 items-center justify-center rounded-full bg-gradient-to-br border-2 shadow-md transition-transform group-hover:scale-105 sm:size-20 ${tone}`}
                     >
-                      <span className="material-symbols-outlined !text-4xl">{a.icon}</span>
+                      <span className="material-symbols-outlined !text-3xl sm:!text-4xl">{a.icon}</span>
                       <div className="absolute -bottom-1 -right-1 rounded-full bg-white p-1 border border-black/5">
                         <span className="material-symbols-outlined !text-xs fill-1">verified</span>
                       </div>
                     </div>
-                    <span className="text-center text-xs font-bold text-slate-900">{a.label}</span>
+                    <span className="text-center text-[11px] font-bold text-slate-900 sm:text-xs">{a.label}</span>
                   </div>
                 )
               })}

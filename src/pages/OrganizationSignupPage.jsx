@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Button from '../components/Button'
 import { saveNgoProfile } from '../utils/ngoProfile'
 import { setAuthenticated, setOnboardingComplete, setUserRole } from '../utils/onboarding'
+import appLogo from '../../logo.png'
 
 /** Keeps Material icons optically centered next to label text in pill buttons. */
 function BtnIcon({ children, className = '' }) {
@@ -63,12 +64,8 @@ function OrganizationSignupPage() {
           <div className="grid w-full min-h-0 grid-cols-1 place-items-center gap-10 lg:grid-cols-2 lg:items-center lg:gap-14">
             <div className="flex w-full max-w-md flex-col items-center gap-5 text-center lg:max-w-none">
               <div className="flex items-center justify-center gap-3">
-                <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-shell text-brand-yellow shadow-premium">
-                  <span className="material-symbols-outlined text-[26px] leading-none text-brand-yellow">
-                    corporate_fare
-                  </span>
-                </div>
-                <span className="text-xl font-black tracking-tight text-shell">CauseConnect</span>
+                <img alt="CauseConnect logo" className="size-11 shrink-0 rounded-2xl object-contain shadow-premium" src={appLogo} />
+                <span className="text-2xl font-black tracking-tight text-shell">CauseConnect</span>
               </div>
               <span className="premium-chip border-primary/20 bg-primary/10 text-primary">For organizations</span>
               <h2 className="premium-h1 text-[clamp(1.85rem,3vw,2.75rem)]">
@@ -83,10 +80,8 @@ function OrganizationSignupPage() {
 
             <div className="mx-auto flex w-full max-w-2xl flex-col items-center text-center lg:max-w-none">
               <div className="mb-6 flex items-center justify-center gap-2 lg:hidden">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-shell text-brand-yellow shadow-premium">
-                  <span className="material-symbols-outlined text-2xl leading-none text-brand-yellow">corporate_fare</span>
-                </div>
-                <span className="text-lg font-black text-shell">CauseConnect</span>
+                <img alt="CauseConnect logo" className="size-10 shrink-0 rounded-xl object-contain shadow-premium" src={appLogo} />
+                <span className="text-xl font-black text-shell">CauseConnect</span>
               </div>
 
               <div className="max-h-[min(100%,calc(100dvh-4.5rem))] min-h-0 w-full overflow-y-auto overscroll-y-contain md:max-h-none md:overflow-visible">

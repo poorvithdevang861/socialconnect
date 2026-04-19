@@ -161,11 +161,7 @@ function NgoManageEventsPage() {
                     {item.spots ? ` · ${item.spots} volunteers` : ''}
                   </p>
                 </div>
-                {item.isDemo ? (
-                  <span className="inline-flex h-10 shrink-0 items-center rounded-xl border border-dashed border-slate-300 px-4 text-xs font-bold uppercase tracking-wider text-slate-500">
-                    Preview
-                  </span>
-                ) : (
+                {item.isDemo ? null : (
                   <Button variant="secondary" className="h-10 shrink-0 px-4" onClick={() => removeItem(item.id)} type="button">
                     Remove
                   </Button>

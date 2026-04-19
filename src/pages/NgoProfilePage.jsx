@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Button from '../components/Button'
 import NgoLayout from '../components/NgoLayout'
 import { getNgoProfile, saveNgoProfile } from '../utils/ngoProfile'
+import appLogo from '../../logo.png'
 
 function NgoProfilePage() {
   const navigate = useNavigate()
@@ -46,9 +47,7 @@ function NgoProfilePage() {
       <div className="mx-auto w-full max-w-3xl space-y-8">
         <section className="cc-card cc-card-pad-lg">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-            <div className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-shell text-brand-yellow shadow-premium">
-              <span className="material-symbols-outlined text-[32px]">corporate_fare</span>
-            </div>
+            <img alt="CauseConnect logo" className="size-16 shrink-0 rounded-2xl object-contain shadow-premium" src={appLogo} />
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2">
                 <h2 className="text-xl font-black tracking-tight text-ink">{orgName || 'Organization'}</h2>

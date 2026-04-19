@@ -735,7 +735,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                   },
                 ].map((t) => (
                   <div
-                    className="min-w-[85vw] rounded-2xl border border-black/[0.06] bg-white p-3 shadow-card transition-colors hover:shadow-card-hover sm:min-w-[260px] md:min-w-0 md:flex md:items-center md:gap-3"
+                    className="min-w-[85vw] rounded-2xl border border-success-green/30 bg-gradient-to-br from-success-green/20 via-success-green/10 to-white p-3 text-ink shadow-card transition-colors hover:border-success-green/45 hover:shadow-card-hover sm:min-w-[260px] md:min-w-0 md:flex md:items-center md:gap-3"
                     key={t.title}
                   >
                     <div className="relative h-[112px] overflow-hidden rounded-xl sm:h-[108px] md:h-20 md:w-20 md:shrink-0 lg:h-[88px] lg:w-[88px]">
@@ -747,9 +747,9 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                     </div>
                     <div className="mt-2 flex min-w-0 flex-1 flex-col justify-center md:mt-0">
                       <div>
-                        <span className={`text-[10px] font-black uppercase tracking-wider ${t.tagClass}`}>{t.tag}</span>
+                        <span className="text-[10px] font-black uppercase tracking-wider text-emerald-800">{t.tag}</span>
                         <h5 className="line-clamp-2 text-[15px] font-bold leading-snug text-neutral-900 md:line-clamp-1">{t.title}</h5>
-                        <p className="mt-0.5 text-xs text-neutral-600">{t.meta}</p>
+                        <p className="mt-0.5 text-xs text-neutral-700">{t.meta}</p>
                       </div>
                       <button className="btn-success-green mt-2 px-3 py-1.5 text-[12px] md:hidden" onClick={() => navigate('/event')} type="button">
                         View Details
