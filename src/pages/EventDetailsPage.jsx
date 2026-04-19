@@ -5,6 +5,7 @@ import FriendsAttendingBlock from '../components/FriendsAttendingBlock'
 import { GREEN_EARTH_WISHLIST } from '../utils/registrations'
 import { getFriends, subscribeFriends } from '../utils/friends'
 import { isWishlisted, subscribeWishlist, toWishlistPayload, toggleWishlist } from '../utils/wishlist'
+import { GREEN_EARTH_VENUE_QUERY, googleMapsSearchHref } from '../utils/maps'
 
 const DETAIL_TABS = [
   { id: 'about', label: 'About' },
@@ -146,15 +147,22 @@ function EventDetailsPage() {
                 <p className="text-xs text-slate-500">Duration</p>
               </div>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <a
+              className="-mx-1 flex items-center gap-4 rounded-xl border border-transparent px-1 py-1 transition-colors hover:border-primary/15 hover:bg-primary/[0.06]"
+              href={googleMapsSearchHref(GREEN_EARTH_VENUE_QUERY)}
+              rel="noopener noreferrer"
+              target="_blank"
+              title="Open in Google Maps"
+            >
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
                 <span className="material-symbols-outlined">location_on</span>
               </div>
-              <div className="flex-1">
+              <div className="min-w-0 flex-1">
                 <p className="text-sm font-semibold">Ahmedabad City Park, North Entrance</p>
-                <p className="text-xs text-slate-500">Sabarmati Riverfront Road, Ahmedabad</p>
+                <p className="text-xs text-slate-500">Sabarmati Riverfront Road, Ahmedabad · Maps</p>
               </div>
-            </div>
+              <span className="material-symbols-outlined shrink-0 text-lg text-primary">open_in_new</span>
+            </a>
             <div className="flex items-center gap-4">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                 <span className="material-symbols-outlined">group</span>
@@ -290,11 +298,17 @@ function EventDetailsPage() {
             <h1 className="mb-2 text-[2.8rem] font-black leading-none tracking-tight xl:text-5xl">
               Green Earth Tree Plantation
             </h1>
-            <div className="flex items-center gap-4 opacity-90">
-              <div className="flex items-center gap-1">
+            <div className="flex flex-wrap items-center gap-4 opacity-90">
+              <a
+                className="flex items-center gap-1 rounded-lg border border-white/0 px-1 py-0.5 transition-colors hover:border-white/40 hover:bg-white/10"
+                href={googleMapsSearchHref(GREEN_EARTH_VENUE_QUERY)}
+                rel="noopener noreferrer"
+                target="_blank"
+                title="Open in Google Maps"
+              >
                 <span className="material-symbols-outlined text-sm">location_on</span>
                 <span className="text-sm font-medium">Ahmedabad City Park</span>
-              </div>
+              </a>
               <div className="flex items-center gap-1">
                 <span className="material-symbols-outlined text-sm">calendar_today</span>
                 <span className="text-sm font-medium">Sat, 24 Oct • 08:00 AM</span>
@@ -461,19 +475,26 @@ function EventDetailsPage() {
                       <p className="text-sm font-bold text-slate-900">Saturday, 24 Oct • 4 Hours</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="flex size-10 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
+                  <a
+                    className="-mx-1 flex items-center gap-4 rounded-xl border border-transparent px-1 py-1 transition-colors hover:border-primary/15 hover:bg-primary/[0.06]"
+                    href={googleMapsSearchHref(GREEN_EARTH_VENUE_QUERY)}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    title="Open in Google Maps"
+                  >
+                    <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
                       <span className="material-symbols-outlined">distance</span>
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
                         Location
                       </p>
                       <p className="text-sm font-bold text-slate-900">
                         Ahmedabad City Park, North Entrance
                       </p>
+                      <p className="mt-0.5 text-xs font-semibold text-primary">Open in Maps</p>
                     </div>
-                  </div>
+                  </a>
                 </div>
               </div>
               <Button
@@ -509,12 +530,20 @@ function EventDetailsPage() {
               </div>
             </div>
 
-            <div className="overflow-hidden cc-card border-slate-100">
+            <a
+              className="group cc-card block cursor-pointer overflow-hidden border-slate-100 transition-all hover:shadow-[0_12px_40px_-12px_rgba(234,88,12,0.2)] hover:ring-2 hover:ring-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              href={googleMapsSearchHref(GREEN_EARTH_VENUE_QUERY)}
+              rel="noopener noreferrer"
+              target="_blank"
+              title="Open location in Google Maps"
+            >
               <div className="flex items-center justify-between border-b border-slate-100 p-4">
                 <h5 className="font-bold text-slate-900">Location Map</h5>
-                <span className="material-symbols-outlined text-xl text-primary">map</span>
+                <span className="material-symbols-outlined text-xl text-primary transition-transform group-hover:translate-x-0.5">
+                  map
+                </span>
               </div>
-              <div className="group relative h-48 overflow-hidden">
+              <div className="relative h-48 overflow-hidden">
                 <div className="absolute inset-0 bg-slate-200">
                   <img
                     alt="Map view"
@@ -525,16 +554,16 @@ function EventDetailsPage() {
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="relative">
                     <div className="absolute -inset-4 animate-ping rounded-full bg-primary/30" />
-                    <div className="relative z-10 flex size-8 items-center justify-center rounded-full bg-primary text-white">
+                    <div className="relative z-10 flex size-8 items-center justify-center rounded-full bg-primary text-white shadow-lg ring-4 ring-white/50 transition-transform group-hover:scale-110">
                       <span className="material-symbols-outlined text-sm">location_on</span>
                     </div>
                   </div>
                 </div>
-                <div className="absolute bottom-2 left-2 rounded-md bg-white/90 px-2 py-1 text-[10px] font-bold tracking-tight">
+                <div className="absolute bottom-2 left-2 rounded-md bg-white/95 px-2 py-1 text-[10px] font-bold tracking-tight shadow-sm ring-1 ring-black/[0.06]">
                   Open in Maps
                 </div>
               </div>
-            </div>
+            </a>
 
             <div className="cc-card border-slate-100 cc-card-pad-lg">
               <h5 className="mb-4 font-bold text-slate-900">Friends on your list</h5>

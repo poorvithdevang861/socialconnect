@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import Button from '../components/Button'
 import FriendsAttendingBlock from '../components/FriendsAttendingBlock'
 import { registerGreenEarthEvent } from '../utils/registrations'
+import { GREEN_EARTH_VENUE_QUERY, googleMapsSearchHref } from '../utils/maps'
 
 function IconWrap({ children }) {
   return (
@@ -183,28 +184,37 @@ function RegistrationConfirmationPage() {
                   </div>
                 </div>
                 <a
-                  className="btn-secondary inline-flex shrink-0 items-center justify-center px-5 py-2.5 text-xs font-black uppercase tracking-wider"
-                  href="https://maps.google.com/?q=Ahmedabad+City+Park"
-                  rel="noreferrer"
+                  className="btn-secondary inline-flex shrink-0 items-center justify-center px-5 py-2.5 text-xs font-black uppercase tracking-wider transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                  href={googleMapsSearchHref(GREEN_EARTH_VENUE_QUERY)}
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   Get Directions
                 </a>
               </div>
-              <div className="group relative flex h-48 w-full items-center justify-center bg-slate-200">
+              <a
+                className="group relative flex h-48 w-full cursor-pointer items-center justify-center bg-slate-200 outline-none transition-all hover:brightness-[1.03] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                href={googleMapsSearchHref(GREEN_EARTH_VENUE_QUERY)}
+                rel="noopener noreferrer"
+                target="_blank"
+                title="Open in Google Maps"
+              >
                 <div
-                  className="absolute inset-0 bg-cover bg-center opacity-60 grayscale transition-all duration-500 group-hover:grayscale-0"
+                  className="absolute inset-0 bg-cover bg-center opacity-60 grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:opacity-80"
                   style={{
                     backgroundImage:
                       "url('https://lh3.googleusercontent.com/aida-public/AB6AXuC0acDosxWOIbhWKPJcrznUTqBOjfP4GnsEZa98kAg5hbiTw8MKK9jKZajKHxoOPh9gXWwNSwItcrQPTyHPlDCAtgm-5hSxiXVoXXqojacya29ykLeTFGd57FVqMQDEAAn1Jqe2T1lnguHojkK8l9kvTERHasP9ESyIFTldQdoGvEZBWKtEaUEGHhFuSSx1RgqZd9SNsa8eb10bObpk1mV1HvSn5em0g157CKBw-YeH08SAuLpyoZ26f74YB4utKTRXo8lD-EScN9A')",
                   }}
                 />
                 <div className="relative z-10 flex flex-col items-center gap-2">
-                  <div className="flex h-10 w-10 animate-bounce items-center justify-center rounded-full bg-primary text-white shadow-lg">
+                  <div className="flex h-10 w-10 animate-bounce items-center justify-center rounded-full bg-primary text-white shadow-lg ring-4 ring-white/40 transition-transform group-hover:scale-110">
                     <span className="material-symbols-outlined leading-none text-white">location_on</span>
                   </div>
+                  <span className="rounded-full bg-white/95 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-slate-700 shadow-md">
+                    Tap to open Maps
+                  </span>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
         </div>

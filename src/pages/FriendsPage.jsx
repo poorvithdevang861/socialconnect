@@ -7,6 +7,7 @@ function FriendsPage() {
   const [friends, setFriends] = useState(getFriends)
   const [name, setName] = useState('')
   const [avatar, setAvatar] = useState('')
+  const [addError, setAddError] = useState('')
 
   useEffect(() => {
     const sync = () => setFriends(getFriends())
@@ -18,9 +19,14 @@ function FriendsPage() {
     e.preventDefault()
     const n = name.trim()
     if (!n) return
-    addFriend({ name: n, avatar: avatar.trim() })
-    setName('')
-    setAvatar('')
+    const ok = addFriend({ name: n, avatar: avatar.trim() })
+    if (ok) {
+      setName('')
+      setAvatar('')
+      setAddError('')
+    } else {
+      setAddError('That name is already in your list.')
+    }
   }
 
   return (
@@ -37,7 +43,9 @@ function FriendsPage() {
         <section className="lg:col-span-5">
           <div className="cc-card cc-card-pad-lg">
             <h2 className="text-lg font-bold text-slate-900">Add a friend</h2>
-            <p className="mt-1 text-sm text-slate-500">Name is required. Avatar URL is optional.</p>
+            <p className="mt-1 text-sm text-slate-500">
+              Name is required. Avatar URL is optional. We only show people you add — nothing is prefilled.
+            </p>
             <form className="mt-6 space-y-4" onSubmit={handleAdd}>
               <div>
                 <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-500">
@@ -45,7 +53,10 @@ function FriendsPage() {
                 </label>
                 <input
                   className="h-12 w-full rounded-2xl border border-black/[0.08] bg-background-light px-4 text-[15px] text-ink outline-none focus:border-primary/40 focus:ring-2 focus:ring-primary/25"
-                  onChange={(ev) => setName(ev.target.value)}
+                  onChange={(ev) => {
+                    setName(ev.target.value)
+                    setAddError('')
+                  }}
                   placeholder="e.g. Priya Sharma"
                   value={name}
                 />
@@ -62,6 +73,7 @@ function FriendsPage() {
                   value={avatar}
                 />
               </div>
+              {addError ? <p className="text-sm font-medium text-red-600">{addError}</p> : null}
               <Button className="w-full justify-center py-3 font-bold" type="submit">
                 Add friend
               </Button>

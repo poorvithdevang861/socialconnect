@@ -2,9 +2,19 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Button from '../components/Button'
 import SectionHeader from '../components/SectionHeader'
-import { isWishlisted, subscribeWishlist, toWishlistPayload, toggleWishlist } from '../utils/wishlist'
+import { getWishlist, isWishlisted, subscribeWishlist, toWishlistPayload, toggleWishlist } from '../utils/wishlist'
+import { googleMapsSearchHref } from '../utils/maps'
 
 const LOCATIONS = ['Ahmedabad', 'Pune', 'Bengaluru', 'Hyderabad']
+
+/** Subtle green selection — consistent across quick filters & Near You scope */
+const FILTER_ACTIVE_PILL =
+  'border border-success-green/45 bg-success-green/15 text-neutral-900 shadow-sm ring-1 ring-success-green/25'
+const FILTER_INACTIVE_PILL =
+  'border border-neutral-200 bg-white text-neutral-900 shadow-sm hover:border-neutral-300 hover:bg-neutral-50'
+const FILTER_ACTIVE_MOBILE =
+  'border border-success-green/50 bg-success-green/[0.18] text-neutral-900 shadow-md ring-2 ring-success-green/40 ring-offset-2 ring-offset-background-light'
+const FILTER_INACTIVE_MOBILE = 'bg-white ring-1 ring-neutral-200/95 shadow-sm'
 
 function parseDateBadge(dateShort) {
   const parts = String(dateShort).trim().split(/\s+/)
@@ -20,7 +30,6 @@ function EventOpportunityCard({ item, navigate, carousel }) {
   const { day, month } = parseDateBadge(item.dateShort)
   const timeRange = item.timeRange ?? '07:30 PM – 09:00 PM'
   const route = item.route ?? '/event'
-  const rating = item.rating ?? 4.8
   const saved = item.id ? isWishlisted(item.id) : false
   return (
     <div
@@ -48,7 +57,7 @@ function EventOpportunityCard({ item, navigate, carousel }) {
         <Button
           variant="none"
           className={`absolute right-2.5 top-2.5 flex size-9 items-center justify-center rounded-xl bg-white/95 shadow-md ring-1 ring-black/[0.06] transition-colors hover:text-primary ${
-            saved ? 'text-primary' : 'text-slate-500'
+            saved ? 'text-primary ring-primary/35' : 'text-slate-500'
           }`}
           aria-label={saved ? 'Remove from wishlist' : 'Save to wishlist'}
           onClick={(e) => {
@@ -58,7 +67,7 @@ function EventOpportunityCard({ item, navigate, carousel }) {
           }}
           type="button"
         >
-          <span className={`material-symbols-outlined text-[20px] ${saved ? 'fill-1' : ''}`}>
+          <span className={`material-symbols-outlined text-[20px] ${saved ? 'fill-1 text-primary' : ''}`}>
             bookmark
           </span>
         </Button>
@@ -70,34 +79,30 @@ function EventOpportunityCard({ item, navigate, carousel }) {
             Verified
           </div>
         ) : null}
-        <div className="absolute bottom-3 left-3 flex items-center gap-1 rounded-lg bg-black/55 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm">
-          <span className="material-symbols-outlined fill-1 text-[14px] text-amber-300">star</span>
-          {rating}
-        </div>
         <div className="absolute bottom-3 right-3 max-w-[55%] rounded-lg bg-black/45 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-white backdrop-blur-sm">
           {item.cause}
         </div>
       </div>
 
       <div className="relative flex flex-1 flex-col bg-white px-4 pb-4 pt-8 cq-tight-card md:px-5 md:pb-5 md:pt-9">
-        <div className="absolute left-4 top-0 z-10 -translate-y-1/2 rounded-xl bg-white px-2.5 py-1.5 text-center shadow-md ring-1 ring-black/[0.06] md:left-5">
-          <div className="text-xl font-black leading-none text-ink md:text-[1.35rem]">{day}</div>
-          <div className="mt-0.5 text-[10px] font-bold uppercase tracking-wider text-primary">{month}</div>
+        <div className="absolute left-4 top-0 z-10 -translate-y-1/2 rounded-xl bg-white px-2.5 py-1.5 text-center shadow-md ring-1 ring-black/[0.08] md:left-5">
+          <div className="text-xl font-black leading-none text-neutral-900 md:text-[1.35rem]">{day}</div>
+          <div className="mt-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-800">{month}</div>
         </div>
 
         <div className="min-w-0 flex-1 pr-6">
-          <h4 className="cq-tight-title text-[clamp(1rem,4vw,1.15rem)] font-bold leading-snug text-ink transition-colors group-hover:text-primary md:text-[clamp(1.02rem,4.2vw,1.2rem)]">
+          <h4 className="cq-tight-title text-[clamp(1rem,4vw,1.15rem)] font-bold leading-snug text-neutral-900 transition-colors group-hover:text-emerald-900 md:text-[clamp(1.02rem,4.2vw,1.2rem)]">
             {item.title}
           </h4>
-          <p className="mt-1 text-[13px] font-medium text-slate-600">
+          <p className="mt-1 text-[13px] font-medium text-neutral-600">
             {item.cause}
-            <span className="text-slate-400"> · </span>
+            <span className="text-neutral-400"> · </span>
             {item.joined}
           </p>
-          <p className="mt-1 text-xs font-semibold text-primary">{timeRange}</p>
+          <p className="mt-1 text-xs font-semibold text-neutral-800">{timeRange}</p>
         </div>
 
-        <p className="mt-2 line-clamp-2 text-[13px] leading-relaxed text-slate-500">{item.desc}</p>
+        <p className="mt-2 line-clamp-2 text-[13px] leading-relaxed text-neutral-600">{item.desc}</p>
 
         <Button
           className="mt-4 w-full rounded-2xl py-3 text-[15px]"
@@ -120,11 +125,18 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
   const locRef = useRef(null)
   const [locOpen, setLocOpen] = useState(false)
   const [promoIdx, setPromoIdx] = useState(0)
+  const [featuredExpanded, setFeaturedExpanded] = useState(false)
   const [, setWishTick] = useState(0)
 
   useEffect(() => {
     return subscribeWishlist(() => setWishTick((t) => t + 1))
   }, [])
+
+  useEffect(() => {
+    setFeaturedExpanded(false)
+  }, [activeCause])
+
+  const hasWishlistItems = getWishlist().length > 0
 
   useEffect(() => {
     function handlePointerDown(event) {
@@ -140,12 +152,12 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
 
   const causes = useMemo(
     () => [
-      { key: 'All', label: 'All Causes', icon: 'apps', tone: 'text-slate-600' },
-      { key: 'Environment', label: 'Environment', icon: 'eco', tone: 'text-primary' },
-      { key: 'Education', label: 'Education', icon: 'school', tone: 'text-primary-dark' },
-      { key: 'Health', label: 'Health', icon: 'volunteer_activism', tone: 'text-primary' },
-      { key: 'Food', label: 'Food Drives', icon: 'restaurant', tone: 'text-primary-dark' },
-      { key: 'Community', label: 'Community Care', icon: 'diversity_3', tone: 'text-primary' },
+      { key: 'All', label: 'All Causes', icon: 'apps' },
+      { key: 'Environment', label: 'Environment', icon: 'eco' },
+      { key: 'Education', label: 'Education', icon: 'school' },
+      { key: 'Health', label: 'Health', icon: 'volunteer_activism' },
+      { key: 'Food', label: 'Food Drives', icon: 'restaurant' },
+      { key: 'Community', label: 'Community Care', icon: 'diversity_3' },
     ],
     [],
   )
@@ -361,6 +373,11 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
     return filtered
   }, [activeCause])
 
+  const featuredVisible = useMemo(() => {
+    if (featuredExpanded) return featuredGrid
+    return featuredGrid.slice(0, 3)
+  }, [featuredExpanded, featuredGrid])
+
   const mobileFriends = useMemo(
     () => [
       {
@@ -465,13 +482,21 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
               CauseConnect
             </h1>
             <div className="flex min-w-0 flex-1 justify-end gap-1.5">
-              <button
-                className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-white/25 bg-white/10 text-white backdrop-blur-sm transition-colors hover:border-white/35 hover:bg-white/16"
-                type="button"
-                aria-label="Wishlist"
+              <Link
+                className={`flex size-10 shrink-0 items-center justify-center rounded-xl border backdrop-blur-sm transition-colors ${
+                  hasWishlistItems
+                    ? 'border-primary/55 bg-primary/20 text-white hover:border-primary/70 hover:bg-primary/28'
+                    : 'border-white/25 bg-white/10 text-white hover:border-white/35 hover:bg-white/16'
+                }`}
+                to="/wishlist"
+                aria-label={hasWishlistItems ? 'Wishlist — saved items' : 'Wishlist'}
               >
-                <span className="material-symbols-outlined text-[20px]">favorite</span>
-              </button>
+                <span
+                  className={`material-symbols-outlined text-[20px] ${hasWishlistItems ? 'fill-1 text-amber-200' : ''}`}
+                >
+                  bookmark
+                </span>
+              </Link>
               <Link
                 className="size-10 shrink-0 overflow-hidden rounded-xl border-2 border-white/40 bg-white/20"
                 to="/profile"
@@ -500,18 +525,18 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
           <SectionHeader
             title={
               <>
-                Welcome back, <span className="text-primary">Arjun!</span>
+                Welcome back, <span className="text-neutral-900">Arjun!</span>
               </>
             }
             subtitle={`There are 12 new volunteering opportunities in ${location} today.`}
-            titleClassName="premium-h1"
+            titleClassName="premium-h1 text-neutral-900"
           />
         </section>
 
         {/* #SpecialForYou — promo carousel */}
         <section className="pt-1">
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-xs font-black uppercase tracking-[0.2em] text-slate-500">#SpecialForYou</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.2em] text-neutral-900/75">#SpecialForYou</h2>
           </div>
           <div className="overflow-hidden rounded-2xl">
             <div
@@ -543,7 +568,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
             {promoSlides.map((_, i) => (
               <button
                 aria-label={`Promo ${i + 1}`}
-                className={`h-1.5 rounded-full transition-all ${promoIdx === i ? 'w-6 bg-primary' : 'w-1.5 bg-slate-300'}`}
+                className={`h-1.5 rounded-full transition-all ${promoIdx === i ? 'w-6 bg-neutral-900' : 'w-1.5 bg-neutral-300'}`}
                 key={String(i)}
                 onClick={() => setPromoIdx(i)}
                 type="button"
@@ -552,11 +577,13 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
           </div>
         </section>
 
-        {/* Services — circular cause icons (mobile-first) */}
+        {/* Quick filters — circular cause icons (mobile-first) */}
         <section className="md:hidden">
           <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-lg font-bold text-ink">Causes</h3>
-            <span className="text-xs font-bold uppercase tracking-wider text-success-green">Highlights</span>
+            <h3 className="text-lg font-bold text-neutral-900">Quick filters</h3>
+            <span className="rounded-full border border-neutral-200 bg-neutral-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-neutral-700">
+              By cause
+            </span>
           </div>
           <div className="hide-scrollbar flex gap-4 overflow-x-auto pb-2 pt-1">
             {causes.map((c) => {
@@ -569,15 +596,17 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                   type="button"
                 >
                   <div
-                    className={`flex size-[56px] items-center justify-center rounded-full shadow-md transition-transform active:scale-95 ${
-                      active
-                        ? 'bg-primary text-white ring-2 ring-primary ring-offset-2'
-                        : 'bg-white text-slate-600 ring-1 ring-black/[0.06]'
+                    className={`flex size-[56px] items-center justify-center rounded-full transition-transform active:scale-95 ${
+                      active ? FILTER_ACTIVE_MOBILE : FILTER_INACTIVE_MOBILE
                     }`}
                   >
-                    <span className="material-symbols-outlined text-[26px]">{c.icon}</span>
+                    <span
+                      className={`material-symbols-outlined text-[26px] ${active ? 'text-emerald-900' : 'text-neutral-500'}`}
+                    >
+                      {c.icon}
+                    </span>
                   </div>
-                  <span className="max-w-[76px] text-center text-[10px] font-semibold leading-tight text-slate-700">
+                  <span className="max-w-[76px] text-center text-[10px] font-semibold leading-tight text-neutral-800">
                     {c.label}
                   </span>
                 </button>
@@ -586,7 +615,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
           </div>
         </section>
 
-        {/* Desktop: pill filters + chips */}
+        {/* Desktop: quick filter pills */}
         <div className="mb-1 hidden grid-cols-1 gap-3 md:grid md:grid-cols-[1fr_auto] md:items-center">
           <div className="hide-scrollbar flex gap-2 overflow-x-auto pb-2 sm:gap-2.5">
             {causes.map((c) => {
@@ -594,15 +623,15 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
               return (
                 <button
                   className={`flex items-center gap-2 whitespace-nowrap rounded-2xl px-4 py-2.5 text-[13px] font-bold transition-all sm:px-5 sm:text-sm ${
-                    active
-                      ? 'bg-primary text-white shadow-md shadow-primary/20'
-                      : 'border border-black/[0.08] bg-white text-slate-800 shadow-sm hover:border-primary/40'
+                    active ? FILTER_ACTIVE_PILL : FILTER_INACTIVE_PILL
                   }`}
                   key={c.key}
                   onClick={() => setActiveCause(c.key)}
                   type="button"
                 >
-                  <span className={`material-symbols-outlined text-lg ${active ? 'text-white' : c.tone}`}>
+                  <span
+                    className={`material-symbols-outlined text-lg ${active ? 'text-emerald-900' : 'text-neutral-500'}`}
+                  >
                     {c.icon}
                   </span>
                   {c.label}
@@ -612,8 +641,8 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
           </div>
 
           <div className="flex items-center justify-start gap-2 md:justify-self-end md:justify-end">
-            <span className="rounded-2xl border border-success-green/40 bg-success-green/10 px-4 py-2.5 text-sm font-extrabold text-success-green">
-              Cause highlights
+            <span className="rounded-2xl border border-neutral-200 bg-neutral-50 px-4 py-2.5 text-sm font-extrabold text-neutral-900">
+              Browse by cause
             </span>
           </div>
         </div>
@@ -622,18 +651,20 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
             <section>
               <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-wrap items-center gap-3">
-                  <h3 className="flex items-center gap-2 text-2xl font-extrabold">
-                    <span className="material-symbols-outlined text-primary">near_me</span>
+                  <h3 className="flex items-center gap-2 text-2xl font-extrabold text-neutral-900">
+                    <span className="material-symbols-outlined text-neutral-900">near_me</span>
                     Near You
                   </h3>
-                  <div className="flex items-center gap-1 rounded-2xl border border-black/[0.06] bg-white p-1 shadow-sm">
+                  <div className="flex items-center gap-1 rounded-2xl border border-neutral-200 bg-neutral-50/90 p-1 shadow-inner">
                     {[
                       ['week', 'This week'],
                       ['month', 'This month'],
                     ].map(([key, label]) => (
                       <button
                         className={`rounded-xl px-3 py-1.5 text-xs font-black transition-colors ${
-                          nearYouScope === key ? 'bg-primary text-white shadow-sm' : 'text-slate-600 hover:bg-beige'
+                          nearYouScope === key
+                            ? FILTER_ACTIVE_PILL
+                            : 'text-neutral-600 hover:bg-white'
                         }`}
                         key={key}
                         onClick={() => setNearYouScope(key)}
@@ -645,13 +676,14 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                   </div>
                 </div>
 
-                <button
-                  className="self-start text-sm font-bold text-primary hover:underline sm:self-auto"
-                  onClick={() => navigate('/events')}
-                  type="button"
+                <a
+                  className="self-start text-sm font-bold text-neutral-900 underline-offset-2 transition-colors hover:text-emerald-900 hover:underline sm:self-auto"
+                  href={googleMapsSearchHref(`Volunteer opportunities near ${location}`)}
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   View map
-                </button>
+                </a>
               </div>
 
               <div className="hide-scrollbar flex gap-4 overflow-x-auto pb-1 md:grid md:grid-cols-2 md:items-stretch md:gap-5 md:overflow-visible lg:grid-cols-3">
@@ -663,63 +695,63 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
 
             <section>
               <div className="mb-6 flex items-center justify-between">
-                <h3 className="flex items-center gap-2 text-[22px] font-semibold md:text-2xl md:font-extrabold">
-                  <span className="material-symbols-outlined text-success-green">trending_up</span>
+                <h3 className="flex items-center gap-2 text-[22px] font-semibold text-neutral-900 md:text-2xl md:font-extrabold">
+                  <span className="material-symbols-outlined text-neutral-900">trending_up</span>
                   Trending This Week
                 </h3>
                 <button
-                  className="text-sm font-medium text-primary md:hidden"
+                  className="text-sm font-semibold text-neutral-900 underline-offset-2 hover:underline md:hidden"
                   onClick={() => navigate('/events')}
                   type="button"
                 >
                   See All
                 </button>
               </div>
-              <div className="hide-scrollbar -mx-3 flex gap-4 overflow-x-auto px-3 pb-1 sm:-mx-4 sm:px-4 md:mx-0 md:grid md:grid-cols-2 md:items-stretch md:gap-6 md:overflow-visible md:px-0 lg:grid-cols-3">
+              <div className="hide-scrollbar -mx-3 flex gap-3 overflow-x-auto px-3 pb-1 sm:-mx-4 sm:px-4 md:mx-0 md:grid md:grid-cols-2 md:items-start md:gap-4 md:overflow-visible md:px-0 lg:grid-cols-3">
                 {[
                   {
                     tag: 'Education',
-                    tagClass: 'text-success-green',
+                    tagClass: 'text-neutral-600',
                     title: 'Weekend Tutoring for Kids',
                     meta: '45 volunteers matched',
                     img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBtVjPEQgTa5GnZj8q-80NZ3SjzxnLLVlWmdo1qjEyL1D0d4SwvhtLL77I9FnvUrRh_hmB90eT0WJ_YugBrVEFmAud6wzFUr_7bijy3PPNP9OWgpmxrbjHc5E0BFy2TUUH2AHo1KRXgW-iQZVN4W3I3dfUMW2wmP-OEU9zegVyDhKGAcnqRLdV4uZvepCKja00fmpr_zLQSRxiO-yyLIaUEbz2eNAXr6lOMXBtUSvRFcyyAz2HaSu5J2clatrZIEXT2lpuzN-4af2k',
                   },
                   {
                     tag: 'Social Care',
-                    tagClass: 'text-success-green',
+                    tagClass: 'text-neutral-600',
                     title: 'Community Kitchen Drive',
                     meta: '82 volunteers matched',
                     img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCaTA_trNJ3oVwBlDd5NOyoSGD57zrqwYXcvbv4KkqP2oKAunXaR7EGT_tXXafrlEbGVYEkKFp8I-AERmRinzvja5l0KZOgbBXjTDlVYxoo-z7S7W9RsanPQ2UjYPZy1o8nHNOmX6jpHkRw_oyxgk-pwXqMlx5Ic7o9UsWpOu73f4Mbzl3F2EntNZmcBL2cuQfi4G2eET40eNHqXYX2uNRo0_ZQFFiEzlj3Hop0ku4PbwQZNX8mYaC1Kikv1mtBqGLjyZF5Sxhu6aM',
                   },
                   {
                     tag: 'Environment',
-                    tagClass: 'text-success-green',
+                    tagClass: 'text-neutral-600',
                     title: 'Urban Garden Project',
                     meta: '31 volunteers matched',
                     img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDBOg8TA3Ihi0kIsJEo6ijwacpGoTVX3ByTdbvQKjrvpx_hybl-IqpWwOSfnj74w0b6gs9LPChsGyMfxIzQSzZKSS42_5L1JCmJemCRP5-PD9DYWQd-2yrJU8hTkC0c2A2KnSpPeAVv8JRlsXXcChBG84TzAfFNFb9jWspUJOqv-kXrlE025PsmOElaAC_zhJxvmu7UtADf0-mHprS0QwpvQMo3mV38KLO6J1nNutx7XQDllBTS3WGGe8vRMxmCH8hf8kV23x06_Ss',
                   },
                 ].map((t) => (
                   <div
-                    className="min-w-[85vw] rounded-2xl border border-black/[0.06] bg-white p-4 shadow-card transition-colors hover:shadow-card-hover sm:min-w-[280px] sm:min-h-[310px] md:min-h-[260px] md:min-w-0 md:flex md:items-start md:gap-4"
+                    className="min-w-[85vw] rounded-2xl border border-black/[0.06] bg-white p-3 shadow-card transition-colors hover:shadow-card-hover sm:min-w-[260px] md:min-w-0 md:flex md:items-center md:gap-3"
                     key={t.title}
                   >
-                    <div className="relative h-[180px] overflow-hidden rounded-xl md:h-[120px] md:w-[120px] md:shrink-0 md:rounded-xl">
+                    <div className="relative h-[112px] overflow-hidden rounded-xl sm:h-[108px] md:h-20 md:w-20 md:shrink-0 lg:h-[88px] lg:w-[88px]">
                       <img alt={t.title} className="h-full w-full object-cover" src={t.img} />
-                      <div className="absolute left-3 top-3 flex items-center gap-1 rounded-lg bg-white/95 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-success-green shadow-sm md:hidden">
-                        <span className="material-symbols-outlined text-[14px]">verified</span>
+                      <div className="absolute left-2 top-2 flex items-center gap-0.5 rounded-md bg-white/95 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-neutral-700 shadow-sm md:hidden">
+                        <span className="material-symbols-outlined text-[12px]">verified</span>
                         Verified
                       </div>
                     </div>
-                    <div className="mt-3 flex min-w-0 flex-1 flex-col justify-between md:mt-0">
+                    <div className="mt-2 flex min-w-0 flex-1 flex-col justify-center md:mt-0">
                       <div>
                         <span className={`text-[10px] font-black uppercase tracking-wider ${t.tagClass}`}>{t.tag}</span>
-                        <h5 className="line-clamp-1 font-bold text-ink">{t.title}</h5>
-                        <p className="mt-1 text-xs text-slate-500">{t.meta}</p>
+                        <h5 className="line-clamp-2 text-[15px] font-bold leading-snug text-neutral-900 md:line-clamp-1">{t.title}</h5>
+                        <p className="mt-0.5 text-xs text-neutral-600">{t.meta}</p>
                       </div>
-                      <button className="btn-primary mt-3 px-3 py-2 text-[12px] md:hidden" onClick={() => navigate('/event')} type="button">
+                      <button className="btn-primary mt-2 px-3 py-1.5 text-[12px] md:hidden" onClick={() => navigate('/event')} type="button">
                         View Details
                       </button>
-                      <button className="mt-3 hidden items-center gap-1 text-sm font-bold text-primary transition-all hover:gap-2 md:flex" onClick={() => navigate('/event')} type="button">
+                      <button className="mt-2 hidden items-center gap-1 text-sm font-bold text-neutral-900 transition-all hover:gap-2 hover:text-emerald-900 md:flex" onClick={() => navigate('/event')} type="button">
                         Learn more <span className="material-symbols-outlined text-sm">arrow_forward</span>
                       </button>
                     </div>
@@ -730,22 +762,35 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
 
 
             <section>
-              <div className="mb-6 flex items-center justify-between">
-                <h3 className="flex items-center gap-2 text-2xl font-extrabold">
-                  <span className="material-symbols-outlined text-primary">view_module</span>
+              <div className="mb-6 flex items-center justify-between gap-3">
+                <h3 className="flex min-w-0 items-center gap-2 text-2xl font-extrabold text-neutral-900">
+                  <span className="material-symbols-outlined shrink-0 text-neutral-900">view_module</span>
                   Featured Opportunities
                 </h3>
-                <button
-                  className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:underline"
-                  onClick={() => navigate('/events')}
-                  type="button"
-                >
-                  View all <span className="material-symbols-outlined text-base">arrow_forward</span>
-                </button>
+                {featuredGrid.length > 3 ? (
+                  <button
+                    className="inline-flex shrink-0 items-center gap-1 text-sm font-bold text-neutral-900 transition-colors hover:text-emerald-900 hover:underline"
+                    onClick={() => setFeaturedExpanded((v) => !v)}
+                    type="button"
+                    aria-expanded={featuredExpanded}
+                  >
+                    {featuredExpanded ? (
+                      <>
+                        Show less
+                        <span className="material-symbols-outlined text-base">expand_less</span>
+                      </>
+                    ) : (
+                      <>
+                        See all
+                        <span className="material-symbols-outlined text-base">expand_more</span>
+                      </>
+                    )}
+                  </button>
+                ) : null}
               </div>
 
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 lg:items-stretch">
-                {featuredGrid.slice(0, 6).map((item) => (
+                {featuredVisible.map((item) => (
                   <EventOpportunityCard item={item} key={item.id ?? item.title} navigate={navigate} />
                 ))}
               </div>
@@ -753,7 +798,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
 
             <section className="md:hidden">
               <div className="mb-4 px-1">
-                <h3 className="text-[20px] font-semibold leading-tight text-slate-900">Friends Are Volunteering</h3>
+                <h3 className="text-[20px] font-semibold leading-tight text-neutral-900">Friends Are Volunteering</h3>
               </div>
               <div className="space-y-3">
                 {mobileFriends.map((item) => (
@@ -765,7 +810,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                         {item.avatars.map((a) => (
                           <img alt="Friend avatar" className="size-6 rounded-full border-2 border-white object-cover" key={a} src={a} />
                         ))}
-                        <span className="pl-3 text-[10px] text-slate-500">{item.more}</span>
+                        <span className="pl-3 text-[10px] text-neutral-500">{item.more}</span>
                       </div>
                     </div>
                     <button className="btn-primary px-4 py-2 text-[12px]" type="button">
@@ -779,8 +824,8 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
             <div className="hidden grid-cols-1 gap-8 border-t border-black/[0.06] pt-8 md:grid lg:grid-cols-2">
               <section className="flex flex-col justify-between rounded-2xl border border-black/[0.06] bg-white p-6 shadow-card">
                 <div>
-                  <h3 className="mb-6 flex items-center gap-2 text-xl font-extrabold">
-                    <span className="material-symbols-outlined text-primary">groups</span>
+                  <h3 className="mb-6 flex items-center gap-2 text-xl font-extrabold text-neutral-900">
+                    <span className="material-symbols-outlined text-neutral-900">groups</span>
                     Friends Volunteering
                   </h3>
                   <div className="space-y-6">
@@ -798,7 +843,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                       <div>
                         <p className="text-sm font-medium">
                           <span className="font-bold">Rahul S.</span> and 3 others joined{' '}
-                          <span className="font-bold text-primary">‘Beach Cleanup’</span>
+                          <span className="font-bold text-emerald-900">‘Beach Cleanup’</span>
                         </p>
                         <p className="mt-1 text-xs text-slate-400">2 hours ago</p>
                       </div>
@@ -812,7 +857,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                       <div>
                         <p className="text-sm font-medium">
                           <span className="font-bold">Siddharth V.</span> signed up for{' '}
-                          <span className="font-bold text-primary">‘Teach India’</span>
+                          <span className="font-bold text-emerald-900">‘Teach India’</span>
                         </p>
                         <p className="mt-1 text-xs text-slate-400">Yesterday</p>
                       </div>
@@ -851,18 +896,26 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
               </div>
             </div>
 
-            <div className="group relative hidden h-64 cursor-pointer overflow-hidden rounded-2xl border border-black/[0.06] shadow-card md:block">
+            <a
+              className="group relative hidden h-64 overflow-hidden rounded-2xl border border-black/[0.08] shadow-card transition-all hover:border-neutral-400 hover:shadow-xl md:block"
+              href={googleMapsSearchHref(`Volunteer opportunities near ${location}`)}
+              rel="noopener noreferrer"
+              target="_blank"
+              title={`Open Google Maps — volunteer opportunities near ${location}`}
+            >
               <img
-                alt="Map of Ahmedabad"
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                alt={`Map preview for ${location}`}
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTqDwUcp4OqgD4aH0qE4HDW1O1KRAvlnXYNcRUbZC9YfH7KIgOpM6oAbkiybYjevAm3RSBG4GKdsrWSA-ephRfLklrg1OmkI0D1DMur8Z6XryR69XXSh6KmnpTZfEIgAEiUJuRtEiYE5xJ9T16apC-EnU_ckhliD09GWQJpzeOIuZ-0iHrj6xXmhbatC--wJomC-9sqaY4NIHezNt1dAqRZvnRI17tz_Vtpfn4YN20zDL78txxjRSWLFhYTET1mBzDYAWcZrlZ04c"
               />
-              <div className="absolute inset-0 bg-black/20 transition-colors group-hover:bg-black/10" />
-              <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between rounded-xl bg-white/95 p-4 shadow-2xl backdrop-blur md:left-auto md:right-6 md:w-64">
-                <span className="text-sm font-bold text-slate-900">Explore via Map</span>
-                <span className="material-symbols-outlined text-primary">map</span>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-black/20" />
+              <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between rounded-xl bg-white/95 p-3.5 shadow-2xl backdrop-blur ring-1 ring-black/[0.04] transition-transform group-hover:scale-[1.02] md:left-auto md:right-6 md:w-[min(100%,17rem)]">
+                <span className="text-sm font-bold text-neutral-900">Explore via Map</span>
+                <span className="material-symbols-outlined shrink-0 text-neutral-900 transition-transform group-hover:translate-x-0.5 group-hover:text-emerald-900">
+                  map
+                </span>
               </div>
-            </div>
+            </a>
         </div>
       </div>
     </main>

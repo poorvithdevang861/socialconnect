@@ -1,13 +1,46 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Button from '../components/Button'
+import ProfileCalendarMonth from '../components/ProfileCalendarMonth'
 import SectionHeader from '../components/SectionHeader'
 import ShareProfileModal from '../components/ShareProfileModal'
+import { getCalendarEntriesForProfile, subscribeCalendarAdded } from '../utils/calendarAdded'
+import { addFriend, getFriends, removeFriend, subscribeFriends } from '../utils/friends'
 
 function ProfilePage() {
   const [activeTab, setActiveTab] = useState('activity')
-  const [favoriteBadge, setFavoriteBadge] = useState('Community Hero')
   const [shareOpen, setShareOpen] = useState(false)
+  const [calVersion, setCalVersion] = useState(0)
+  const [friendsVersion, setFriendsVersion] = useState(0)
+  const [friendName, setFriendName] = useState('')
+  const [friendAddError, setFriendAddError] = useState('')
+
+  useEffect(() => {
+    return subscribeCalendarAdded(() => setCalVersion((v) => v + 1))
+  }, [])
+
+  useEffect(() => {
+    return subscribeFriends(() => setFriendsVersion((v) => v + 1))
+  }, [])
+
+  const calendarEntries = useMemo(() => getCalendarEntriesForProfile(), [calVersion])
+  const friends = useMemo(() => getFriends(), [friendsVersion])
+
+  const handleAddFriendFromProfile = (e) => {
+    e.preventDefault()
+    const n = friendName.trim()
+    if (!n) {
+      setFriendAddError('')
+      return
+    }
+    const ok = addFriend({ name: n })
+    if (ok) {
+      setFriendName('')
+      setFriendAddError('')
+    } else {
+      setFriendAddError('That name is already on your list.')
+    }
+  }
 
   const copyProfile = async () => {
     try {
@@ -27,7 +60,7 @@ function ProfilePage() {
       <section className="mb-6">
         <SectionHeader
           title="Your Profile"
-          subtitle="Track your impact identity, badges, and recent activity."
+          subtitle="Track your impact, calendar, and recent activity."
           titleClassName="premium-h1"
         />
       </section>
@@ -135,7 +168,7 @@ function ProfilePage() {
             <nav className="hide-scrollbar flex space-x-4 overflow-x-auto sm:space-x-8" aria-label="Tabs">
               {[
                 ['activity', 'history', 'Activity'],
-                ['badges', 'stars', 'Badges'],
+                ['calendar', 'calendar_month', 'Calendar'],
               ].map(([tab, icon, label]) => (
                 <button
                   className={`flex items-center gap-2 border-b-2 px-1 py-4 text-sm font-medium ${
@@ -219,6 +252,65 @@ function ProfilePage() {
               </div>
 
               <div className="space-y-4">
+                <h3 className="flex items-center gap-2 text-lg font-bold text-slate-900">Volunteer friends</h3>
+                <div className="cc-card cc-card-pad-lg">
+                  <p className="text-sm text-slate-600">
+                    Only people you add here are shown on event pages as people you might volunteer with. Nothing is
+                    suggested for you automatically.
+                  </p>
+                  {friends.length > 0 ? (
+                    <ul className="mt-4 space-y-3">
+                      {friends.slice(0, 5).map((f) => (
+                        <li className="flex items-center gap-3" key={f.id}>
+                          <img alt="" className="size-10 shrink-0 rounded-full object-cover ring-2 ring-white" src={f.avatar} />
+                          <p className="min-w-0 flex-1 truncate font-bold text-slate-900">{f.name}</p>
+                          <button
+                            className="shrink-0 rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-50 hover:text-red-600"
+                            onClick={() => removeFriend(f.id)}
+                            type="button"
+                            aria-label={`Remove ${f.name}`}
+                          >
+                            <span className="material-symbols-outlined text-[20px]">person_remove</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="mt-3 text-sm font-medium text-slate-500">You haven&apos;t added anyone yet.</p>
+                  )}
+                  {friends.length > 5 ? (
+                    <p className="mt-2 text-xs text-slate-500">Showing 5 of {friends.length}.</p>
+                  ) : null}
+                  <form className="mt-4 space-y-2" onSubmit={handleAddFriendFromProfile}>
+                    <label className="sr-only" htmlFor="profile-friend-name">
+                      Friend name
+                    </label>
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
+                      <input
+                        className="h-11 min-w-0 flex-1 rounded-xl border border-black/[0.08] bg-background-light px-3 text-sm text-ink outline-none focus:border-primary/40 focus:ring-2 focus:ring-primary/25"
+                        id="profile-friend-name"
+                        onChange={(ev) => {
+                          setFriendName(ev.target.value)
+                          setFriendAddError('')
+                        }}
+                        placeholder="Add by name"
+                        value={friendName}
+                      />
+                      <Button className="h-11 shrink-0 justify-center px-4 py-0 text-sm font-bold" type="submit">
+                        Add
+                      </Button>
+                    </div>
+                    {friendAddError ? <p className="text-xs font-medium text-red-600">{friendAddError}</p> : null}
+                  </form>
+                  <Link
+                    className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-primary hover:underline"
+                    to="/friends"
+                  >
+                    Manage friends &amp; photo URLs
+                    <span className="material-symbols-outlined text-base">arrow_forward</span>
+                  </Link>
+                </div>
+
                 <h3 className="flex items-center gap-2 text-lg font-bold text-slate-900">Earned Badges</h3>
                 <div className="cc-card cc-card-pad-lg">
                   <div className="grid grid-cols-2 gap-6">
@@ -228,13 +320,7 @@ function ProfilePage() {
                       ['volunteer_activism', 'Community Hero', 'Local leader badge', 'primary'],
                       ['emergency', 'First Responder', 'Locked', 'slate'],
                     ].map(([icon, title, sub, color]) => (
-                      <button
-                        className={`flex flex-col items-center text-center transition-all hover:scale-105 ${
-                          favoriteBadge === title ? 'opacity-100' : 'opacity-90'
-                        }`}
-                        key={title}
-                        onClick={() => setFavoriteBadge(title)}
-                      >
+                      <div className="flex flex-col items-center text-center" key={title}>
                         <div
                           className={`mb-2 flex h-16 w-16 items-center justify-center rounded-full border-2 ${
                             color === 'emerald'
@@ -262,7 +348,7 @@ function ProfilePage() {
                         </div>
                         <p className="text-[10px] font-bold uppercase tracking-tight text-slate-900">{title}</p>
                         <p className="mt-1 text-[9px] leading-tight text-slate-500">{sub}</p>
-                      </button>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -285,12 +371,29 @@ function ProfilePage() {
             </div>
           ) : null}
 
-          {activeTab === 'badges' ? (
-            <div className="rounded-xl border border-slate-200 bg-white p-6">
-              <p className="mb-4 text-sm text-slate-500">
-                Tap a badge to set your featured badge on profile.
+          {activeTab === 'calendar' ? (
+            <div className="space-y-4">
+              <h3 className="flex items-center gap-2 text-lg font-bold text-slate-900">
+                <span className="material-symbols-outlined text-primary">event</span>
+                My calendar
+              </h3>
+              <p className="text-sm text-slate-600">
+                Days with a <span className="font-semibold text-primary">saved</span> event are highlighted. Tap a day
+                to see details and open Google Calendar.
               </p>
-              <p className="text-sm font-semibold text-primary">Featured: {favoriteBadge}</p>
+              {calendarEntries.length === 0 ? (
+                <div className="cc-card cc-card-pad-lg text-center">
+                  <span className="material-symbols-outlined mb-2 text-4xl text-slate-300">calendar_month</span>
+                  <p className="font-medium text-slate-700">Nothing saved yet</p>
+                  <p className="mt-1 text-sm text-slate-500">
+                    Use &quot;Add to my calendar&quot; on the success screen or on an event in My Events.
+                  </p>
+                </div>
+              ) : (
+                <div className="cc-card cc-card-pad-lg">
+                  <ProfileCalendarMonth events={calendarEntries} />
+                </div>
+              )}
             </div>
           ) : null}
 
