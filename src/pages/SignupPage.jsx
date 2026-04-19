@@ -12,8 +12,8 @@ function SignupPage() {
 
   const goToOnboarding = () => {
     setAuthenticated(true)
-    setOnboardingComplete(false)
-    navigate('/interests', { replace: true })
+    setOnboardingComplete(true)
+    navigate('/home', { replace: true })
   }
 
   const handleSignup = (event) => {

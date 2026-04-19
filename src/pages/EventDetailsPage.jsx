@@ -1,6 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '../components/Button'
+import FriendsAttendingBlock from '../components/FriendsAttendingBlock'
+import { GREEN_EARTH_WISHLIST } from '../utils/registrations'
+import { getFriends, subscribeFriends } from '../utils/friends'
+import { isWishlisted, subscribeWishlist, toWishlistPayload, toggleWishlist } from '../utils/wishlist'
 
 const DETAIL_TABS = [
   { id: 'about', label: 'About' },
@@ -11,6 +15,24 @@ const DETAIL_TABS = [
 function EventDetailsPage() {
   const navigate = useNavigate()
   const [detailTab, setDetailTab] = useState('about')
+  const [, setWishTick] = useState(0)
+  const [friends, setFriends] = useState(getFriends)
+
+  useEffect(() => {
+    return subscribeWishlist(() => setWishTick((t) => t + 1))
+  }, [])
+
+  useEffect(() => {
+    const sync = () => setFriends(getFriends())
+    sync()
+    return subscribeFriends(sync)
+  }, [])
+
+  const wishlisted = isWishlisted(GREEN_EARTH_WISHLIST.id)
+
+  const handleWishlistToggle = () => {
+    toggleWishlist(toWishlistPayload(GREEN_EARTH_WISHLIST))
+  }
 
   const handleBack = () => {
     if (window.history.length > 1) {
@@ -50,9 +72,14 @@ function EventDetailsPage() {
               <button
                 className="flex size-10 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-md"
                 type="button"
-                aria-label="Save"
+                aria-label={wishlisted ? 'Remove from wishlist' : 'Save to wishlist'}
+                onClick={handleWishlistToggle}
               >
-                <span className="material-symbols-outlined text-[20px]">favorite</span>
+                <span
+                  className={`material-symbols-outlined text-[20px] ${wishlisted ? 'fill-1 text-amber-300' : ''}`}
+                >
+                  bookmark
+                </span>
               </button>
             </div>
           </div>
@@ -141,18 +168,8 @@ function EventDetailsPage() {
         </div>
 
         <div className={`mt-8 px-4 sm:px-5 ${detailTab !== 'details' ? 'hidden' : ''}`}>
-          <h2 className="mb-3 text-lg font-semibold">Friends Attending</h2>
-          <div className="flex items-center gap-3">
-            <div className="flex -space-x-3 overflow-hidden">
-              <img className="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALtYMSPoL8r1t95GkS9OzKImRcsBfQK-qC9SE4X0-6Msb6GfpQ21z1R5EPbvnVVs7RbOXE4Gt3czG91HFUjsSjSXjv_KkothysL7l5GOiZpD8GYiA3YMrOD5L5tDF3uGDRWK6kRLyeofKWmvEaYnjMc-FpI972g4TVNwXdRzfIZq0efR5D05JM-1o4P49Ilf2042v08WoX1aXngsP0vtpSgRC9JYdztUoEx8-1MR_M5-J_BG3BhkpGutuQF4pXdiSiVMhuqWvmr9U" alt="Friend 1" />
-              <img className="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZLuI2upBqx9_KT_WxJ7w-5qsCgtWO_cmtL-NA9XyoPlAkYslyrjIU0fgwCToPB0T4SgUTO7KVcNh6gDT37yA7yQKSpyNVBJTzBh5Ro5VDaPr-5sIWtXXc0e2fXfNTqVkfFsDjhw3e-2WzR6CnJIIldTTGo8FkgO7MBnGgnv6ntBP6OJ89dWGnWgWCXVpVnQLNTiVUrVj0PuauYg8rzyJ1atpxr3E91pjE9lT0KC7hIx8vHF3kC9JqLDOYwYNX_-mK5dLhQfu-CkE" alt="Friend 2" />
-              <img className="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjZvEOu4fIy7itLsjFWm-jkcoEhBKewN4lJRl1rIfy-OZg-pN33J3gcC9cA7y2AKCafiPCKhdzEQuYmTv0Dn6q_UrSw_azRqdGapd1epMcCa9VPHiGus0Y-qd4dpcP01oEVttsze9TU1sbn_HKT7rtbTt_W_mbAHgEnFEgaZCiPkAH7wUMS3DdAw4OsqaqCa4dHj3b7gu6U86T7eWBOIW2-x6UZYFRCZpmHCfcXyV4iyxk8gZmmbA0FEUuJfeVkni9c4jE0NU5LVU" alt="Friend 3" />
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-xs font-medium ring-2 ring-white">
-                +1
-              </div>
-            </div>
-            <p className="text-sm text-slate-600">You and 3 friends are going</p>
-          </div>
+          <h2 className="mb-3 text-lg font-semibold">Friends on your list</h2>
+          <FriendsAttendingBlock />
         </div>
 
         <div className={`mt-8 px-4 sm:px-5 ${detailTab !== 'about' ? 'hidden' : ''}`}>
@@ -250,8 +267,15 @@ function EventDetailsPage() {
             <button className="rounded-xl bg-white/90 p-2.5 shadow-lg backdrop-blur transition-all hover:text-primary">
               <span className="material-symbols-outlined">share</span>
             </button>
-            <button className="rounded-xl bg-white/90 p-2.5 shadow-lg backdrop-blur transition-all hover:text-primary-dark">
-              <span className="material-symbols-outlined">favorite</span>
+            <button
+              className="rounded-xl bg-white/90 p-2.5 shadow-lg backdrop-blur transition-all hover:text-primary-dark"
+              type="button"
+              aria-label={wishlisted ? 'Remove from wishlist' : 'Save to wishlist'}
+              onClick={handleWishlistToggle}
+            >
+              <span className={`material-symbols-outlined ${wishlisted ? 'fill-1 text-primary' : ''}`}>
+                bookmark
+              </span>
             </button>
           </div>
           <div className="absolute bottom-6 left-6 text-white">
@@ -513,31 +537,24 @@ function EventDetailsPage() {
             </div>
 
             <div className="cc-card border-slate-100 cc-card-pad-lg">
-              <h5 className="mb-4 font-bold text-slate-900">Friends Signed Up</h5>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <img
-                    className="size-10 rounded-full object-cover"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHmoNWSv3SxMiPF-1iz845iM7-kZ31qR_yQIOIKqcpOkJJY2ayqFsUWxIDYQeewomqxbTwH58PrR_XFInLpk9N2txHgehQT1o1IVBgBI9N5bZPphA5bO0kghgkxNMpp1Pgc74MHFIThmy9wq9nobtPcizGxyD0EnJwS8DBjxzYxehu6rSG1LG_blNrS7uxhotVE6WknCLuWd6ez_Npy9zzx84tabb3RllBKAcq31IC0Uqjh6-ro7NizU553Oeh7wTNUJZ5LkFZ3Wk"
-                    alt="Alex Rivera"
-                  />
-                  <div>
-                    <p className="text-sm font-bold text-slate-900">Alex Rivera</p>
-                    <p className="text-xs text-slate-500">Signed up yesterday</p>
-                  </div>
+              <h5 className="mb-4 font-bold text-slate-900">Friends on your list</h5>
+              {friends.length === 0 ? (
+                <p className="text-sm text-slate-500">
+                  Add friends from your profile to see them when you join events.
+                </p>
+              ) : (
+                <div className="space-y-4">
+                  {friends.map((f) => (
+                    <div className="flex items-center gap-3" key={f.id}>
+                      <img alt="" className="size-10 rounded-full object-cover" src={f.avatar} />
+                      <div>
+                        <p className="text-sm font-bold text-slate-900">{f.name}</p>
+                        <p className="text-xs text-slate-500">May join this opportunity</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="flex items-center gap-3">
-                  <img
-                    className="size-10 rounded-full object-cover"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLMpF4NLMbSqzoINSJpArRQah69Mzeoj1fAECJn8dH-a-Q7jb10G2pXVlFU5t18Rq8VrqFU7f0LcRzSo1dMWuohZn0Js8xMjF5T7cpEQ3nL_b9jIBBtAKNqR9FQ06jzEOgGuFK7IBWPzrGau4R8_f9RorWBX1oyuiS5cdyr4gGQUmcVvw86BdXgDX9c5WX8m0M4DW_hWuuDAo66joBXGJ4gIZwxH-8hwaSFeRzC_HIr6ohqgYpq3I8a8U_7-ix_28YYw6KU4UtS8k"
-                    alt="Maya Patel"
-                  />
-                  <div>
-                    <p className="text-sm font-bold text-slate-900">Maya Patel</p>
-                    <p className="text-xs text-slate-500">Signed up 3h ago</p>
-                  </div>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

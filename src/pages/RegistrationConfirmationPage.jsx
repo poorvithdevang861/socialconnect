@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import Button from '../components/Button'
+import FriendsAttendingBlock from '../components/FriendsAttendingBlock'
 import { registerGreenEarthEvent } from '../utils/registrations'
 
 function IconWrap({ children }) {
@@ -131,6 +132,18 @@ function RegistrationConfirmationPage() {
                       </span>
                     </li>
                   </ul>
+                </div>
+
+                <div className="border-b border-slate-100 py-8">
+                  <h3 className="mb-4 text-[1.32rem] font-extrabold tracking-[-0.01em] text-slate-900">
+                    <span className="inline-flex items-center gap-2">
+                      <span className="material-symbols-outlined text-primary text-[26px] leading-none">
+                        group
+                      </span>
+                      Friends
+                    </span>
+                  </h3>
+                  <FriendsAttendingBlock variant="compact" />
                 </div>
 
                 <div className="mt-2 flex flex-col items-center gap-4 border-t border-slate-100 pt-8">

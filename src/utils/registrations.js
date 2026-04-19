@@ -7,6 +7,21 @@ export const GREEN_EARTH_EVENT = {
     'https://lh3.googleusercontent.com/aida-public/AB6AXuBHFg7Lb1J2UB23UIzivsG38PCbA_c-m8AsYnHhVdYIZWBEUgF2f1-PUAqHttRpyBndUM6WegLt-VYdkLI-4hrm7wQVnvQwfOkIzNNivEPrljPFkFhBzi0IiI05YdrOD8IBx7EvE4sBCl6YMaGdtQRWeFVwNpz27x5tMwVZSQwq7Z_lzeiV2kOIIaiXILdzZmoOGGlRyLZavPc-7qCzajqGxct-FQvYIYCiOqYfvl7BPc1W4YWCqERRPGKTsCC1NLwOxfQQb0ieeak',
 }
 
+/** Snapshot for bookmark / wishlist (same id as registered event) */
+export const GREEN_EARTH_WISHLIST = {
+  id: GREEN_EARTH_EVENT.id,
+  title: GREEN_EARTH_EVENT.title,
+  cause: 'Environment',
+  desc: 'Join us for our biggest reforestation initiative — plant indigenous saplings at City Park.',
+  dateShort: 'Sat, 24 Oct',
+  img: GREEN_EARTH_EVENT.image,
+  route: '/event',
+  joined: '32 volunteers going',
+  openings: '8 slots remaining',
+  verified: true,
+  timeRange: '08:00 AM – 12:00 PM',
+}
+
 const STORAGE_KEY = 'socialconnect.registeredEvents'
 
 export function getRegisteredEvents() {

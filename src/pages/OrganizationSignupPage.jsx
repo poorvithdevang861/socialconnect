@@ -1,72 +1,190 @@
-import { Link } from 'react-router-dom'
-import SectionHeader from '../components/SectionHeader'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import Button from '../components/Button'
+import { saveNgoProfile } from '../utils/ngoProfile'
+import { setAuthenticated, setOnboardingComplete, setUserRole } from '../utils/onboarding'
 
 function OrganizationSignupPage() {
+  const navigate = useNavigate()
+  const [orgName, setOrgName] = useState('')
+  const [contactName, setContactName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [city, setCity] = useState('')
+  const [mission, setMission] = useState('')
+
+  const inputClass =
+    'h-12 w-full rounded-2xl border border-black/[0.08] bg-background-light px-4 text-[15px] leading-tight text-ink placeholder:text-slate-400 outline-none transition-shadow focus:border-primary/40 focus:ring-2 focus:ring-primary/25'
+
+  const textareaClass =
+    'min-h-[120px] w-full rounded-2xl border border-black/[0.08] bg-background-light px-4 py-3 text-[15px] leading-relaxed text-ink placeholder:text-slate-400 outline-none transition-shadow focus:border-primary/40 focus:ring-2 focus:ring-primary/25'
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    saveNgoProfile({
+      orgName: orgName.trim(),
+      contactName: contactName.trim(),
+      email: email.trim(),
+      city: city.trim(),
+      mission: mission.trim(),
+    })
+    setAuthenticated(true)
+    setOnboardingComplete(true)
+    setUserRole('ngo')
+    navigate('/ngo/home', { replace: true })
+  }
+
   return (
-    <main className="page-gutter-x mx-auto flex min-h-[100dvh] w-full max-w-[1600px] flex-col premium-shell bg-background-light py-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] md:min-h-screen md:py-6 md:pb-6">
+    <main className="page-gutter-x mx-auto flex min-h-[100dvh] max-h-[100dvh] min-w-0 w-full max-w-[1600px] flex-col overflow-hidden premium-shell bg-background-light py-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] md:min-h-[calc(100dvh-1rem)] md:max-h-[calc(100dvh-1rem)] md:py-6 md:pb-6">
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute -left-[10%] -top-[10%] h-[38%] w-[45%] rounded-full bg-primary/12 blur-[100px]" />
         <div className="absolute -bottom-[10%] -right-[10%] h-[38%] w-[45%] rounded-full bg-primary/6 blur-[100px]" />
       </div>
 
-      <div className="flex flex-1 flex-col justify-center">
-        <div className="mx-auto w-full max-w-lg">
-          <Link
-            className="mb-6 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 transition-colors hover:text-primary"
-            to="/login"
-          >
-            <span className="material-symbols-outlined text-base text-inherit">arrow_back</span>
-            Back to log in
-          </Link>
+      <div className="grid min-h-0 min-w-0 flex-1 grid-cols-1 gap-8 overflow-y-auto overflow-x-hidden overscroll-contain [scrollbar-gutter:stable] lg:grid-cols-2 lg:items-start lg:gap-12">
+        <div className="hidden shrink-0 flex-col gap-5 lg:flex lg:pr-8">
+          <div className="flex items-center gap-3">
+            <div className="flex size-11 items-center justify-center rounded-2xl bg-shell text-brand-yellow shadow-premium">
+              <span className="material-symbols-outlined text-[26px]">corporate_fare</span>
+            </div>
+            <span className="text-xl font-black tracking-tight text-ink">CauseConnect</span>
+          </div>
+          <span className="premium-chip w-fit border-primary/20 bg-primary/10 text-primary">For organizations</span>
+          <h2 className="premium-h1 text-[clamp(1.85rem,3vw,2.75rem)]">
+            List verified roles.
+            <br />
+            <span className="text-primary">Grow your volunteer base.</span>
+          </h2>
+          <p className="premium-body max-w-md text-base">
+            Create an organization account, then post opportunities volunteers can discover and join in your city.
+          </p>
+        </div>
 
-          <div className="cc-card cc-card-pad-lg shadow-[0_10px_28px_rgba(15,15,16,0.08)]">
-            <span className="premium-chip mb-4 border-primary/20 bg-primary/10 text-primary">
-              For organizations
-            </span>
-            <SectionHeader
-              title="NGO & nonprofit onboarding"
-              subtitle="CauseConnect verifies hosts before listing volunteer opportunities. Complete a short request and our team will help you get set up."
-              titleClassName="premium-h1 text-ink"
-              className="mb-6"
-            />
-
-            <ul className="mb-8 space-y-3 text-sm text-slate-600">
-              <li className="flex gap-2">
-                <span className="material-symbols-outlined shrink-0 text-primary text-[20px]">check_circle</span>
-                <span>Post verified events and manage volunteer sign-ups from one place.</span>
-              </li>
-              <li className="flex gap-2">
-                <span className="material-symbols-outlined shrink-0 text-primary text-[20px]">check_circle</span>
-                <span>Reach volunteers who already care about causes in your city.</span>
-              </li>
-              <li className="flex gap-2">
-                <span className="material-symbols-outlined shrink-0 text-primary text-[20px]">check_circle</span>
-                <span>We&apos;ll review your details and follow up within a few business days.</span>
-              </li>
-            </ul>
-
-            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <a
-                className="btn-primary inline-flex h-12 flex-1 items-center justify-center gap-2 font-bold"
-                href="mailto:partners@causeconnect.org?subject=CauseConnect%20organization%20signup"
-              >
-                <span className="material-symbols-outlined text-lg">outgoing_mail</span>
-                Request organization access
-              </a>
-              <Link
-                className="btn-secondary inline-flex h-12 flex-1 items-center justify-center font-bold"
-                to="/signup"
-              >
-                Individual volunteer signup
-              </Link>
+        <div className="mx-auto flex w-full min-w-0 max-w-md flex-col justify-center pb-1">
+          <div className="cc-card cc-card-pad-lg max-w-full shadow-[0_10px_28px_rgba(15,15,16,0.08)]">
+            <div className="mb-6 flex items-center gap-2 lg:hidden">
+              <div className="flex size-10 items-center justify-center rounded-xl bg-shell text-brand-yellow shadow-premium">
+                <span className="material-symbols-outlined text-2xl">corporate_fare</span>
+              </div>
+              <span className="text-lg font-black text-ink">CauseConnect</span>
             </div>
 
-            <p className="premium-body mt-6 text-center text-xs text-slate-500">
-              Looking to volunteer only?{' '}
-              <Link className="font-bold text-primary hover:underline" to="/signup">
-                Create a volunteer account
-              </Link>
-            </p>
+            <Link
+              className="mb-5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 transition-colors hover:text-primary"
+              to="/login"
+            >
+              <span className="material-symbols-outlined text-base text-inherit">arrow_back</span>
+              Back to log in
+            </Link>
+
+            <div className="mb-6">
+              <h1 className="premium-h1 text-ink">NGO &amp; organization signup</h1>
+              <p className="premium-body mt-1">
+                Tell us about your organization. Next, you&apos;ll post your first opportunity.
+              </p>
+            </div>
+
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              <div>
+                <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-500">
+                  Organization name
+                </label>
+                <input
+                  className={inputClass}
+                  onChange={(e) => setOrgName(e.target.value)}
+                  placeholder="Hope Foundation"
+                  required
+                  type="text"
+                  value={orgName}
+                />
+              </div>
+              <div>
+                <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-500">
+                  Contact name
+                </label>
+                <input
+                  className={inputClass}
+                  onChange={(e) => setContactName(e.target.value)}
+                  placeholder="Your full name"
+                  required
+                  type="text"
+                  value={contactName}
+                />
+              </div>
+              <div>
+                <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-500">
+                  Work email
+                </label>
+                <input
+                  className={inputClass}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="name@organization.org"
+                  required
+                  type="email"
+                  value={email}
+                />
+              </div>
+              <div>
+                <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-500">
+                  Password
+                </label>
+                <input
+                  className={inputClass}
+                  autoComplete="new-password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  required
+                  minLength={8}
+                  type="password"
+                  value={password}
+                />
+              </div>
+              <div>
+                <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-500">
+                  City or region
+                </label>
+                <input
+                  className={inputClass}
+                  onChange={(e) => setCity(e.target.value)}
+                  placeholder="Ahmedabad"
+                  required
+                  type="text"
+                  value={city}
+                />
+              </div>
+              <div>
+                <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-500">
+                  Mission &amp; focus
+                </label>
+                <textarea
+                  className={textareaClass}
+                  onChange={(e) => setMission(e.target.value)}
+                  placeholder="What does your organization do? Which causes do you support?"
+                  required
+                  rows={4}
+                  value={mission}
+                />
+              </div>
+              <Button className="mt-2 h-12 w-full justify-center gap-2 font-bold" type="submit">
+                Create account &amp; continue
+                <span className="material-symbols-outlined text-lg">arrow_forward</span>
+              </Button>
+            </form>
+
+            <div className="mt-8 text-center text-sm">
+              <p className="text-slate-600">
+                Volunteering as an individual?{' '}
+                <Link className="font-bold text-primary hover:underline" to="/signup">
+                  Volunteer signup
+                </Link>
+              </p>
+              <p className="mt-2 text-slate-600">
+                Already have an NGO account?{' '}
+                <Link className="font-bold text-primary hover:underline" to="/ngo/login">
+                  Log in as NGO
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </div>

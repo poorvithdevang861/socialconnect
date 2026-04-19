@@ -22,8 +22,8 @@ function LoginPage() {
 
   const goToOnboarding = () => {
     setAuthenticated(true)
-    setOnboardingComplete(false)
-    navigate('/interests', { replace: true })
+    setOnboardingComplete(true)
+    navigate('/home', { replace: true })
   }
 
   const handleLogin = (event) => {
@@ -40,29 +40,35 @@ function LoginPage() {
   }
 
   const inputClass =
-    'h-12 w-full rounded-2xl border border-black/[0.08] bg-background-light px-4 text-[15px] leading-snug text-ink placeholder:text-slate-400 outline-none transition-shadow focus:border-primary/40 focus:ring-2 focus:ring-primary/25'
+    'h-12 w-full rounded-2xl border border-black/[0.12] bg-beige px-4 text-[15px] leading-snug text-ink placeholder:text-slate-500 outline-none transition-shadow focus:border-primary/50 focus:ring-2 focus:ring-primary/25'
 
   const socialBtnClass =
-    'inline-flex min-h-[48px] w-full items-center justify-center gap-2.5 rounded-full border border-black/[0.1] bg-white px-5 text-sm font-bold tracking-[0.01em] text-slate-800 shadow-[0_4px_14px_rgba(15,15,16,0.06)] transition-all hover:bg-slate-50 active:scale-[0.98]'
+    'inline-flex min-h-[48px] w-full items-center justify-center gap-2.5 rounded-full border border-black bg-black px-5 text-sm font-bold tracking-[0.01em] text-white shadow-[0_4px_14px_rgba(15,15,16,0.06)] transition-all hover:bg-black/90 active:scale-[0.98]'
 
   return (
-    <main className="page-gutter-x mx-auto flex min-h-[100dvh] w-full max-w-[1600px] flex-col bg-background-light pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-4 md:min-h-screen md:pb-8 md:pt-4">
+    <main
+      className="mx-auto w-full max-w-[1600px] premium-shell bg-background-light pb-4 pt-4 md:min-h-screen md:pb-5 md:pt-4"
+      style={{
+        boxShadow:
+          '0px 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px 0px rgba(0, 0, 0, 0), 0px 10px 28px 0px rgba(15, 15, 16, 0.08)',
+      }}
+    >
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute -left-[10%] -top-[10%] h-[38%] w-[45%] rounded-full bg-primary/10 blur-[100px]" />
         <div className="absolute -bottom-[10%] -right-[10%] h-[38%] w-[45%] rounded-full bg-primary/5 blur-[100px]" />
       </div>
 
-      <div className="flex w-full flex-1 flex-col">
-        <div className="premium-shell w-full flex-1 bg-white px-5 py-8 shadow-[0_10px_28px_rgba(15,15,16,0.08)] md:px-8 md:py-10 lg:px-10 lg:py-12">
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-center lg:gap-14">
-            <div className="flex flex-col gap-5 lg:pr-2">
-              <div className="flex items-center gap-3">
-                <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-primary text-white shadow-orange-glow">
-                  <span className="material-symbols-outlined text-[26px] leading-none text-white">
+      <div className="section-gap-lg px-4 pb-4 md:px-5 md:pb-5">
+        <div className="mx-auto flex min-h-[calc(100dvh-8.5rem)] w-full max-w-6xl items-center justify-center py-4 md:min-h-[calc(100vh-9.25rem)] md:py-6">
+          <div className="grid grid-cols-1 place-items-center gap-10 lg:grid-cols-2 lg:items-center lg:gap-14">
+            <div className="flex flex-col items-center gap-5 text-center">
+              <div className="flex items-center justify-center gap-3">
+                <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-shell text-brand-yellow shadow-premium">
+                  <span className="material-symbols-outlined text-[26px] leading-none text-brand-yellow">
                     volunteer_activism
                   </span>
                 </div>
-                <span className="text-xl font-black tracking-tight text-ink">CauseConnect</span>
+                <span className="text-xl font-black tracking-tight text-shell">CauseConnect</span>
               </div>
               <h2 className="premium-h1 text-[clamp(1.85rem,3vw,2.75rem)]">
                 Volunteer local.
@@ -75,14 +81,14 @@ function LoginPage() {
               </p>
             </div>
 
-            <div className="mx-auto w-full max-w-md lg:mx-0">
-              <div className="mb-6 flex items-center gap-2 lg:hidden">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary text-white shadow-orange-glow">
-                  <span className="material-symbols-outlined text-2xl leading-none text-white">
+            <div className="mx-auto flex w-full max-w-md flex-col items-center text-center">
+              <div className="mb-6 flex items-center justify-center gap-2 lg:hidden">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-shell text-brand-yellow shadow-premium">
+                  <span className="material-symbols-outlined text-2xl leading-none text-brand-yellow">
                     volunteer_activism
                   </span>
                 </div>
-                <span className="text-lg font-black text-ink">CauseConnect</span>
+                <span className="text-lg font-black text-shell">CauseConnect</span>
               </div>
 
               <div className="mb-6">
@@ -90,7 +96,7 @@ function LoginPage() {
                 <p className="premium-body mt-1">Log in to continue your volunteering journey.</p>
               </div>
 
-              <div className="flex flex-col gap-3">
+              <div className="flex w-full max-w-sm flex-col gap-3">
                 <button className={socialBtnClass} onClick={handleGoogle} type="button">
                   <span className="flex size-5 shrink-0 items-center justify-center [&>svg]:block">
                     <GoogleGIcon className="h-5 w-5" />
@@ -113,13 +119,13 @@ function LoginPage() {
                 <Button
                   variant="dark"
                   className="min-h-[48px] w-full gap-2.5 px-5 font-bold"
-                  onClick={() => navigate('/signup/ngo')}
+                  onClick={() => navigate('/ngo/login')}
                   type="button"
                 >
                   <BtnIcon>
                     <span className="material-symbols-outlined text-white">corporate_fare</span>
                   </BtnIcon>
-                  <span className="leading-snug">Sign up as NGO / organization</span>
+                  <span className="leading-snug">NGO login / signup</span>
                 </Button>
               </div>
 
@@ -127,14 +133,14 @@ function LoginPage() {
                 <div aria-hidden="true" className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-black/[0.08]" />
                 </div>
-                <div className="relative flex justify-center text-xs font-semibold uppercase tracking-wider text-slate-400">
-                  <span className="bg-white px-3">Or email</span>
+                <div className="relative flex justify-center text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  <span className="bg-beige px-3">Or email</span>
                 </div>
               </div>
 
-              <form className="space-y-4" onSubmit={handleLogin}>
-                <div>
-                  <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-500">
+              <form className="mx-auto w-full max-w-sm space-y-4 text-center" onSubmit={handleLogin}>
+                <div className="text-center">
+                  <label className="mb-1.5 block text-center text-xs font-bold uppercase tracking-wider text-slate-600">
                     Email
                   </label>
                   <input
@@ -146,8 +152,8 @@ function LoginPage() {
                     value={email}
                   />
                 </div>
-                <div>
-                  <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-500">
+                <div className="text-center">
+                  <label className="mb-1.5 block text-center text-xs font-bold uppercase tracking-wider text-slate-600">
                     Password
                   </label>
                   <input
@@ -159,7 +165,7 @@ function LoginPage() {
                     value={password}
                   />
                 </div>
-                <Button className="mt-2 min-h-[48px] w-full gap-2.5 px-5 font-bold" type="submit">
+                <Button variant="action" className="mt-2 min-h-[48px] w-full gap-2.5 px-5 font-bold" type="submit">
                   <span className="leading-snug">Log in</span>
                   <BtnIcon>
                     <span className="material-symbols-outlined text-white">arrow_forward</span>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import Button from '../components/Button'
 import SectionHeader from '../components/SectionHeader'
 import ShareProfileModal from '../components/ShareProfileModal'
@@ -76,16 +77,28 @@ function ProfilePage() {
             <div className="space-y-1">
               {[
                 ['edit', 'Edit Profile'],
-                ['settings', 'Notification Settings'],
-                ['help', 'Help Center'],
-              ].map(([icon, text]) => (
-                <button
-                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-slate-50"
-                  key={text}
-                >
-                  <span className="material-symbols-outlined text-slate-400">{icon}</span> {text}
-                </button>
-              ))}
+                ['bookmark', 'Wishlist', '/wishlist'],
+                ['group', 'Friends', '/friends'],
+                ['help', 'Help Center', null],
+              ].map(([icon, text, href]) =>
+                href ? (
+                  <Link
+                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-slate-50"
+                    key={text}
+                    to={href}
+                  >
+                    <span className="material-symbols-outlined text-slate-400">{icon}</span> {text}
+                  </Link>
+                ) : (
+                  <button
+                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-slate-50"
+                    key={text}
+                    type="button"
+                  >
+                    <span className="material-symbols-outlined text-slate-400">{icon}</span> {text}
+                  </button>
+                ),
+              )}
             </div>
             <hr className="my-4 border-slate-200" />
             <Button className="flex w-full items-center justify-center gap-2 py-3" onClick={() => setShareOpen(true)}>
@@ -123,7 +136,6 @@ function ProfilePage() {
               {[
                 ['activity', 'history', 'Activity'],
                 ['badges', 'stars', 'Badges'],
-                ['settings', 'tune', 'Settings'],
               ].map(([tab, icon, label]) => (
                 <button
                   className={`flex items-center gap-2 border-b-2 px-1 py-4 text-sm font-medium ${
@@ -282,13 +294,6 @@ function ProfilePage() {
             </div>
           ) : null}
 
-          {activeTab === 'settings' ? (
-            <div className="rounded-xl border border-slate-200 bg-white p-6">
-              <p className="text-sm text-slate-500">
-                Settings panel coming next. Current experience optimized for activity and badges.
-              </p>
-            </div>
-          ) : null}
         </div>
       </div>
     </main>

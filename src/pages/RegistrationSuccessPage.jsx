@@ -50,10 +50,10 @@ function RegistrationSuccessPage() {
         </div>
 
         <div className="animate-fade-up-delay-2 mb-10 mt-8 w-full space-y-4">
-          <Button className="w-full py-4 text-lg">
+          <Button className="w-full py-4 text-lg" onClick={() => navigate('/events')}>
             <span className="inline-flex items-center gap-3">
               <span className="material-symbols-outlined">calendar_add_on</span>
-              Add to Calendar
+              Add to Events
             </span>
           </Button>
         </div>

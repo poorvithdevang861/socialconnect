@@ -21,25 +21,26 @@ export default {
     },
     extend: {
       colors: {
-        /** Orange palette — primary brand & CTAs */
-        primary: '#EA580C',
-        'primary-dark': '#C2410C',
-        'primary-light': '#FFF7ED',
-        cta: '#EA580C',
+        /** System palette */
+        primary: '#FF9233',
+        'primary-dark': '#e57d21',
+        'primary-light': '#fff1e5',
+        cta: '#FF9233',
+        'brand-yellow': '#FFFFFF',
         /** Surfaces */
-        beige: '#FFF7ED',
-        ink: '#0A0A0A',
-        'background-light': '#FAFAF9',
+        beige: '#FFFFFF',
+        ink: '#000000',
+        'background-light': '#FFFFFF',
         'background-dark': '#1c1917',
-        shell: '#121212',
-        'shell-soft': '#1C1C1C',
-        'shell-muted': '#232323',
+        shell: '#0a0a0a',
+        'shell-soft': '#1a1a1a',
+        'shell-muted': '#2a2a2a',
         /** Navbar — warm charcoal (not flat black) for premium contrast with orange */
         'premium-nav-from': '#1f1d1b',
         'premium-nav-via': '#1a1715',
         'premium-nav-to': '#12100e',
-        sage: '#FDBA74',
-        'success-green': '#16a34a',
+        sage: '#B4D857',
+        'success-green': '#B4D857',
       },
       fontFamily: {
         display: ['Public Sans', 'sans-serif'],

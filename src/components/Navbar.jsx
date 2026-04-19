@@ -8,8 +8,14 @@ const navLinkClass = ({ isActive }) =>
     isActive ? 'text-primary' : 'text-white/80'
   }`
 
+const barSurface =
+  'border-b border-emerald-400/20 bg-[linear-gradient(180deg,rgba(52,211,153,0.11)_0%,rgba(16,185,129,0.05)_32%,transparent_58%),linear-gradient(180deg,rgba(31,29,27,0.86)_0%,rgba(26,23,21,0.9)_48%,rgba(18,16,14,0.92)_100%)] text-white shadow-[0_8px_24px_rgba(0,0,0,0.1),inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-sm backdrop-saturate-150'
+
 function Navbar({ location = 'Ahmedabad', onLocationChange }) {
   const { pathname } = useLocation()
+  const isNgoDashboard =
+    pathname === '/ngo/home' || pathname === '/ngo/manage-events' || pathname === '/ngo/profile'
+
   const hideMobileChrome = pathname === '/home'
   const [mobileOpen, setMobileOpen] = useState(false)
   const [desktopOpen, setDesktopOpen] = useState(false)
@@ -17,6 +23,7 @@ function Navbar({ location = 'Ahmedabad', onLocationChange }) {
   const desktopLocationRef = useRef(null)
 
   useEffect(() => {
+    if (isNgoDashboard) return undefined
     function handlePointerDown(event) {
       const t = event.target
       const inMobile = mobileLocationRef.current?.contains(t)
@@ -32,10 +39,34 @@ function Navbar({ location = 'Ahmedabad', onLocationChange }) {
       document.removeEventListener('mousedown', handlePointerDown)
       document.removeEventListener('touchstart', handlePointerDown)
     }
-  }, [])
+  }, [isNgoDashboard])
 
-  const barSurface =
-    'border-b border-emerald-400/20 bg-[linear-gradient(180deg,rgba(52,211,153,0.11)_0%,rgba(16,185,129,0.05)_32%,transparent_58%),linear-gradient(180deg,rgba(31,29,27,0.86)_0%,rgba(26,23,21,0.9)_48%,rgba(18,16,14,0.92)_100%)] text-white shadow-[0_8px_24px_rgba(0,0,0,0.1),inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-sm backdrop-saturate-150'
+  if (isNgoDashboard) {
+    return (
+      <header className={`sticky top-0 z-50 w-full ${barSurface}`}>
+        <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between gap-3 px-4 xs:px-5 sm:px-6 md:px-6 lg:px-8 xl:px-10">
+          <Link className="flex min-w-0 shrink items-center gap-2 sm:gap-3" to="/ngo/home">
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-white shadow-orange-glow">
+              <span className="material-symbols-outlined text-2xl">eco</span>
+            </span>
+            <span className="truncate text-[17px] font-bold tracking-tight text-white sm:text-xl">CauseConnect</span>
+          </Link>
+          <nav className="flex min-w-0 items-center justify-end gap-2 sm:gap-4 md:gap-6 lg:gap-8">
+            <NavLink className={navLinkClass} end to="/ngo/home">
+              Home
+            </NavLink>
+            <NavLink className={navLinkClass} to="/ngo/manage-events">
+              <span className="hidden sm:inline">Manage Events</span>
+              <span className="sm:hidden">Manage</span>
+            </NavLink>
+            <NavLink className={navLinkClass} to="/ngo/profile">
+              Profile
+            </NavLink>
+          </nav>
+        </div>
+      </header>
+    )
+  }
 
   return (
     <header className={`sticky top-0 z-50 w-full ${barSurface}`}>
@@ -198,7 +229,7 @@ function Navbar({ location = 'Ahmedabad', onLocationChange }) {
               Home
             </NavLink>
             <NavLink className={navLinkClass} to="/events">
-              Events
+              My Events
             </NavLink>
             <NavLink className={navLinkClass} to="/impact">
               Impact

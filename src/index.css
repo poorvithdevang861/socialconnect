@@ -5,23 +5,21 @@
 @layer base {
   :root {
     --surface: #ffffff;
-    --surface-soft: #fff7ed;
-    --ink: #0a0a0a;
+    --surface-soft: #ffffff;
+    --ink: #000000;
     --muted: #64748b;
   }
 
   html {
     overflow-y: scroll;
-    background: #0f0f10;
+    background: #ffffff;
   }
 
   body {
     margin: 0;
     font-family: 'Public Sans', sans-serif;
     color: var(--ink);
-    background:
-      radial-gradient(1200px 420px at 50% -150px, rgba(234, 88, 12, 0.25), transparent 65%),
-      #fafaf9;
+    background: #ffffff;
   }
 }
 
@@ -32,11 +30,11 @@
   }
 
   .premium-shell {
-    @apply rounded-[1.6rem] border border-black/[0.06] bg-white shadow-[0_10px_28px_rgba(15,15,16,0.08)];
+    @apply rounded-[1.6rem] border border-black/[0.08] bg-white shadow-[0_10px_28px_rgba(15,15,16,0.08)];
   }
 
   .premium-section {
-    @apply rounded-3xl border border-black/[0.07] bg-white/95 p-4 shadow-card backdrop-blur-sm xs:p-5 md:p-6;
+    @apply rounded-3xl border border-black/[0.08] bg-beige p-4 shadow-card backdrop-blur-sm xs:p-5 md:p-6;
   }
 
   .premium-title {
@@ -56,11 +54,11 @@
   }
 
   .premium-chip {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-black/[0.08] bg-white px-3 py-1.5 text-[11px] font-bold text-slate-700 transition-colors hover:border-primary/40 hover:text-primary;
+    @apply inline-flex items-center gap-1.5 rounded-full border border-black/[0.1] bg-beige px-3 py-1.5 text-[11px] font-bold text-ink transition-colors hover:border-primary/50 hover:text-primary;
   }
 
   .cta-primary {
-    @apply rounded-full bg-primary px-5 py-3 text-sm font-bold text-white shadow-orange-glow transition-all hover:brightness-110 active:scale-[0.98];
+    @apply rounded-full bg-primary px-5 py-3 text-sm font-bold text-brand-yellow shadow-orange-glow transition-all hover:brightness-110 active:scale-[0.98];
   }
 
   .btn-primary {
@@ -68,19 +66,23 @@
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-primary/25 bg-white px-5 py-3 text-sm font-bold tracking-[0.01em] text-primary transition-all hover:bg-primary/5 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-black bg-white px-5 py-3 text-sm font-bold tracking-[0.01em] text-black transition-all hover:bg-primary-light active:scale-[0.98];
   }
 
   .btn-dark {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-shell px-5 py-3 text-sm font-bold tracking-[0.01em] text-white shadow-premium transition-all hover:bg-shell-soft active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-black px-5 py-3 text-sm font-bold tracking-[0.01em] text-white shadow-premium transition-all hover:bg-black/90 active:scale-[0.98];
+  }
+
+  .btn-action {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-bold tracking-[0.01em] text-brand-yellow shadow-orange-glow transition-all hover:brightness-110 active:scale-[0.98];
   }
 
   .cc-card {
-    @apply rounded-2xl border border-black/[0.06] bg-white shadow-[0_8px_24px_rgba(15,15,16,0.06)];
+    @apply rounded-2xl border border-black/[0.08] bg-beige shadow-[0_8px_24px_rgba(15,15,16,0.06)];
   }
 
   .cc-card-soft {
-    @apply rounded-2xl border border-black/[0.06] bg-white shadow-[0_8px_24px_rgba(15,15,16,0.06)];
+    @apply rounded-2xl border border-black/[0.08] bg-beige shadow-[0_8px_24px_rgba(15,15,16,0.06)];
   }
 
   .cc-card-pad {
@@ -114,6 +116,28 @@
 
   .section-title-row {
     @apply mb-4 md:mb-5;
+  }
+
+  /* Global system primitives from .cursor/system.md */
+  .sys-text-1 {
+    @apply text-xl font-bold text-black;
+  }
+
+  .sys-text-2 {
+    @apply text-base text-gray-700;
+  }
+
+  .sys-text-3 {
+    @apply text-sm text-gray-500;
+  }
+
+  .sys-motion {
+    @apply transition-all duration-200 hover:scale-105 active:scale-95;
+  }
+
+  /* Global responsive grid from .cursor/responsive.md (1/2/4) */
+  .responsive-grid-main {
+    @apply grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4;
   }
 }
 
@@ -153,7 +177,7 @@
 }
 
 .fill-1 {
-  font-variation-settings: 'FILL' 1;
+  font-variation-settings: 'FILL' 0;
 }
 
 .hide-scrollbar::-webkit-scrollbar {
