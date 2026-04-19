@@ -8,8 +8,9 @@ const navLinkClass = ({ isActive }) =>
     isActive ? 'text-primary' : 'text-white/80'
   }`
 
+/** Warm charcoal bar — matches shell/orange accent; no green tint */
 const barSurface =
-  'border-b border-emerald-400/20 bg-[linear-gradient(180deg,rgba(52,211,153,0.11)_0%,rgba(16,185,129,0.05)_32%,transparent_58%),linear-gradient(180deg,rgba(31,29,27,0.86)_0%,rgba(26,23,21,0.9)_48%,rgba(18,16,14,0.92)_100%)] text-white shadow-[0_8px_24px_rgba(0,0,0,0.1),inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-sm backdrop-saturate-150'
+  'border-b border-white/[0.06] bg-[linear-gradient(180deg,rgba(255,146,51,0.07)_0%,transparent_36%),linear-gradient(180deg,#252320_0%,#1a1816_48%,#121110_100%)] text-white shadow-[0_10px_28px_rgba(0,0,0,0.16),inset_0_1px_0_0_rgba(255,255,255,0.05)] backdrop-blur-sm backdrop-saturate-150'
 
 function Navbar({ location = 'Ahmedabad', onLocationChange }) {
   const { pathname } = useLocation()

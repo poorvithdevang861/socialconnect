@@ -78,6 +78,15 @@
     @apply inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-bold tracking-[0.01em] text-brand-yellow shadow-orange-glow transition-all hover:brightness-110 active:scale-[0.98];
   }
 
+  /** Home / accent — sage green CTAs */
+  .btn-success-green {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-success-green px-5 py-3 text-sm font-bold tracking-[0.01em] text-neutral-900 shadow-[0_4px_16px_rgba(180,216,87,0.42)] ring-1 ring-black/[0.06] transition-all hover:brightness-105 active:scale-[0.98];
+  }
+
+  .btn-success-green-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-2 border-sage bg-white px-5 py-3 text-sm font-bold tracking-[0.01em] text-neutral-900 shadow-sm transition-all hover:bg-sage/15 active:scale-[0.98];
+  }
+
   .cc-card {
     @apply rounded-2xl border border-black/[0.08] bg-beige shadow-[0_8px_24px_rgba(15,15,16,0.06)];
   }

@@ -7,14 +7,14 @@ import { googleMapsSearchHref } from '../utils/maps'
 
 const LOCATIONS = ['Ahmedabad', 'Pune', 'Bengaluru', 'Hyderabad']
 
-/** Subtle green selection — consistent across quick filters & Near You scope */
+/** Subtle black/neutral selection — quick filters & Near You scope (border only; no ring — avoids extra outline when scrolling/hovering) */
 const FILTER_ACTIVE_PILL =
-  'border border-success-green/45 bg-success-green/15 text-neutral-900 shadow-sm ring-1 ring-success-green/25'
+  'border border-neutral-800/30 bg-neutral-900/[0.07] text-neutral-900 shadow-sm'
 const FILTER_INACTIVE_PILL =
   'border border-neutral-200 bg-white text-neutral-900 shadow-sm hover:border-neutral-300 hover:bg-neutral-50'
 const FILTER_ACTIVE_MOBILE =
-  'border border-success-green/50 bg-success-green/[0.18] text-neutral-900 shadow-md ring-2 ring-success-green/40 ring-offset-2 ring-offset-background-light'
-const FILTER_INACTIVE_MOBILE = 'bg-white ring-1 ring-neutral-200/95 shadow-sm'
+  'border border-neutral-800/40 bg-neutral-900/[0.09] text-neutral-900 shadow-md'
+const FILTER_INACTIVE_MOBILE = 'border border-neutral-200/95 bg-white shadow-sm'
 
 function parseDateBadge(dateShort) {
   const parts = String(dateShort).trim().split(/\s+/)
@@ -98,35 +98,42 @@ function EventOpportunityCard({ item, navigate, carousel }) {
         </div>
       </div>
 
-      <div className="relative flex flex-1 flex-col bg-white px-4 pb-4 pt-8 cq-tight-card md:px-5 md:pb-5 md:pt-9">
-        <div className="absolute left-4 top-0 z-10 -translate-y-1/2 rounded-xl bg-white px-2.5 py-1.5 text-center shadow-md ring-1 ring-black/[0.08] md:left-5">
+      <div className="relative flex flex-1 flex-col px-4 pb-4 pt-8 cq-tight-card md:px-5 md:pb-5 md:pt-9">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-b from-white via-primary-light/95 to-primary/18"
+        />
+        <div className="absolute left-4 top-0 z-20 -translate-y-1/2 rounded-xl bg-white px-2.5 py-1.5 text-center shadow-md ring-1 ring-black/[0.08] md:left-5">
           <div className="text-xl font-black leading-none text-neutral-900 md:text-[1.35rem]">{day}</div>
-          <div className="mt-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-800">{month}</div>
+          <div className="mt-0.5 text-[10px] font-bold uppercase tracking-wider text-primary-dark">{month}</div>
         </div>
 
-        <div className="min-w-0 flex-1 pr-6">
-          <h4 className="cq-tight-title text-[clamp(1rem,4vw,1.15rem)] font-bold leading-snug text-neutral-900 transition-colors group-hover:text-emerald-900 md:text-[clamp(1.02rem,4.2vw,1.2rem)]">
-            {item.title}
-          </h4>
-          <p className="mt-1 text-[13px] font-medium text-neutral-600">
-            {item.cause}
-            <span className="text-neutral-400"> · </span>
-            {item.joined}
-          </p>
-          <p className="mt-1 text-xs font-semibold text-neutral-800">{timeRange}</p>
+        <div className="relative z-[1] flex min-h-0 flex-1 flex-col">
+          <div className="min-w-0 flex-1 pr-6">
+            <h4 className="cq-tight-title text-[clamp(1rem,4vw,1.15rem)] font-bold leading-snug text-neutral-900 transition-colors group-hover:text-primary md:text-[clamp(1.02rem,4.2vw,1.2rem)]">
+              {item.title}
+            </h4>
+            <p className="mt-1 text-[13px] font-medium text-neutral-600">
+              {item.cause}
+              <span className="text-neutral-400"> · </span>
+              {item.joined}
+            </p>
+            <p className="mt-1 text-xs font-semibold text-neutral-800">{timeRange}</p>
+          </div>
+
+          <p className="mt-2 line-clamp-2 text-[13px] leading-relaxed text-neutral-600">{item.desc}</p>
+
+          <Button
+            variant="none"
+            className="mt-4 inline-flex w-full items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary-dark py-3 text-[15px] font-bold tracking-[0.01em] text-white shadow-orange-glow transition-all hover:brightness-110 active:scale-[0.98]"
+            onClick={(event) => {
+              event.stopPropagation()
+              navigate(route)
+            }}
+          >
+            Join Opportunity
+          </Button>
         </div>
-
-        <p className="mt-2 line-clamp-2 text-[13px] leading-relaxed text-neutral-600">{item.desc}</p>
-
-        <Button
-          className="mt-4 w-full rounded-2xl py-3 text-[15px]"
-          onClick={(event) => {
-            event.stopPropagation()
-            navigate(route)
-          }}
-        >
-          Join Opportunity
-        </Button>
       </div>
     </div>
   )
@@ -593,7 +600,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                     }`}
                   >
                     <span
-                      className={`material-symbols-outlined text-[26px] ${active ? 'text-emerald-900' : 'text-neutral-500'}`}
+                      className={`material-symbols-outlined text-[26px] ${active ? 'text-neutral-900' : 'text-neutral-500'}`}
                     >
                       {c.icon}
                     </span>
@@ -624,7 +631,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                     type="button"
                   >
                     <span
-                      className={`material-symbols-outlined text-lg ${active ? 'text-emerald-900' : 'text-neutral-500'}`}
+                      className={`material-symbols-outlined text-lg ${active ? 'text-neutral-900' : 'text-neutral-500'}`}
                     >
                       {c.icon}
                     </span>
@@ -744,7 +751,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                         <h5 className="line-clamp-2 text-[15px] font-bold leading-snug text-neutral-900 md:line-clamp-1">{t.title}</h5>
                         <p className="mt-0.5 text-xs text-neutral-600">{t.meta}</p>
                       </div>
-                      <button className="btn-primary mt-2 px-3 py-1.5 text-[12px] md:hidden" onClick={() => navigate('/event')} type="button">
+                      <button className="btn-success-green mt-2 px-3 py-1.5 text-[12px] md:hidden" onClick={() => navigate('/event')} type="button">
                         View Details
                       </button>
                       <button className="mt-2 hidden items-center gap-1 text-sm font-bold text-neutral-900 transition-all hover:gap-2 hover:text-emerald-900 md:flex" onClick={() => navigate('/event')} type="button">
@@ -809,7 +816,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                         <span className="pl-3 text-[10px] text-neutral-500">{item.more}</span>
                       </div>
                     </div>
-                    <button className="btn-primary px-4 py-2 text-[12px]" type="button">
+                    <button className="btn-success-green px-4 py-2 text-[12px]" type="button">
                       Join
                     </button>
                   </div>
@@ -861,7 +868,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                   </div>
                 </div>
                 <button
-                  className="btn-secondary mt-8 w-full py-2.5"
+                  className="btn-success-green-outline mt-8 w-full py-2.5"
                   onClick={() => navigate('/friends')}
                   type="button"
                 >

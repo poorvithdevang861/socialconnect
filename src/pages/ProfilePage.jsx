@@ -107,6 +107,42 @@ function ProfilePage() {
             </p>
           </div>
 
+          <div className="cc-card cc-card-pad">
+            <div className="space-y-1">
+              {[
+                ['edit', 'Edit Profile'],
+                ['bookmark', 'Wishlist', '/wishlist'],
+                ['group', 'Friends', '/friends'],
+                ['help', 'Help Center', null],
+              ].map(([icon, text, href]) =>
+                href ? (
+                  <Link
+                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-slate-50"
+                    key={text}
+                    to={href}
+                  >
+                    <span className="material-symbols-outlined text-slate-400">{icon}</span> {text}
+                  </Link>
+                ) : (
+                  <button
+                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-slate-50"
+                    key={text}
+                    type="button"
+                  >
+                    <span className="material-symbols-outlined text-slate-400">{icon}</span> {text}
+                  </button>
+                ),
+              )}
+            </div>
+            <hr className="my-4 border-slate-200" />
+            <Button className="flex w-full items-center justify-center gap-2 py-3" onClick={() => setShareOpen(true)}>
+              <span className="material-symbols-outlined text-sm">
+                share
+              </span>
+              Share Profile
+            </Button>
+          </div>
+
           <div className="cc-card cc-card-pad-lg">
             <h3 className="mb-3 flex items-center gap-2 text-sm font-bold text-slate-900">
               <span className="material-symbols-outlined text-primary">group</span>
@@ -166,42 +202,6 @@ function ProfilePage() {
               Manage friends
               <span className="material-symbols-outlined text-sm">arrow_forward</span>
             </Link>
-          </div>
-
-          <div className="cc-card cc-card-pad">
-            <div className="space-y-1">
-              {[
-                ['edit', 'Edit Profile'],
-                ['bookmark', 'Wishlist', '/wishlist'],
-                ['group', 'Friends', '/friends'],
-                ['help', 'Help Center', null],
-              ].map(([icon, text, href]) =>
-                href ? (
-                  <Link
-                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-slate-50"
-                    key={text}
-                    to={href}
-                  >
-                    <span className="material-symbols-outlined text-slate-400">{icon}</span> {text}
-                  </Link>
-                ) : (
-                  <button
-                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-slate-50"
-                    key={text}
-                    type="button"
-                  >
-                    <span className="material-symbols-outlined text-slate-400">{icon}</span> {text}
-                  </button>
-                ),
-              )}
-            </div>
-            <hr className="my-4 border-slate-200" />
-            <Button className="flex w-full items-center justify-center gap-2 py-3" onClick={() => setShareOpen(true)}>
-              <span className="material-symbols-outlined text-sm">
-                share
-              </span>
-              Share Profile
-            </Button>
           </div>
         </aside>
 

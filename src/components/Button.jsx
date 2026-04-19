@@ -8,13 +8,17 @@ function Button({
   const variantClass =
     variant === 'secondary'
       ? 'btn-secondary'
-      : variant === 'action'
-        ? 'btn-action'
-      : variant === 'dark'
-        ? 'btn-dark'
-        : variant === 'none'
-          ? ''
-          : 'btn-primary'
+      : variant === 'success'
+        ? 'btn-success-green'
+        : variant === 'successOutline'
+          ? 'btn-success-green-outline'
+          : variant === 'action'
+            ? 'btn-action'
+            : variant === 'dark'
+              ? 'btn-dark'
+              : variant === 'none'
+                ? ''
+                : 'btn-primary'
 
   return (
     <button className={`${variantClass} sys-motion ${className}`.trim()} type={type} {...props}>
