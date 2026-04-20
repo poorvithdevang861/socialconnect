@@ -11,10 +11,16 @@ const DETAIL_TABS = [
   { id: 'details', label: 'Details' },
   { id: 'reviews', label: 'Reviews' },
 ]
+const EVENT_GALLERY = [
+  'https://lh3.googleusercontent.com/aida-public/AB6AXuA5rl4AYlwZb0sa2D0rx9umuDX0WuIOUITsB2IZSMYi5kRANvmCwEUsuavlBulk1N1h2Hdf0-UNOGzHN-yFWDlRZqJLcSdWwkY_dfF2kQ85HQEb_H5dQnlzptwcGpKbwVb03E1UttCf49B1RUyALJ6PyxGb_fax5rd6EANvUBFpwjJzYxUIgLInoWfXkkRvkESoPde8Didi7qj1PsjUyhCLNNCa5m98nSSynAOtLzkxuI8a-cNR1jZYpcIOShf4xYfHfBM0GGVjoDk',
+  'https://images.pexels.com/photos/8543586/pexels-photo-8543586.jpeg',
+  'https://images.pexels.com/photos/5029923/pexels-photo-5029923.jpeg',
+]
 
 function EventDetailsPage() {
   const navigate = useNavigate()
   const [detailTab, setDetailTab] = useState('about')
+  const [galleryIndex, setGalleryIndex] = useState(0)
   const [, setWishTick] = useState(0)
   useEffect(() => {
     return subscribeWishlist(() => setWishTick((t) => t + 1))
@@ -33,18 +39,43 @@ function EventDetailsPage() {
     }
     navigate('/home')
   }
+  const goPrevImage = () => {
+    setGalleryIndex((i) => (i - 1 + EVENT_GALLERY.length) % EVENT_GALLERY.length)
+  }
+  const goNextImage = () => {
+    setGalleryIndex((i) => (i + 1) % EVENT_GALLERY.length)
+  }
 
   return (
     <main className="mx-auto max-w-[1600px] bg-background-light pb-16">
       <div className="min-h-screen w-full premium-shell bg-white pb-[max(116px,calc(104px+env(safe-area-inset-bottom)))] md:hidden">
         <div className="relative h-[280px] w-full overflow-hidden rounded-b-[24px] bg-slate-200">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage:
-                "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%), url('https://lh3.googleusercontent.com/aida-public/AB6AXuCI5L64VCMp7RFxFZXVayQCDJXVfw-tGkrBtgyqXvThtwy8mCOOQHYugNlaR5XzCH64Pou42No7Ls2sApXNTRGL3Ivq5aNRiVhkHfeAvOQsrc-bhL1zRm_LAdL7boe8m3xOSczGXhVGI86lrYoCq30f02l8OOmKIF4zXp7nqYxc6_ji0W6MN30CZgn-lwzrXYtE4P8dVpQ5P5JRGrZV4D-P6i1nC0zdfmqMv20pGNe4-ZYY3PQVIqeB0IyjpCfLOTP_Ocy8hfvRCuU')",
-            }}
+          <img
+            alt="Event gallery"
+            className="absolute inset-0 h-full w-full object-cover"
+            src={EVENT_GALLERY[galleryIndex]}
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+          <div className="absolute inset-y-0 left-3 flex items-center">
+            <button
+              aria-label="Previous image"
+              className="flex size-9 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-md"
+              onClick={goPrevImage}
+              type="button"
+            >
+              <span className="material-symbols-outlined text-[20px]">chevron_left</span>
+            </button>
+          </div>
+          <div className="absolute inset-y-0 right-3 flex items-center">
+            <button
+              aria-label="Next image"
+              className="flex size-9 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-md"
+              onClick={goNextImage}
+              type="button"
+            >
+              <span className="material-symbols-outlined text-[20px]">chevron_right</span>
+            </button>
+          </div>
           <div className="absolute left-4 right-4 top-[max(12px,env(safe-area-inset-top))] flex items-center justify-between">
             <button
               className="flex size-10 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-md"
@@ -83,6 +114,14 @@ function EventDetailsPage() {
           <div className="absolute bottom-4 right-4 flex items-center gap-1 rounded-full bg-primary/90 px-3 py-1 text-xs font-semibold text-white">
             <span className="material-symbols-outlined text-[14px]">verified</span>
             <span>Verified</span>
+          </div>
+          <div className="absolute bottom-4 left-1/2 z-[2] flex -translate-x-1/2 items-center gap-1.5">
+            {EVENT_GALLERY.map((_, idx) => (
+              <span
+                className={`h-1.5 rounded-full transition-all ${galleryIndex === idx ? 'w-5 bg-white' : 'w-1.5 bg-white/60'}`}
+                key={`mobile-dot-${idx}`}
+              />
+            ))}
           </div>
         </div>
 
@@ -252,9 +291,29 @@ function EventDetailsPage() {
           <img
             alt="Volunteers planting trees"
             className="h-full w-full object-cover"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5rl4AYlwZb0sa2D0rx9umuDX0WuIOUITsB2IZSMYi5kRANvmCwEUsuavlBulk1N1h2Hdf0-UNOGzHN-yFWDlRZqJLcSdWwkY_dfF2kQ85HQEb_H5dQnlzptwcGpKbwVb03E1UttCf49B1RUyALJ6PyxGb_fax5rd6EANvUBFpwjJzYxUIgLInoWfXkkRvkESoPde8Didi7qj1PsjUyhCLNNCa5m98nSSynAOtLzkxuI8a-cNR1jZYpcIOShf4xYfHfBM0GGVjoDk"
+            src={EVENT_GALLERY[galleryIndex]}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          <div className="absolute inset-y-0 left-5 flex items-center">
+            <button
+              aria-label="Previous image"
+              className="flex size-11 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-md"
+              onClick={goPrevImage}
+              type="button"
+            >
+              <span className="material-symbols-outlined">chevron_left</span>
+            </button>
+          </div>
+          <div className="absolute inset-y-0 right-5 flex items-center">
+            <button
+              aria-label="Next image"
+              className="flex size-11 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-md"
+              onClick={goNextImage}
+              type="button"
+            >
+              <span className="material-symbols-outlined">chevron_right</span>
+            </button>
+          </div>
           <div className="absolute left-5 top-5 flex gap-2.5">
             <button
               className="flex items-center gap-2 rounded-xl bg-white/90 px-4 py-2 text-sm font-bold text-slate-900 shadow-lg backdrop-blur transition-all hover:bg-white"
@@ -291,6 +350,14 @@ function EventDetailsPage() {
             <h1 className="text-[2.8rem] font-black leading-none tracking-tight xl:text-5xl">
               Green Earth Tree Plantation
             </h1>
+          </div>
+          <div className="absolute bottom-6 right-6 flex items-center gap-2">
+            {EVENT_GALLERY.map((_, idx) => (
+              <span
+                className={`h-2 rounded-full transition-all ${galleryIndex === idx ? 'w-6 bg-white' : 'w-2 bg-white/60'}`}
+                key={`desktop-dot-${idx}`}
+              />
+            ))}
           </div>
         </div>
       </section>

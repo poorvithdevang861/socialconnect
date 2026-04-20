@@ -83,15 +83,6 @@ function SignupPage() {
             </div>
 
             <div className="mx-auto flex w-full max-w-md flex-col items-center text-center">
-              <div className="mb-6 flex items-center justify-center gap-2 lg:hidden">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-shell text-brand-yellow shadow-premium">
-                  <span className="material-symbols-outlined text-2xl leading-none text-brand-yellow">
-                    volunteer_activism
-                  </span>
-                </div>
-                <span className="text-xl font-black text-shell">CauseConnect</span>
-              </div>
-
               <div className="w-full max-w-sm">
                 <div className="cc-card cc-card-pad-lg shadow-[0_10px_28px_rgba(15,15,16,0.08)]">
                   <div className="mb-6">

@@ -79,13 +79,8 @@ function LoginPage() {
             </div>
 
             <div className="mx-auto flex w-full max-w-md flex-col items-center text-center">
-              <div className="mb-6 flex items-center justify-center gap-2 lg:hidden">
-                <img alt="CauseConnect logo" className="size-10 shrink-0 rounded-xl object-contain shadow-premium" src={appLogo} />
-                <span className="text-xl font-black text-shell">CauseConnect</span>
-              </div>
-
               <div className="mb-6">
-                <h1 className="premium-h1 text-ink">Welcome back</h1>
+                <h1 className="premium-h1 text-ink">Welcome</h1>
                 <p className="premium-body mt-1">Log in to continue your volunteering journey.</p>
               </div>
 

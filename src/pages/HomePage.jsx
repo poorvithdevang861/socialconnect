@@ -206,7 +206,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         verified: true,
         rating: 4.8,
         route: '/event',
-        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCdHY3U9iXi2PjUs2zf6o6CEcIdI9b9DekpZ2Jg_KmD5bjXzx8orawvH0Fj5AFhz7AWwaz7O5cai9llap37-AtCWcpGJj7fwVYxxbLWEZrq-x44_FLuBhGxIEeexa1Jd515zvePM5vY31QEEYcwMACuFJ2gHAz7WyMEUG9PzUKALQJg9z64ii_clerVdOhfNKH75XE6DlU6_BK5eIqLbEiMc17gmaRVj0yIED44M-5v7wqBNOJvmc982OJVvvca9fcEi24mTpZBVvM',
+        img: 'https://images.pexels.com/photos/8543578/pexels-photo-8543578.jpeg',
       },
       {
         id: 'sabarmati-river-cleanup',
@@ -218,7 +218,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         openings: '24 Openings',
         rating: 4.3,
         route: '/event',
-        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCKfMCYSYKMNIiPUrKfBcM1Cc1pnOLCOzaMv5y0jN7Kx1nG7VETRpbnEHg9uC8jMZ0NneugB_Y7CAjw5Lx862R6QqOxMlKQi_NjqY-VxNk35KVHx7fkk8HW0ig7sZh6iju6NBWmyLUTR4kFLAc6pGg-5JOHLM10aUoH67Pg9gIiBVdBJkKbPKZuflWjIazykJV5CCsHukgMqh7sQNUAQJdYMv1Ibdgn-zX4WeFX_MT4dy-NKWfVrEmmW1TI_imDMDOIJUPiWOjUbXM',
+        img: 'https://images.pexels.com/photos/7656743/pexels-photo-7656743.jpeg',
       },
       {
         id: 'weekend-tutoring',
@@ -230,7 +230,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         openings: '5 Openings',
         rating: 4.4,
         route: '/event',
-        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBtVjPEQgTa5GnZj8q-80NZ3SjzxnLLVlWmdo1qjEyL1D0d4SwvhtLL77I9FnvUrRh_hmB90eT0WJ_YugBrVEFmAud6wzFUr_7bijy3PPNP9OWgpmxrbjHc5E0BFy2TUUH2AHo1KRXgW-iQZVN4W3I3dfUMW2wmP-OEU9zegVyDhKGAcnqRLdV4uZvepCKja00fmpr_zLQSRxiO-yyLIaUEbz2eNAXr6lOMXBtUSvRFcyyAz2HaSu5J2clatrZIEXT2lpuzN-4af2k',
+        img: 'https://images.pexels.com/photos/6647025/pexels-photo-6647025.jpeg',
       },
       {
         id: 'animal-rescue-center',
@@ -242,7 +242,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         openings: '8 Openings',
         rating: 4.6,
         route: '/event',
-        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAPOrDglRZ_wuQVrQsE5owpPUsvYKtHrz0atEFKl7kp3IF-faTZCjTY04O6QabfNnTZPe3snyokSVNuOHp4TfHeI73jpyPzaABY9aQejwle60djEiXH3gxfmXG7rA_auW3T2n2YmO3T8sd6mJY64KsNdpSBCcyu2xsbUA8D-9SKrvHkYnMt9uOqNpZBgzXAfVWRb6601yU7B6ro3ff-AM-Jd79DWoXyr9WESvP7UgVL64JPrEKX21bOHus33M9KFi17Fp1PYWnlXaE',
+        img: 'https://images.pexels.com/photos/7474858/pexels-photo-7474858.jpeg',
       },
       {
         id: 'community-kitchen',
@@ -255,7 +255,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         verified: true,
         rating: 4.8,
         route: '/event',
-        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCaTA_trNJ3oVwBlDd5NOyoSGD57zrqwYXcvbv4KkqP2oKAunXaR7EGT_tXXafrlEbGVYEkKFp8I-AERmRinzvja5l0KZOgbBXjTDlVYxoo-z7S7W9RsanPQ2UjYPZy1o8nHNOmX6jpHkRw_oyxgk-pwXqMlx5Ic7o9UsWpOu73f4Mbzl3F2EntNZmcBL2cuQfi4G2eET40eNHqXYX2uNRo0_ZQFFiEzlj3Hop0ku4PbwQZNX8mYaC1Kikv1mtBqGLjyZF5Sxhu6aM',
+        img: 'https://images.pexels.com/photos/6995247/pexels-photo-6995247.jpeg',
       },
       {
         id: 'senior-home-visiting',
@@ -267,7 +267,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         openings: '4 Openings',
         rating: 4.3,
         route: '/event',
-        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA66_jD8TF4ysqx4OYkh5RD6Tdr3E-a5rUq8Lf5T6dR-SGXUKoBUEnxyvzA38qWq2Ls3vLruM6KwcMYYXDzvigEdeYsn2EJLOiRarmBxesop2-Ccgl9Nm37Futqd4tNI33N3cg7MwPdTZTU2548Ute-ArUYN61Wwl9MWbw7gWFWz65TfN1PvhtxotWrRUFVI6Gvu2qY-Div7QX3khtnf_p6B6Rqq0CIRSdwljQpRMou1zw6ktVsPdD0nqCkb1EJOcuCSwokIWNgIpQ',
+        img: 'https://images.pexels.com/photos/7551686/pexels-photo-7551686.jpeg',
       },
       {
         id: 'lake-shore-cleanup',
@@ -279,7 +279,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         openings: '30 Openings',
         rating: 4.5,
         route: '/event',
-        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDBoLBpZ4KJzaPgk_2rAcHwq3hb9YH3Wj5pmepV9LDb7gKIkdcUkHcROVws-o7rJAC4nGqgtQ5hSDUZ4E_vQ4iM7OBANbchW5lGP6xVP1IFaHKoM8hsNWeGG0lvmcvyyUudHf8dRTnyAEY4iPi8WfwQHjcS-svqNkqPrChFzxGe8bDBnfUGm41bpEojIy5BVfZSESzJ5zaGYx9Y7XbBYu8l5ATfA3T7urj80q9OcMAi8E0U-1r6CVnoHWDeonspkDZBlk_DsdrVxJA',
+        img: 'https://images.pexels.com/photos/36713478/pexels-photo-36713478.jpeg',
       },
       {
         id: 'book-drive-coordination',
@@ -291,7 +291,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         openings: '15 Openings',
         rating: 4.2,
         route: '/event',
-        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB955WI-Xxi58AJFQCtWuzroH2HeBtbHQMSG0qKutwmpI7X2vNIopogHTiwmD078qwbo7Zrc5-kn6WS25jnWGv6aSslXIkR0JaWrs_yFzXyS2vK1koDRH3eUrwRBDpVzXCgWd8oGKK8MgxnH_ibo6Y7IlwkpteDmEeFQgId_ZjItZ2hL0YZ8BVja23KbvZpwZkfFxGDkg6CFX3P1dxbaZcHSzOtQciC7L339fpOxk_PCoHLPwbFL3PkLCtdAl1iyo7aJ7buj6scMOk',
+        img: 'https://images.pexels.com/photos/4836622/pexels-photo-4836622.jpeg',
       },
       {
         id: 'city-park-restoration',
@@ -303,7 +303,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         openings: '20 Openings',
         rating: 4.1,
         route: '/event',
-        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHTta6FADEfrAViXEl3aRVVM73dBKy0qi3QjL3wRmkLOlf72Z5uP_Hi40V4Cms4VGHxEi6lb_3dD3nu4Oq0q4rTuWzsy3RZLXWmViGQZ6BIvZ4GYsvz_hdaT1Qbbm2V-i4sW7gdNasZaAaxZQAOHYV4X-J0Ro96RxxZov7n6a74vphV7NoB1lVROD8sTlp2Dwui45dz1y2ROIpmW6o0E0Zcysi1kru1xuB3d3Oj8YMQwHhQtOukaaUdWrw3894rh_nYLpbtzc-B58',
+        img: 'https://images.pexels.com/photos/36713455/pexels-photo-36713455.jpeg',
       },
     ],
     [],
@@ -327,7 +327,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         joined: '22+ Joined',
         openings: '6 Openings',
         rating: 4.6,
-        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBtVjPEQgTa5GnZj8q-80NZ3SjzxnLLVlWmdo1qjEyL1D0d4SwvhtLL77I9FnvUrRh_hmB90eT0WJ_YugBrVEFmAud6wzFUr_7bijy3PPNP9OWgpmxrbjHc5E0BFy2TUUH2AHo1KRXgW-iQZVN4W3I3dfUMW2wmP-OEU9zegVyDhKGAcnqRLdV4uZvepCKja00fmpr_zLQSRxiO-yyLIaUEbz2eNAXr6lOMXBtUSvRFcyyAz2HaSu5J2clatrZIEXT2lpuzN-4af2k',
+        img: 'https://images.pexels.com/photos/6647025/pexels-photo-6647025.jpeg',
         route: '/event',
       },
       {
@@ -340,7 +340,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         openings: '15 Openings',
         verified: true,
         rating: 4.9,
-        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBHFg7Lb1J2UB23UIzivsG38PCbA_c-m8AsYnHhVdYIZWBEUgF2f1-PUAqHttRpyBndUM6WegLt-VYdkLI-4hrm7wQVnvQwfOkIzNNivEPrljPFkFhBzi0IiI05YdrOD8IBx7EvE4sBCl6YMaGdtQRWeFVwNpz27x5tMwVZSQwq7Z_lzeiV2kOIIaiXILdzZmoOGGlRyLZavPc-7qCzajqGxct-FQvYIYCiOqYfvl7BPc1W4YWCqERRPGKTsCC1NLwOxfQQb0ieeak',
+        img: 'https://images.pexels.com/photos/12227661/pexels-photo-12227661.jpeg',
         route: '/event',
       },
       {
@@ -352,7 +352,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         joined: '40+ Joined',
         openings: '10 Openings',
         rating: 4.5,
-        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCKfMCYSYKMNIiPUrKfBcM1Cc1pnOLCOzaMv5y0jN7Kx1nG7VETRpbnEHg9uC8jMZ0NneugB_Y7CAjw5Lx862R6QqOxMlKQi_NjqY-VxNk35KVHx7fkk8HW0ig7sZh6iju6NBWmyLUTR4kFLAc6pGg-5JOHLM10aUoH67Pg9gIiBVdBJkKbPKZuflWjIazykJV5CCsHukgMqh7sQNUAQJdYMv1Ibdgn-zX4WeFX_MT4dy-NKWfVrEmmW1TI_imDMDOIJUPiWOjUbXM',
+        img: 'https://images.pexels.com/photos/7474858/pexels-photo-7474858.jpeg',
         route: '/event',
       },
       {
@@ -365,7 +365,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         openings: '20 Openings',
         verified: true,
         rating: 4.7,
-        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCdHY3U9iXi2PjUs2zf6o6CEcIdI9b9DekpZ2Jg_KmD5bjXzx8orawvH0Fj5AFhz7AWwaz7O5cai9llap37-AtCWcpGJj7fwVYxxbLWEZrq-x44_FLuBhGxIEeexa1Jd515zvePM5vY31QEEYcwMACuFJ2gHAz7WyMEUG9PzUKALQJg9z64ii_clerVdOhfNKH75XE6DlU6_BK5eIqLbEiMc17gmaRVj0yIED44M-5v7wqBNOJvmc982OJVvvca9fcEi24mTpZBVvM',
+        img: 'https://images.pexels.com/photos/36713455/pexels-photo-36713455.jpeg',
         route: '/event',
       },
       {
@@ -377,7 +377,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         joined: '18+ Joined',
         openings: '5 Openings',
         rating: 4.3,
-        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA5rl4AYlwZb0sa2D0rx9umuDX0WuIOUITsB2IZSMYi5kRANvmCwEUsuavlBulk1N1h2Hdf0-UNOGzHN-yFWDlRZqJLcSdWwkY_dfF2kQ85HQEb_H5dQnlzptwcGpKbwVb03E1UttCf49B1RUyALJ6PyxGb_fax5rd6EANvUBFpwjJzYxUIgLInoWfXkkRvkESoPde8Didi7qj1PsjUyhCLNNCa5m98nSSynAOtLzkxuI8a-cNR1jZYpcIOShf4xYfHfBM0GGVjoDk',
+        img: 'https://images.pexels.com/photos/7551686/pexels-photo-7551686.jpeg',
         route: '/event',
       },
       {
@@ -389,7 +389,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
         joined: '70+ Joined',
         openings: '14 Openings',
         rating: 4.8,
-        img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCaTA_trNJ3oVwBlDd5NOyoSGD57zrqwYXcvbv4KkqP2oKAunXaR7EGT_tXXafrlEbGVYEkKFp8I-AERmRinzvja5l0KZOgbBXjTDlVYxoo-z7S7W9RsanPQ2UjYPZy1o8nHNOmX6jpHkRw_oyxgk-pwXqMlx5Ic7o9UsWpOu73f4Mbzl3F2EntNZmcBL2cuQfi4G2eET40eNHqXYX2uNRo0_ZQFFiEzlj3Hop0ku4PbwQZNX8mYaC1Kikv1mtBqGLjyZF5Sxhu6aM',
+        img: 'https://images.pexels.com/photos/6995247/pexels-photo-6995247.jpeg',
         route: '/event',
       },
     ]
@@ -727,28 +727,28 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                     tagClass: 'text-neutral-600',
                     title: 'Weekend Tutoring for Kids',
                     meta: '45 volunteers matched',
-                    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBtVjPEQgTa5GnZj8q-80NZ3SjzxnLLVlWmdo1qjEyL1D0d4SwvhtLL77I9FnvUrRh_hmB90eT0WJ_YugBrVEFmAud6wzFUr_7bijy3PPNP9OWgpmxrbjHc5E0BFy2TUUH2AHo1KRXgW-iQZVN4W3I3dfUMW2wmP-OEU9zegVyDhKGAcnqRLdV4uZvepCKja00fmpr_zLQSRxiO-yyLIaUEbz2eNAXr6lOMXBtUSvRFcyyAz2HaSu5J2clatrZIEXT2lpuzN-4af2k',
+                    img: 'https://images.pexels.com/photos/6647025/pexels-photo-6647025.jpeg',
                   },
                   {
                     tag: 'Social Care',
                     tagClass: 'text-neutral-600',
                     title: 'Community Kitchen Drive',
                     meta: '82 volunteers matched',
-                    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCaTA_trNJ3oVwBlDd5NOyoSGD57zrqwYXcvbv4KkqP2oKAunXaR7EGT_tXXafrlEbGVYEkKFp8I-AERmRinzvja5l0KZOgbBXjTDlVYxoo-z7S7W9RsanPQ2UjYPZy1o8nHNOmX6jpHkRw_oyxgk-pwXqMlx5Ic7o9UsWpOu73f4Mbzl3F2EntNZmcBL2cuQfi4G2eET40eNHqXYX2uNRo0_ZQFFiEzlj3Hop0ku4PbwQZNX8mYaC1Kikv1mtBqGLjyZF5Sxhu6aM',
+                    img: 'https://images.pexels.com/photos/6995247/pexels-photo-6995247.jpeg',
                   },
                   {
                     tag: 'Environment',
                     tagClass: 'text-neutral-600',
                     title: 'Urban Garden Project',
                     meta: '31 volunteers matched',
-                    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDBOg8TA3Ihi0kIsJEo6ijwacpGoTVX3ByTdbvQKjrvpx_hybl-IqpWwOSfnj74w0b6gs9LPChsGyMfxIzQSzZKSS42_5L1JCmJemCRP5-PD9DYWQd-2yrJU8hTkC0c2A2KnSpPeAVv8JRlsXXcChBG84TzAfFNFb9jWspUJOqv-kXrlE025PsmOElaAC_zhJxvmu7UtADf0-mHprS0QwpvQMo3mV38KLO6J1nNutx7XQDllBTS3WGGe8vRMxmCH8hf8kV23x06_Ss',
+                    img: 'https://images.pexels.com/photos/36713455/pexels-photo-36713455.jpeg',
                   },
                   {
                     tag: 'Health',
                     tagClass: 'text-neutral-600',
                     title: 'Wellness & blood donation drive',
                     meta: '56 volunteers matched',
-                    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBHFg7Lb1J2UB23UIzivsG38PCbA_c-m8AsYnHhVdYIZWBEUgF2f1-PUAqHttRpyBndUM6WegLt-VYdkLI-4hrm7wQVnvQwfOkIzNNivEPrljPFkFhBzi0IiI05YdrOD8IBx7EvE4sBCl6YMaGdtQRWeFVwNpz27x5tMwVZSQwq7Z_lzeiV2kOIIaiXILdzZmoOGGlRyLZavPc-7qCzajqGxct-FQvYIYCiOqYfvl7BPc1W4YWCqERRPGKTsCC1NLwOxfQQb0ieeak',
+                    img: 'https://images.pexels.com/photos/12227661/pexels-photo-12227661.jpeg',
                   },
                 ].map((t) => (
                   <div

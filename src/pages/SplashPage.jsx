@@ -31,7 +31,7 @@ function SplashPage() {
       <div className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-background-dark/68 via-background-dark/52 to-background-dark/72" />
         <div
-          className="h-full w-full bg-cover bg-center bg-no-repeat"
+          className="h-full w-full bg-cover bg-center bg-no-repeat opacity-85"
           style={{
             backgroundImage: `url(${splashImage})`,
           }}

@@ -79,11 +79,6 @@ function OrganizationSignupPage() {
             </div>
 
             <div className="mx-auto flex w-full max-w-2xl flex-col items-center text-center lg:max-w-none">
-              <div className="mb-6 flex items-center justify-center gap-2 lg:hidden">
-                <img alt="CauseConnect logo" className="size-10 shrink-0 rounded-xl object-contain shadow-premium" src={appLogo} />
-                <span className="text-xl font-black text-shell">CauseConnect</span>
-              </div>
-
               <div className="max-h-[min(100%,calc(100dvh-4.5rem))] min-h-0 w-full overflow-y-auto overscroll-y-contain md:max-h-none md:overflow-visible">
                 <div className="cc-card cc-card-pad-lg shadow-[0_10px_28px_rgba(15,15,16,0.08)]">
                   <Link
