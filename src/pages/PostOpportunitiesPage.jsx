@@ -88,7 +88,7 @@ function PostOpportunitiesPage() {
   }
 
   return (
-    <NgoLayout title="Post an opportunity" subtitle={`${profile.orgName} · ${profile.city}`}>
+    <NgoLayout title="Post an event" subtitle={`${profile.orgName} · ${profile.city}`}>
       {posted ? (
         <div className="cc-card cc-card-pad-lg shadow-[0_14px_32px_rgba(15,15,16,0.08)]">
           <div className="flex flex-col items-center gap-4 text-center">
@@ -96,9 +96,9 @@ function PostOpportunitiesPage() {
               <span className="material-symbols-outlined text-[32px]">check_circle</span>
             </div>
             <div>
-              <h2 className="premium-h2 text-ink">Opportunity published</h2>
+              <h2 className="premium-h2 text-ink">Event published</h2>
               <p className="premium-body mt-2">
-                Your opportunity is saved. Volunteers can discover it from your manage events list.
+                Your event is saved. Volunteers can discover it from your manage events list.
               </p>
             </div>
             <div className="flex w-full flex-col gap-3 sm:flex-row">
@@ -114,7 +114,10 @@ function PostOpportunitiesPage() {
       ) : (
         <div className="cc-card cc-card-pad-lg bg-white shadow-[0_18px_42px_-14px_rgba(15,15,16,0.15)]">
           <div className="mb-6">
-            <h3 className="text-2xl font-extrabold text-ink">Post new opportunity</h3>
+            <h3 className="text-2xl font-extrabold text-ink">Post new event</h3>
+            <p className="mt-1 text-sm font-medium text-slate-600">
+              Publish upcoming events so volunteers can discover and join quickly.
+            </p>
             <p className="premium-body mt-1">
               Logged in as <span className="font-bold text-ink">{profile.contactName}</span>
               <span className="text-slate-400"> · </span>
@@ -164,7 +167,7 @@ function PostOpportunitiesPage() {
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-7">
                 <div className="space-y-1.5 sm:col-span-2">
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500">Opportunity title</label>
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-500">Event title</label>
                   <input
                     className={inputClass}
                     onChange={(e) => setTitle(e.target.value)}
@@ -176,7 +179,18 @@ function PostOpportunitiesPage() {
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold uppercase tracking-wider text-slate-500">Date</label>
-                  <input className={inputClass} onChange={(e) => setDate(e.target.value)} required type="date" value={date} />
+                  <div className="relative">
+                    <input
+                      className={`${inputClass} cursor-pointer pr-10 text-slate-700 [color-scheme:light] [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-0 [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:w-10 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0`}
+                      onChange={(e) => setDate(e.target.value)}
+                      required
+                      type="date"
+                      value={date}
+                    />
+                    <span className="material-symbols-outlined pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                      calendar_month
+                    </span>
+                  </div>
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold uppercase tracking-wider text-slate-500">Volunteers needed</label>
@@ -228,7 +242,7 @@ function PostOpportunitiesPage() {
             </div>
 
             <Button className="h-12 w-full justify-center gap-2 font-bold" type="submit">
-              Publish opportunity
+              Publish event
               <span className="material-symbols-outlined text-lg">arrow_forward</span>
             </Button>
           </form>

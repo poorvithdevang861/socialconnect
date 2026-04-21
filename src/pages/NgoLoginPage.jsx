@@ -61,7 +61,10 @@ function NgoLoginPage() {
             <div className="flex flex-col items-center gap-5 text-center">
               <div className="flex items-center justify-center gap-3">
                 <img alt="CauseConnect logo" className="size-11 shrink-0 rounded-2xl object-contain shadow-premium" src={appLogo} />
-                <span className="text-2xl font-black tracking-tight text-shell">CauseConnect</span>
+                <span className="text-left text-[17px] font-black leading-[0.9] tracking-tight text-shell sm:text-lg">
+                  <span className="block">CAUSE</span>
+                  <span className="block">CONNECT</span>
+                </span>
               </div>
               <span className="premium-chip border-primary/20 bg-primary/10 text-primary">For organizations</span>
               <h2 className="premium-h1 text-[clamp(1.85rem,3vw,2.75rem)]">

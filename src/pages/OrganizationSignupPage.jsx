@@ -24,6 +24,8 @@ function OrganizationSignupPage() {
   const [password, setPassword] = useState('')
   const [city, setCity] = useState('')
   const [mission, setMission] = useState('')
+  const [verificationAck, setVerificationAck] = useState(false)
+  const [verificationDocName, setVerificationDocName] = useState('')
 
   const inputClass =
     'h-12 w-full rounded-2xl border border-black/[0.12] bg-beige px-4 text-[15px] leading-snug text-ink placeholder:text-slate-500 outline-none transition-shadow focus:border-primary/50 focus:ring-2 focus:ring-primary/25'
@@ -65,7 +67,10 @@ function OrganizationSignupPage() {
             <div className="flex w-full max-w-md flex-col items-center gap-5 text-center lg:max-w-none">
               <div className="flex items-center justify-center gap-3">
                 <img alt="CauseConnect logo" className="size-11 shrink-0 rounded-2xl object-contain shadow-premium" src={appLogo} />
-                <span className="text-2xl font-black tracking-tight text-shell">CauseConnect</span>
+                <span className="text-left text-[17px] font-black leading-[0.9] tracking-tight text-shell sm:text-lg">
+                  <span className="block">CAUSE</span>
+                  <span className="block">CONNECT</span>
+                </span>
               </div>
               <span className="premium-chip border-primary/20 bg-primary/10 text-primary">For organizations</span>
               <h2 className="premium-h1 text-[clamp(1.85rem,3vw,2.75rem)]">
@@ -78,7 +83,7 @@ function OrganizationSignupPage() {
               </p>
             </div>
 
-            <div className="mx-auto flex w-full max-w-2xl flex-col items-center text-center lg:max-w-none">
+            <div className="mx-auto flex w-full max-w-4xl flex-col items-center text-center lg:max-w-none">
               <div className="max-h-[min(100%,calc(100dvh-4.5rem))] min-h-0 w-full overflow-y-auto overscroll-y-contain md:max-h-none md:overflow-visible">
                 <div className="cc-card cc-card-pad-lg shadow-[0_10px_28px_rgba(15,15,16,0.08)]">
                   <Link
@@ -96,87 +101,142 @@ function OrganizationSignupPage() {
                     </p>
                   </div>
 
+                  <div className="mb-6 rounded-2xl border border-primary/20 bg-primary/[0.06] px-4 py-4 text-left">
+                    <div className="flex items-start gap-3">
+                      <div className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/12 text-primary">
+                        <span className="material-symbols-outlined text-[18px]">verified</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-ink">Verification for trust badge</p>
+                        <p className="mt-1 text-sm leading-relaxed text-slate-600">
+                          After signup, your organization details are reviewed before appearing with a
+                          verified badge to volunteers.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
                   <form className="w-full text-left" onSubmit={handleSubmit}>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-x-4 md:gap-y-4">
-                      <div className="md:min-w-0">
-                        <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
-                          Organization name
-                        </label>
-                        <input
-                          className={inputClass}
-                          onChange={(e) => setOrgName(e.target.value)}
-                          placeholder="Hope Foundation"
-                          required
-                          type="text"
-                          value={orgName}
-                        />
+                    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6">
+                      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-x-4 md:gap-y-4 lg:grid-cols-1">
+                        <div className="min-w-0">
+                          <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
+                            Organization name
+                          </label>
+                          <input
+                            className={inputClass}
+                            onChange={(e) => setOrgName(e.target.value)}
+                            placeholder="Hope Foundation"
+                            required
+                            type="text"
+                            value={orgName}
+                          />
+                        </div>
+                        <div className="min-w-0">
+                          <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
+                            Contact name
+                          </label>
+                          <input
+                            className={inputClass}
+                            onChange={(e) => setContactName(e.target.value)}
+                            placeholder="Your full name"
+                            required
+                            type="text"
+                            value={contactName}
+                          />
+                        </div>
+                        <div className="min-w-0">
+                          <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
+                            Work email
+                          </label>
+                          <input
+                            className={inputClass}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="name@organization.org"
+                            required
+                            type="email"
+                            value={email}
+                          />
+                        </div>
+                        <div className="min-w-0">
+                          <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
+                            Password
+                          </label>
+                          <input
+                            className={inputClass}
+                            autoComplete="new-password"
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="••••••••"
+                            required
+                            minLength={8}
+                            type="password"
+                            value={password}
+                          />
+                        </div>
+                        <div className="min-w-0">
+                          <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
+                            City or region
+                          </label>
+                          <input
+                            className={inputClass}
+                            onChange={(e) => setCity(e.target.value)}
+                            placeholder="Ahmedabad"
+                            required
+                            type="text"
+                            value={city}
+                          />
+                        </div>
                       </div>
-                      <div className="md:min-w-0">
-                        <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
-                          Contact name
-                        </label>
-                        <input
-                          className={inputClass}
-                          onChange={(e) => setContactName(e.target.value)}
-                          placeholder="Your full name"
-                          required
-                          type="text"
-                          value={contactName}
-                        />
-                      </div>
-                      <div className="md:min-w-0">
-                        <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
-                          Work email
-                        </label>
-                        <input
-                          className={inputClass}
-                          onChange={(e) => setEmail(e.target.value)}
-                          placeholder="name@organization.org"
-                          required
-                          type="email"
-                          value={email}
-                        />
-                      </div>
-                      <div className="md:min-w-0">
-                        <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
-                          Password
-                        </label>
-                        <input
-                          className={inputClass}
-                          autoComplete="new-password"
-                          onChange={(e) => setPassword(e.target.value)}
-                          placeholder="••••••••"
-                          required
-                          minLength={8}
-                          type="password"
-                          value={password}
-                        />
-                      </div>
-                      <div className="md:col-span-2 md:min-w-0">
-                        <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
-                          City or region
-                        </label>
-                        <input
-                          className={inputClass}
-                          onChange={(e) => setCity(e.target.value)}
-                          placeholder="Ahmedabad"
-                          required
-                          type="text"
-                          value={city}
-                        />
-                      </div>
-                      <div className="md:col-span-2 md:min-w-0">
-                        <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
-                          Mission &amp; focus
-                        </label>
-                        <textarea
-                          className={`${textareaClass} min-h-[100px] md:min-h-[120px]`}
-                          onChange={(e) => setMission(e.target.value)}
-                          placeholder="What does your organization do? Which causes do you support?"
-                          required
-                          rows={4}
-                          value={mission}
-                        />
+
+                      <div className="space-y-4">
+                        <div className="min-w-0">
+                          <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
+                            Mission &amp; focus
+                          </label>
+                          <textarea
+                            className={`${textareaClass} min-h-[100px] md:min-h-[120px]`}
+                            onChange={(e) => setMission(e.target.value)}
+                            placeholder="What does your organization do? Which causes do you support?"
+                            required
+                            rows={4}
+                            value={mission}
+                          />
+                        </div>
+
+                        <div className="rounded-2xl border border-black/[0.08] bg-background-light px-4 py-3">
+                          <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
+                            Verification document
+                          </label>
+                          <input
+                            accept=".pdf,.jpg,.jpeg,.png"
+                            className="block w-full rounded-xl border border-black/[0.08] bg-white px-3 py-2.5 text-sm text-slate-700 file:mr-3 file:rounded-lg file:border-0 file:bg-primary/10 file:px-3 file:py-1.5 file:text-xs file:font-bold file:text-primary hover:file:bg-primary/15"
+                            onChange={(e) => setVerificationDocName(e.target.files?.[0]?.name ?? '')}
+                            required
+                            type="file"
+                          />
+                          <p className="mt-1 text-xs text-slate-500">
+                            Upload NGO registration / trust certificate for verification.
+                          </p>
+                          {verificationDocName ? (
+                            <p className="mt-1 text-xs font-semibold text-slate-700">Selected: {verificationDocName}</p>
+                          ) : null}
+                        </div>
+
+                        <div className="rounded-2xl border border-black/[0.08] bg-background-light px-4 py-3">
+                          <label className="flex cursor-pointer items-start gap-3">
+                            <input
+                              checked={verificationAck}
+                              className="mt-1 size-4 accent-primary"
+                              onChange={(e) => setVerificationAck(e.target.checked)}
+                              required
+                              type="checkbox"
+                            />
+                            <span className="text-sm leading-relaxed text-slate-700">
+                              I confirm that this organization information is accurate and can be used
+                              for verification.
+                            </span>
+                          </label>
+                        </div>
                       </div>
                     </div>
                     <div className="pt-4">

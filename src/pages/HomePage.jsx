@@ -503,8 +503,9 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                 </div>
               ) : null}
             </div>
-            <h1 className="shrink-0 px-0.5 text-center text-[15px] font-black leading-none tracking-[-0.02em] text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.12)] sm:text-[16px]">
-              CauseConnect
+            <h1 className="shrink-0 px-0.5 text-center text-[12px] font-black leading-[0.9] tracking-[-0.02em] text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.12)] sm:text-[13px]">
+              <span className="block">CAUSE</span>
+              <span className="block">CONNECT</span>
             </h1>
             <div className="flex min-w-0 flex-1 justify-end gap-1.5">
               <Link

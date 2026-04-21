@@ -42,9 +42,15 @@ function NgoProfilePage() {
     return null
   }
 
+  const ratingCards = [
+    { label: 'Overall rating', value: '4.7', sub: 'from 182 volunteer reviews', icon: 'star' },
+    { label: 'Communication', value: '4.8', sub: 'clear updates and reminders', icon: 'chat' },
+    { label: 'Event quality', value: '4.6', sub: 'well organized activities', icon: 'task_alt' },
+  ]
+
   return (
     <NgoLayout title="Organization profile" subtitle="Same details you entered at signup — keep them accurate for volunteers.">
-      <div className="mx-auto w-full max-w-3xl space-y-8">
+      <div className="w-full space-y-8">
         <section className="cc-card cc-card-pad-lg">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
             <img alt="CauseConnect logo" className="size-16 shrink-0 rounded-2xl object-contain shadow-premium" src={appLogo} />
@@ -63,6 +69,32 @@ function NgoProfilePage() {
               </p>
               <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-slate-600">{mission}</p>
             </div>
+          </div>
+        </section>
+
+        <section className="cc-card cc-card-pad-lg">
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="text-lg font-extrabold text-ink">Ratings & feedback</h3>
+            <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">Public profile signal</span>
+          </div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            {ratingCards.map((card) => (
+              <article className="rounded-2xl border border-black/[0.08] bg-background-light px-4 py-4" key={card.label}>
+                <div className="mb-2 inline-flex size-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <span className="material-symbols-outlined text-[19px]">{card.icon}</span>
+                </div>
+                <p className="text-xs font-bold uppercase tracking-wider text-slate-500">{card.label}</p>
+                <p className="mt-1 text-3xl font-black leading-none text-ink">{card.value}</p>
+                <p className="mt-1 text-xs text-slate-500">{card.sub}</p>
+              </article>
+            ))}
+          </div>
+          <div className="mt-4 rounded-2xl border border-black/[0.08] bg-white px-4 py-3">
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Latest volunteer feedback</p>
+            <p className="mt-2 text-sm leading-relaxed text-slate-700">
+              “Great coordination and respectful staff. Instructions were clear and we started on
+              time.”
+            </p>
           </div>
         </section>
 

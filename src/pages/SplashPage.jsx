@@ -49,7 +49,10 @@ function SplashPage() {
           </div>
 
           <h1 className="premium-h1 mb-3 w-full !text-white md:text-[clamp(2rem,5vw,2.75rem)]">
-            CauseConnect
+            <span className="inline-flex flex-col items-center text-center leading-[0.78]">
+              <span className="block">CAUSE</span>
+              <span className="block">CONNECT</span>
+            </span>
           </h1>
           <p className="mx-auto mb-10 max-w-md text-base leading-relaxed text-white/90 md:mb-12">
             Find verified volunteering near you.

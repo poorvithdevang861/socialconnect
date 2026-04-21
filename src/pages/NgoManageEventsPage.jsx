@@ -49,6 +49,21 @@ function dummyNamesForEvent(id, count) {
   return names
 }
 
+const FEEDBACK_SNIPPETS = [
+  'Great coordination and clear instructions.',
+  'Friendly team and smooth event check-in.',
+  'Well managed timing and volunteer support.',
+  'Meaningful impact and positive atmosphere.',
+]
+
+function feedbackForEvent(id) {
+  const h = hashId(id)
+  const rating = (4.1 + ((h % 9) / 10)).toFixed(1)
+  const reviews = 8 + (h % 37)
+  const quote = FEEDBACK_SNIPPETS[h % FEEDBACK_SNIPPETS.length]
+  return { rating, reviews, quote }
+}
+
 function NgoManageEventsPage() {
   const profile = getNgoProfile()
   const [items, setItems] = useState(() => getNgoOpportunities())
@@ -128,7 +143,9 @@ function NgoManageEventsPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {enriched.map(({ item, registered, capacity, open, fillPct, previewNames }) => (
+        {enriched.map(({ item, registered, capacity, open, fillPct, previewNames }) => {
+          const feedback = feedbackForEvent(item.id)
+          return (
           <article className="cc-card flex h-full flex-col overflow-hidden" key={item.id}>
             <div className="aspect-[16/10] w-full shrink-0 overflow-hidden bg-slate-100">
               {item.coverImage ? (
@@ -198,6 +215,18 @@ function NgoManageEventsPage() {
                 </div>
               ) : null}
 
+              <div className="rounded-2xl border border-black/[0.08] bg-white px-3 py-3">
+                <div className="mb-1 flex items-center justify-between">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Feedback</p>
+                  <div className="inline-flex items-center gap-1 text-xs font-bold text-amber-600">
+                    <span className="material-symbols-outlined fill-1 text-[15px]">star</span>
+                    <span>{feedback.rating}</span>
+                    <span className="text-slate-500">({feedback.reviews})</span>
+                  </div>
+                </div>
+                <p className="text-sm leading-relaxed text-slate-600">{feedback.quote}</p>
+              </div>
+
               <div className="rounded-2xl border border-black/[0.08] bg-background-light/80 px-3 py-3">
                 <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
                   {item.isDemo ? 'Demo sign-ups (example names)' : 'Recent sign-ups'}
@@ -221,7 +250,8 @@ function NgoManageEventsPage() {
               <p className="text-sm leading-relaxed text-slate-600">{item.description}</p>
             </div>
           </article>
-        ))}
+          )
+        })}
       </div>
     </NgoLayout>
   )

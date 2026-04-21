@@ -49,7 +49,10 @@ function Navbar({ location = 'Ahmedabad', onLocationChange }) {
         <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between gap-3 px-4 xs:px-5 sm:px-6 md:px-6 lg:px-8 xl:px-10">
           <Link className="flex min-w-0 shrink items-center gap-2 sm:gap-3" to="/ngo/home">
             <img alt="CauseConnect logo" className="size-8 shrink-0 rounded-lg object-contain shadow-orange-glow" src={appLogo} />
-            <span className="truncate text-[17px] font-bold tracking-tight text-ink sm:text-xl">CauseConnect</span>
+            <span className="text-left text-[13px] font-bold leading-[0.9] tracking-tight text-ink sm:text-[14px]">
+              <span className="block">CAUSE</span>
+              <span className="block">CONNECT</span>
+            </span>
           </Link>
           <nav className="flex min-w-0 items-center justify-end gap-2 sm:gap-4 md:gap-6 lg:gap-8">
             <NavLink className={navLinkClass} end to="/ngo/home">
@@ -126,8 +129,9 @@ function Navbar({ location = 'Ahmedabad', onLocationChange }) {
               </div>
             ) : null}
           </div>
-          <h2 className="truncate px-1 text-center text-[17px] font-bold tracking-tight text-ink sm:text-[18px]">
-            CauseConnect
+          <h2 className="px-1 text-center text-[13px] font-bold leading-[0.9] tracking-tight text-ink sm:text-[14px]">
+            <span className="block">CAUSE</span>
+            <span className="block">CONNECT</span>
           </h2>
           <div className="flex justify-end">
             <Link
@@ -147,8 +151,9 @@ function Navbar({ location = 'Ahmedabad', onLocationChange }) {
           <div className="flex min-w-0 shrink-0 items-center gap-3 lg:gap-4">
             <Link className="flex min-w-0 items-center gap-2 text-primary sm:gap-3" to="/home">
               <img alt="CauseConnect logo" className="size-8 shrink-0 rounded-lg object-contain shadow-orange-glow" src={appLogo} />
-              <h2 className="hidden truncate text-lg font-bold tracking-tight text-ink sm:block sm:text-xl">
-                CauseConnect
+              <h2 className="hidden text-left text-[13px] font-bold leading-[0.9] tracking-tight text-ink sm:block sm:text-[14px]">
+                <span className="block">CAUSE</span>
+                <span className="block">CONNECT</span>
               </h2>
             </Link>
           </div>

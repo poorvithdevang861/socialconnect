@@ -10,7 +10,10 @@ function Footer() {
       <div className="mx-auto flex w-full max-w-[1600px] flex-col items-center justify-between gap-6 page-gutter-x md:flex-row">
         <div className="flex items-center gap-2 opacity-90">
           <img alt="CauseConnect logo" className="size-7 rounded object-contain shadow-orange-glow" src={appLogo} />
-          <p className="text-lg font-black tracking-tight text-white">CauseConnect</p>
+          <p className="text-left text-[12px] font-black leading-[0.9] tracking-tight text-white">
+            <span className="block">CAUSE</span>
+            <span className="block">CONNECT</span>
+          </p>
         </div>
         {isNgoRoute ? (
           <div className="flex max-w-xl flex-wrap justify-center gap-x-6 gap-y-2 text-center text-sm font-medium text-white/70 md:gap-x-8">

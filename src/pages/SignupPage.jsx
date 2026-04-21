@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Button from '../components/Button'
 import GoogleGIcon from '../components/GoogleGIcon'
 import { setAuthenticated, setOnboardingComplete } from '../utils/onboarding'
+import appLogo from '../../logo.png'
 
 /** Keeps Material icons optically centered next to label text in pill buttons. */
 function BtnIcon({ children, className = '' }) {
@@ -64,12 +65,11 @@ function SignupPage() {
           <div className="grid grid-cols-1 place-items-center gap-10 lg:grid-cols-2 lg:items-center lg:gap-14">
             <div className="flex flex-col items-center gap-5 text-center">
               <div className="flex items-center justify-center gap-3">
-                <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-shell text-brand-yellow shadow-premium">
-                  <span className="material-symbols-outlined text-[26px] leading-none text-brand-yellow">
-                    volunteer_activism
-                  </span>
-                </div>
-                <span className="text-2xl font-black tracking-tight text-shell">CauseConnect</span>
+                <img alt="CauseConnect logo" className="size-11 shrink-0 rounded-2xl object-contain shadow-premium" src={appLogo} />
+                <span className="text-left text-[17px] font-black leading-[0.9] tracking-tight text-shell sm:text-lg">
+                  <span className="block">CAUSE</span>
+                  <span className="block">CONNECT</span>
+                </span>
               </div>
               <h2 className="premium-h1 text-[clamp(1.85rem,3vw,2.75rem)]">
                 Start small.
