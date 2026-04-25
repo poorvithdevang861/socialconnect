@@ -56,6 +56,29 @@ const FEEDBACK_SNIPPETS = [
   'Meaningful impact and positive atmosphere.',
 ]
 
+const STATUS_COPY = {
+  pending_review: {
+    label: 'Pending approval',
+    tone: 'border-amber-200 bg-amber-50 text-amber-700',
+    summary: 'Waiting for platform review before volunteers can see this event.',
+  },
+  approved: {
+    label: 'Approved',
+    tone: 'border-success-green/30 bg-success-green/10 text-success-green',
+    summary: 'Live for volunteers on CauseConnect.',
+  },
+  rejected: {
+    label: 'Needs changes',
+    tone: 'border-red-200 bg-red-50 text-red-700',
+    summary: 'Not visible to volunteers. Update details and submit again.',
+  },
+}
+
+function getOpportunityStatus(item) {
+  if (item.isDemo) return 'approved'
+  return item.status ?? 'pending_review'
+}
+
 function feedbackForEvent(id) {
   const h = hashId(id)
   const rating = (4.1 + ((h % 9) / 10)).toFixed(1)
@@ -72,28 +95,38 @@ function NgoManageEventsPage() {
     [items],
   )
 
-  const showingDemo = sortedItems.length === 0
-  const displayItems = showingDemo ? DEMO_NGO_OPPORTUNITIES : sortedItems
+  const hasNgoItems = sortedItems.length > 0
+  const showingDemo = !hasNgoItems
+  const displayItems = [...sortedItems, ...DEMO_NGO_OPPORTUNITIES]
 
   const enriched = useMemo(
     () =>
       displayItems.map((item) => {
+        const status = getOpportunityStatus(item)
         const registered = getRegisteredCount(item)
         const capacity = parseSpots(item.spots)
         const open = capacity != null ? Math.max(0, capacity - registered) : null
         const fillPct = capacity != null && capacity > 0 ? Math.min(100, Math.round((registered / capacity) * 100)) : null
-        return { item, registered, capacity, open, fillPct, previewNames: dummyNamesForEvent(item.id, Math.min(registered, 6)) }
+        return { item, status, registered, capacity, open, fillPct, previewNames: dummyNamesForEvent(item.id, Math.min(registered, 6)) }
       }),
     [displayItems],
   )
 
   const totals = useMemo(() => {
-    const totalRegs = enriched.reduce((acc, row) => acc + row.registered, 0)
-    const totalCap = enriched.reduce((acc, row) => acc + (row.capacity ?? 0), 0)
-    const withFill = enriched.filter((r) => r.fillPct != null)
+    const approved = enriched.filter((row) => row.status === 'approved')
+    const pending = enriched.filter((row) => row.status === 'pending_review')
+    const totalRegs = approved.reduce((acc, row) => acc + row.registered, 0)
+    const withFill = approved.filter((r) => r.fillPct != null)
     const avgFill =
       withFill.length === 0 ? 0 : Math.round(withFill.reduce((acc, row) => acc + (row.fillPct ?? 0), 0) / withFill.length)
-    return { totalRegs, totalCap, avgFill, count: enriched.length, hasFill: withFill.length > 0 }
+    return {
+      totalRegs,
+      avgFill,
+      count: enriched.length,
+      approvedCount: approved.length,
+      pendingCount: pending.length,
+      hasFill: withFill.length > 0,
+    }
   }, [enriched])
 
   const removeItem = (id) => {
@@ -107,7 +140,7 @@ function NgoManageEventsPage() {
   return (
     <NgoLayout
       title="Manage events"
-      subtitle={`${profile?.orgName ?? 'Organization'} · Track registrations and update your posted opportunities.`}
+      subtitle={`${profile?.orgName ?? 'Organization'} · Track approval status and approved-event performance.`}
     >
       {showingDemo ? (
         <div className="mb-6 rounded-2xl border border-dashed border-primary/35 bg-primary/[0.06] px-4 py-4 text-center sm:px-6 sm:text-left">
@@ -119,32 +152,45 @@ function NgoManageEventsPage() {
         </div>
       ) : null}
 
+      {!showingDemo ? (
+        <div className="mb-6 rounded-2xl border border-dashed border-primary/35 bg-primary/[0.06] px-4 py-4 text-center sm:px-6 sm:text-left">
+          <p className="text-sm font-bold text-primary">Demo samples are still shown</p>
+          <p className="premium-body mt-1 text-sm text-slate-700">
+            Your submitted events appear first, followed by sample listings so you can compare card states.
+          </p>
+        </div>
+      ) : null}
+
       <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <article className="cc-card cc-card-pad flex flex-col gap-1 border border-black/[0.06] shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Active listings</span>
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Submitted events</span>
           <p className="text-3xl font-black tabular-nums text-ink">{totals.count}</p>
-          <p className="text-sm text-slate-600">{showingDemo ? 'Sample opportunities (preview)' : 'Opportunities live on CauseConnect'}</p>
+          <p className="text-sm text-slate-600">{hasNgoItems ? 'Your events + sample listings' : 'Sample opportunities (preview)'}</p>
+        </article>
+        <article className="cc-card cc-card-pad flex flex-col gap-1 border border-black/[0.06] shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Pending approval</span>
+          <p className="text-3xl font-black tabular-nums text-amber-600">{totals.pendingCount}</p>
+          <p className="text-sm text-slate-600">Hidden from volunteers until approved</p>
         </article>
         <article className="cc-card cc-card-pad flex flex-col gap-1 border border-black/[0.06] shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
           <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Total registered</span>
           <p className="text-3xl font-black tabular-nums text-primary">{totals.totalRegs}</p>
-          <p className="text-sm text-slate-600">Volunteers across {showingDemo ? 'preview' : 'all'} events</p>
+          <p className="text-sm text-slate-600">Volunteers across approved events</p>
         </article>
         <article className="cc-card cc-card-pad flex flex-col gap-1 border border-black/[0.06] shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Total capacity</span>
-          <p className="text-3xl font-black tabular-nums text-ink">{totals.totalCap || '—'}</p>
-          <p className="text-sm text-slate-600">Spots you listed (where set)</p>
-        </article>
-        <article className="cc-card cc-card-pad flex flex-col gap-1 border border-black/[0.06] shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Avg. fill rate</span>
-          <p className="text-3xl font-black tabular-nums text-ink">{totals.hasFill ? `${totals.avgFill}%` : '—'}</p>
-          <p className="text-sm text-slate-600">Across events with capacity set</p>
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Approved live</span>
+          <p className="text-3xl font-black tabular-nums text-ink">{totals.approvedCount}</p>
+          <p className="text-sm text-slate-600">
+            {totals.hasFill ? `${totals.avgFill}% avg. fill rate` : 'No approved-event fill data yet'}
+          </p>
         </article>
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {enriched.map(({ item, registered, capacity, open, fillPct, previewNames }) => {
+        {enriched.map(({ item, status, registered, capacity, open, fillPct, previewNames }) => {
           const feedback = feedbackForEvent(item.id)
+          const statusCopy = STATUS_COPY[status] ?? STATUS_COPY.pending_review
+          const isApproved = status === 'approved'
           return (
           <article className="cc-card flex h-full flex-col overflow-hidden" key={item.id}>
             <div className="aspect-[16/10] w-full shrink-0 overflow-hidden bg-slate-100">
@@ -169,6 +215,9 @@ function NgoManageEventsPage() {
                         Sample
                       </span>
                     ) : null}
+                    <span className={`rounded-lg border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${statusCopy.tone}`}>
+                      {statusCopy.label}
+                    </span>
                   </div>
                   <p className="mt-1 text-sm text-slate-600">
                     {item.date} · {item.location}
@@ -180,11 +229,27 @@ function NgoManageEventsPage() {
                 </div>
                 {item.isDemo ? null : (
                   <Button variant="secondary" className="h-10 shrink-0 px-4" onClick={() => removeItem(item.id)} type="button">
-                    Remove
+                    {isApproved ? 'Remove' : 'Cancel request'}
                   </Button>
                 )}
               </div>
 
+              {!isApproved ? (
+                <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-4">
+                  <div className="flex items-start gap-3">
+                    <span className="material-symbols-outlined mt-0.5 text-amber-600">hourglass_top</span>
+                    <div>
+                      <p className="font-bold text-amber-800">{statusCopy.summary}</p>
+                      <p className="mt-1 text-sm leading-relaxed text-amber-700">
+                        Registration counts, feedback, and volunteer sign-ups unlock only after platform approval.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+
+              {isApproved ? (
+                <>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                 <div className="rounded-2xl border border-primary/25 bg-primary/5 px-3 py-3">
                   <p className="text-[11px] font-bold uppercase tracking-wider text-primary/80">Registered</p>
@@ -246,6 +311,8 @@ function NgoManageEventsPage() {
                   ))}
                 </ul>
               </div>
+                </>
+              ) : null}
 
               <p className="text-sm leading-relaxed text-slate-600">{item.description}</p>
             </div>

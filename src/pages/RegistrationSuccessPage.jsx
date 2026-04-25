@@ -69,7 +69,7 @@ function RegistrationSuccessPage() {
 
           {/* Body — 1 col mobile, 2 cols lg (event | share + actions) */}
           <div className="grid grid-cols-1 items-stretch gap-6 p-4 sm:p-6 lg:grid-cols-4 lg:gap-8 lg:p-8">
-            <article className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-2xl border border-black/[0.08] bg-white shadow-[0_8px_24px_rgba(15,15,16,0.06)] lg:col-span-2 lg:h-full">
+            <article className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-2xl border border-success-green/30 bg-gradient-to-br from-success-green/20 via-success-green/10 to-white shadow-[0_8px_24px_rgba(15,15,16,0.06)] lg:col-span-2 lg:h-full">
               <div className="relative aspect-[16/10] w-full min-h-0 sm:aspect-video">
                 <img
                   className="h-full w-full object-cover"
@@ -113,7 +113,7 @@ function RegistrationSuccessPage() {
               </div>
             </article>
 
-            <aside className="flex min-h-0 min-w-0 flex-col gap-6 rounded-2xl border border-black/[0.08] bg-neutral-50/90 p-6 sm:p-7 lg:col-span-2 lg:h-full">
+            <aside className="flex min-h-0 min-w-0 flex-col gap-6 rounded-2xl border border-success-green/30 bg-gradient-to-br from-success-green/20 via-success-green/10 to-white p-6 sm:p-7 lg:col-span-2 lg:h-full">
               <div className="space-y-3">
                 <h3 className="flex items-center gap-2 text-lg font-extrabold text-neutral-900">
                   <span className="material-symbols-outlined text-emerald-800">group</span>

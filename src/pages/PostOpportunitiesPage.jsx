@@ -57,6 +57,7 @@ function PostOpportunitiesPage() {
     event.preventDefault()
     const entry = {
       id: crypto.randomUUID(),
+      status: 'pending_review',
       title: title.trim(),
       date,
       location: location.trim(),
@@ -96,9 +97,9 @@ function PostOpportunitiesPage() {
               <span className="material-symbols-outlined text-[32px]">check_circle</span>
             </div>
             <div>
-              <h2 className="premium-h2 text-ink">Event published</h2>
+              <h2 className="premium-h2 text-ink">Event submitted for review</h2>
               <p className="premium-body mt-2">
-                Your event is saved. Volunteers can discover it from your manage events list.
+                Your event is saved as pending approval. Volunteers will only see it after platform review.
               </p>
             </div>
             <div className="flex w-full flex-col gap-3 sm:flex-row">
@@ -116,7 +117,7 @@ function PostOpportunitiesPage() {
           <div className="mb-6">
             <h3 className="text-2xl font-extrabold text-ink">Post new event</h3>
             <p className="mt-1 text-sm font-medium text-slate-600">
-              Publish upcoming events so volunteers can discover and join quickly.
+              Submit upcoming events for platform approval before volunteers can discover them.
             </p>
             <p className="premium-body mt-1">
               Logged in as <span className="font-bold text-ink">{profile.contactName}</span>
@@ -242,7 +243,7 @@ function PostOpportunitiesPage() {
             </div>
 
             <Button className="h-12 w-full justify-center gap-2 font-bold" type="submit">
-              Publish event
+              Submit for review
               <span className="material-symbols-outlined text-lg">arrow_forward</span>
             </Button>
           </form>
