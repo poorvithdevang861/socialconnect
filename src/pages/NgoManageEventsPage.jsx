@@ -61,16 +61,19 @@ const STATUS_COPY = {
     label: 'Review Pending',
     tone: 'border-amber-200 bg-amber-50 text-amber-700',
     summary: 'Waiting for platform review before volunteers can see this event.',
+    tooltip: 'Submitted by NGO and hidden from volunteer discovery until platform approval.',
   },
   approved: {
     label: 'Platform Verified',
     tone: 'border-success-green/30 bg-success-green/10 text-success-green',
     summary: 'Live for volunteers on CauseConnect.',
+    tooltip: 'Verified by CauseConnect and visible to volunteers.',
   },
   rejected: {
     label: 'Not Verified',
     tone: 'border-red-200 bg-red-50 text-red-700',
     summary: 'Not verified yet. Update details and submit again for review.',
+    tooltip: 'Not verified yet. This listing is not approved for volunteer discovery.',
   },
 }
 
@@ -223,7 +226,10 @@ function NgoManageEventsPage() {
                         Sample
                       </span>
                     ) : null}
-                    <span className={`rounded-lg border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${statusCopy.tone}`}>
+                    <span
+                      className={`rounded-lg border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${statusCopy.tone}`}
+                      title={statusCopy.tooltip}
+                    >
                       {statusCopy.label}
                     </span>
                   </div>

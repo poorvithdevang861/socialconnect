@@ -41,12 +41,27 @@ function motivationLabel(id) {
 
 function trustMeta(item) {
   if (item.verified) {
-    return { key: 'verified', label: TRUST_LABELS.verified, className: 'bg-primary text-white' }
+    return {
+      key: 'verified',
+      label: TRUST_LABELS.verified,
+      className: 'bg-primary text-white',
+      tooltip: 'Verified by CauseConnect after platform review checks.',
+    }
   }
   if (item.trustStatus === 'pending') {
-    return { key: 'pending', label: TRUST_LABELS.pending, className: 'border border-amber-200 bg-amber-50 text-amber-700' }
+    return {
+      key: 'pending',
+      label: TRUST_LABELS.pending,
+      className: 'border border-amber-200 bg-amber-50 text-amber-700',
+      tooltip: 'Submitted and under platform review. Hidden from volunteer discovery until approved.',
+    }
   }
-  return { key: 'unverified', label: TRUST_LABELS.unverified, className: 'border border-slate-200 bg-white text-slate-700' }
+  return {
+    key: 'unverified',
+    label: TRUST_LABELS.unverified,
+    className: 'border border-slate-200 bg-white text-slate-700',
+    tooltip: 'This listing is visible, but has not completed CauseConnect verification yet.',
+  }
 }
 
 function enrichOpportunitySignals(item, index) {
@@ -145,7 +160,10 @@ function EventOpportunityCard({ item, navigate, carousel }) {
         <div className="absolute left-3 top-3 flex max-w-[55%] items-center gap-1.5 rounded-lg bg-white/95 px-2.5 py-1 text-[11px] font-bold text-ink shadow-sm backdrop-blur-sm">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-success-green" /> {item.openings}
         </div>
-        <div className={`absolute left-3 top-[3.25rem] rounded-lg px-2 py-0.5 text-[9px] font-black uppercase tracking-wide shadow-md ${trust.className}`}>
+        <div
+          className={`absolute left-3 top-[3.25rem] rounded-lg px-2 py-0.5 text-[9px] font-black uppercase tracking-wide shadow-md ${trust.className}`}
+          title={trust.tooltip}
+        >
           {trust.label}
         </div>
         <div className="absolute bottom-3 right-3 max-w-[55%] rounded-lg bg-black/45 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-white backdrop-blur-sm">

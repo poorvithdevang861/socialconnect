@@ -52,11 +52,18 @@ function WishlistPage() {
                       <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
                         {event.cause}
                       </span>
-                      <span className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider ${
-                        event.verified
-                          ? 'bg-primary text-white'
-                          : 'border border-slate-200 bg-white text-slate-700'
-                      }`}>
+                      <span
+                        className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider ${
+                          event.verified
+                            ? 'bg-primary text-white'
+                            : 'border border-slate-200 bg-white text-slate-700'
+                        }`}
+                        title={
+                          event.verified
+                            ? 'Verified by CauseConnect after platform review checks.'
+                            : 'This listing is visible, but has not completed CauseConnect verification yet.'
+                        }
+                      >
                         {event.verified ? 'Platform Verified' : 'Not Verified'}
                       </span>
                     </div>

@@ -119,7 +119,10 @@ function EventDetailsPage() {
               Environment
             </span>
           </div>
-          <div className="absolute bottom-4 right-4 flex items-center gap-1 rounded-full bg-primary/90 px-3 py-1 text-xs font-semibold text-white">
+          <div
+            className="absolute bottom-4 right-4 flex items-center gap-1 rounded-full bg-primary/90 px-3 py-1 text-xs font-semibold text-white"
+            title="Verified by CauseConnect after platform review checks."
+          >
             <span className="material-symbols-outlined text-[14px]">verified</span>
             <span>Platform Verified</span>
           </div>
