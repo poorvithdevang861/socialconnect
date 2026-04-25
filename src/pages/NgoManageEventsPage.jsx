@@ -75,8 +75,8 @@ const STATUS_COPY = {
 }
 
 function getOpportunityStatus(item) {
-  if (item.isDemo) return 'approved'
-  return item.status ?? 'pending_review'
+  if (item.status) return item.status
+  return item.isDemo ? 'approved' : 'pending_review'
 }
 
 function feedbackForEvent(id) {
