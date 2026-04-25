@@ -4,6 +4,7 @@ import Button from '../components/Button'
 import SectionHeader from '../components/SectionHeader'
 import { getWishlist, isWishlisted, subscribeWishlist, toWishlistPayload, toggleWishlist } from '../utils/wishlist'
 import { googleMapsSearchHref } from '../utils/maps'
+import { getVolunteerPreferences, MOTIVATION_OPTIONS } from '../utils/onboarding'
 import homeBannerImage from '../../banner1.jpg'
 import homeBannerImage2 from '../../banner2.jpg'
 import appLogo from '../../logo.png'
@@ -18,6 +19,57 @@ const FILTER_INACTIVE_PILL =
 const FILTER_ACTIVE_MOBILE =
   'border border-neutral-800/40 bg-neutral-900/[0.09] text-neutral-900 shadow-md'
 const FILTER_INACTIVE_MOBILE = 'border border-neutral-200/95 bg-white shadow-sm'
+const AVAILABILITY_SEQUENCE = ['weekday-evening', 'weekend-morning', 'weekend-afternoon']
+const EFFORT_SEQUENCE = ['1-2h', '2-4h', '4h+']
+const TRUST_LABELS = {
+  verified: 'Platform Verified',
+  pending: 'Review Pending',
+  unverified: 'Not Verified',
+}
+const MOTIVATION_BY_CAUSE = {
+  Environment: ['impact'],
+  Education: ['skills', 'resume'],
+  Health: ['impact', 'resume'],
+  Food: ['impact', 'friends'],
+  Community: ['friends', 'impact'],
+}
+
+function motivationLabel(id) {
+  const matched = MOTIVATION_OPTIONS.find((option) => option.id === id)
+  return matched?.label ?? 'your goals'
+}
+
+function trustMeta(item) {
+  if (item.verified) {
+    return { key: 'verified', label: TRUST_LABELS.verified, className: 'bg-primary text-white' }
+  }
+  if (item.trustStatus === 'pending') {
+    return { key: 'pending', label: TRUST_LABELS.pending, className: 'border border-amber-200 bg-amber-50 text-amber-700' }
+  }
+  return { key: 'unverified', label: TRUST_LABELS.unverified, className: 'border border-slate-200 bg-white text-slate-700' }
+}
+
+function enrichOpportunitySignals(item, index) {
+  const availabilityWindow = item.availabilityWindow ?? AVAILABILITY_SEQUENCE[index % AVAILABILITY_SEQUENCE.length]
+  const effortBand = item.effortBand ?? EFFORT_SEQUENCE[index % EFFORT_SEQUENCE.length]
+  const motivations = item.motivations ?? MOTIVATION_BY_CAUSE[item.cause] ?? ['impact']
+  return { ...item, availabilityWindow, effortBand, motivations }
+}
+
+function recommendationReasons(item, prefs) {
+  const reasons = []
+  if (prefs.availabilityWindows.includes(item.availabilityWindow)) {
+    reasons.push('Fits your weekly availability')
+  }
+  if (prefs.effortBand === item.effortBand) {
+    reasons.push(`Matches your ${prefs.effortBand} commitment preference`)
+  }
+  const matchedMotivation = item.motivations.find((entry) => prefs.motivations.includes(entry))
+  if (matchedMotivation) {
+    reasons.push(`Supports your motivation: ${motivationLabel(matchedMotivation)}`)
+  }
+  return reasons
+}
 
 function parseDateBadge(dateShort) {
   const parts = String(dateShort).trim().split(/\s+/)
@@ -35,6 +87,8 @@ function EventOpportunityCard({ item, navigate, carousel }) {
   const route = item.route ?? '/event'
   const saved = item.id ? isWishlisted(item.id) : false
   const rating = typeof item.rating === 'number' ? item.rating : 4.5
+  const trust = trustMeta(item)
+  const primaryReason = item.matchReasons?.[0] ?? null
   return (
     <div
       className={`@container group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-black/[0.06] transition-all duration-300 hover:shadow-card-hover ${
@@ -91,11 +145,9 @@ function EventOpportunityCard({ item, navigate, carousel }) {
         <div className="absolute left-3 top-3 flex max-w-[55%] items-center gap-1.5 rounded-lg bg-white/95 px-2.5 py-1 text-[11px] font-bold text-ink shadow-sm backdrop-blur-sm">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-success-green" /> {item.openings}
         </div>
-        {item.verified ? (
-          <div className="absolute left-3 top-[3.25rem] rounded-lg bg-primary px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white shadow-md">
-            Verified
-          </div>
-        ) : null}
+        <div className={`absolute left-3 top-[3.25rem] rounded-lg px-2 py-0.5 text-[9px] font-black uppercase tracking-wide shadow-md ${trust.className}`}>
+          {trust.label}
+        </div>
         <div className="absolute bottom-3 right-3 max-w-[55%] rounded-lg bg-black/45 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-white backdrop-blur-sm">
           {item.cause}
         </div>
@@ -125,6 +177,12 @@ function EventOpportunityCard({ item, navigate, carousel }) {
           </div>
 
           <p className="mt-2 line-clamp-2 text-[13px] leading-relaxed text-neutral-600">{item.desc}</p>
+          {primaryReason ? (
+            <p className="mt-2 inline-flex w-fit items-center gap-1 rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-[11px] font-semibold text-primary">
+              <span className="material-symbols-outlined text-[14px]">bolt</span>
+              {primaryReason}
+            </p>
+          ) : null}
 
           <Button
             variant="none"
@@ -144,8 +202,9 @@ function EventOpportunityCard({ item, navigate, carousel }) {
 
 function HomePage({ location = 'Ahmedabad', onLocationChange }) {
   const navigate = useNavigate()
+  const prefs = getVolunteerPreferences()
   const [activeCause, setActiveCause] = useState('All')
-  const [nearYouScope, setNearYouScope] = useState('month')
+  const [nearYouScope, setNearYouScope] = useState('weekend')
   const locRef = useRef(null)
   const [locOpen, setLocOpen] = useState(false)
   const [featuredExpanded, setFeaturedExpanded] = useState(false)
@@ -309,12 +368,35 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
     [],
   )
 
+  const rankedNearYou = useMemo(
+    () => allNearYou.map((item, index) => enrichOpportunitySignals(item, index)),
+    [allNearYou],
+  )
+
   const nearYou = useMemo(() => {
-    const causeFiltered = activeCause === 'All' ? allNearYou : allNearYou.filter((e) => e.cause === activeCause)
-    if (nearYouScope === 'week') return causeFiltered.slice(0, 3)
-    if (nearYouScope === 'month') return causeFiltered
-    return causeFiltered
-  }, [activeCause, allNearYou, nearYouScope])
+    const causeFiltered = activeCause === 'All' ? rankedNearYou : rankedNearYou.filter((e) => e.cause === activeCause)
+    if (nearYouScope === 'now') {
+      return causeFiltered.filter((item) => item.availabilityWindow === 'weekday-evening').slice(0, 4)
+    }
+    if (nearYouScope === 'weekend') {
+      return causeFiltered.filter((item) => item.availabilityWindow.includes('weekend'))
+    }
+    return causeFiltered.filter((item) => item.effortBand === '1-2h')
+  }, [activeCause, nearYouScope, rankedNearYou])
+
+  const recommendedForYou = useMemo(() => {
+    const scored = rankedNearYou
+      .map((item) => {
+        const matchReasons = recommendationReasons(item, prefs)
+        return {
+          ...item,
+          matchReasons,
+          matchScore: matchReasons.length,
+        }
+      })
+      .sort((a, b) => b.matchScore - a.matchScore)
+    return scored.slice(0, 4)
+  }, [prefs, rankedNearYou])
 
   const featuredGrid = useMemo(() => {
     const items = [
@@ -394,7 +476,8 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
       },
     ]
 
-    const filtered = activeCause === 'All' ? items : items.filter((e) => e.cause === activeCause)
+    const withSignals = items.map((item, index) => enrichOpportunitySignals(item, index + 10))
+    const filtered = activeCause === 'All' ? withSignals : withSignals.filter((e) => e.cause === activeCause)
     return filtered
   }, [activeCause])
 
@@ -672,6 +755,31 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
 
         <div className="space-y-8 md:space-y-10">
             <section>
+              <div className="mb-6 flex items-center justify-between gap-3">
+                <div>
+                  <h3 className="flex items-center gap-2 text-2xl font-extrabold text-neutral-900">
+                    <span className="material-symbols-outlined text-neutral-900">auto_awesome</span>
+                    Recommended for You
+                  </h3>
+                  <p className="mt-1 text-sm text-neutral-600">
+                    Built for students based on your motivations and availability.
+                  </p>
+                  <p className="mt-1 text-xs text-neutral-500">
+                    Badges are issued only after CauseConnect platform review.
+                  </p>
+                </div>
+                <span className="hidden rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-bold text-primary sm:inline-flex">
+                  {prefs.demographicSegment === 'students-18-24' ? 'Student mode' : 'Personalized'}
+                </span>
+              </div>
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {recommendedForYou.map((item) => (
+                  <EventOpportunityCard item={item} key={`recommended-${item.id ?? item.title}`} navigate={navigate} />
+                ))}
+              </div>
+            </section>
+
+            <section>
               <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-wrap items-center gap-3">
                   <h3 className="flex items-center gap-2 text-2xl font-extrabold text-neutral-900">
@@ -680,8 +788,9 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                   </h3>
                   <div className="flex items-center gap-1 rounded-2xl border border-neutral-200 bg-neutral-50/90 p-1 shadow-inner">
                     {[
-                      ['week', 'This week'],
-                      ['month', 'This month'],
+                      ['now', 'Now'],
+                      ['weekend', 'This weekend'],
+                      ['quick', '<2h'],
                     ].map(([key, label]) => (
                       <button
                         className={`rounded-xl px-3 py-1.5 text-xs font-black transition-colors ${
@@ -760,7 +869,7 @@ function HomePage({ location = 'Ahmedabad', onLocationChange }) {
                       <img alt={t.title} className="h-full w-full object-cover" src={t.img} />
                       <div className="absolute left-2 top-2 flex items-center gap-0.5 rounded-md bg-white/95 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-neutral-700 shadow-sm md:hidden">
                         <span className="material-symbols-outlined text-[12px]">verified</span>
-                        Verified
+                        {TRUST_LABELS.verified}
                       </div>
                     </div>
                     <div className="mt-2 flex min-w-0 flex-1 flex-col justify-center md:mt-0">

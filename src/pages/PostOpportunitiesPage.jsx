@@ -93,7 +93,7 @@ function PostOpportunitiesPage() {
       {posted ? (
         <div className="cc-card cc-card-pad-lg shadow-[0_14px_32px_rgba(15,15,16,0.08)]">
           <div className="flex flex-col items-center gap-4 text-center">
-            <div className="flex size-14 items-center justify-center rounded-full bg-success-green/20 text-success-green">
+            <div className="flex size-14 items-center justify-center rounded-full bg-success-green/[0.1] text-success-green">
               <span className="material-symbols-outlined text-[32px]">check_circle</span>
             </div>
             <div>

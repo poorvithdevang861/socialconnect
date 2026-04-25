@@ -2,7 +2,14 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Button from '../components/Button'
 import GoogleGIcon from '../components/GoogleGIcon'
-import { setAuthenticated, setOnboardingComplete } from '../utils/onboarding'
+import {
+  AVAILABILITY_OPTIONS,
+  EFFORT_BAND_OPTIONS,
+  MOTIVATION_OPTIONS,
+  setAuthenticated,
+  setOnboardingComplete,
+  setVolunteerPreferences,
+} from '../utils/onboarding'
 import appLogo from '../../logo.png'
 
 /** Keeps Material icons optically centered next to label text in pill buttons. */
@@ -21,8 +28,12 @@ function SignupPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [motivations, setMotivations] = useState(['impact', 'skills'])
+  const [availabilityWindows, setAvailabilityWindows] = useState(['weekend-morning'])
+  const [effortBand, setEffortBand] = useState('2-4h')
 
   const goToOnboarding = () => {
+    setVolunteerPreferences({ motivations, availabilityWindows, effortBand })
     setAuthenticated(true)
     setOnboardingComplete(true)
     navigate('/home', { replace: true })
@@ -39,6 +50,24 @@ function SignupPage() {
 
   const handleGoogle = () => {
     goToOnboarding()
+  }
+
+  const toggleMotivation = (id) => {
+    setMotivations((prev) => {
+      if (prev.includes(id)) {
+        return prev.length > 1 ? prev.filter((item) => item !== id) : prev
+      }
+      return [...prev, id]
+    })
+  }
+
+  const toggleAvailability = (id) => {
+    setAvailabilityWindows((prev) => {
+      if (prev.includes(id)) {
+        return prev.length > 1 ? prev.filter((item) => item !== id) : prev
+      }
+      return [...prev, id]
+    })
   }
 
   const inputClass =
@@ -77,8 +106,8 @@ function SignupPage() {
                 <span className="text-primary">Serve big.</span>
               </h2>
               <p className="premium-body max-w-md text-base">
-                Join a trusted volunteering network, find causes near you, and contribute to community impact from day
-                one.
+                Build experience while helping your city. Student-first opportunities are matched to your motivation
+                and schedule.
               </p>
             </div>
 
@@ -87,7 +116,7 @@ function SignupPage() {
                 <div className="cc-card cc-card-pad-lg shadow-[0_10px_28px_rgba(15,15,16,0.08)]">
                   <div className="mb-6">
                     <h1 className="premium-h1 text-ink">Create an account</h1>
-                    <p className="premium-body mt-1">Start your volunteering journey today.</p>
+                    <p className="premium-body mt-1">Set your student preferences so recommendations fit you.</p>
                   </div>
 
                   <div className="flex flex-col gap-3">
@@ -159,6 +188,66 @@ function SignupPage() {
                         type="password"
                         value={password}
                       />
+                    </div>
+                    <div className="rounded-2xl border border-black/[0.08] bg-background-light px-4 py-3 text-left">
+                      <p className="text-xs font-bold uppercase tracking-wider text-slate-600">Why you volunteer</p>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {MOTIVATION_OPTIONS.map((item) => {
+                          const active = motivations.includes(item.id)
+                          return (
+                            <button
+                              className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
+                                active
+                                  ? 'border-primary/35 bg-primary/10 text-primary'
+                                  : 'border-black/[0.1] bg-white text-slate-700 hover:border-primary/30 hover:text-primary'
+                              }`}
+                              key={item.id}
+                              onClick={() => toggleMotivation(item.id)}
+                              type="button"
+                            >
+                              {item.label}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+                    <div className="rounded-2xl border border-black/[0.08] bg-background-light px-4 py-3 text-left">
+                      <p className="text-xs font-bold uppercase tracking-wider text-slate-600">Weekly availability</p>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {AVAILABILITY_OPTIONS.map((item) => {
+                          const active = availabilityWindows.includes(item.id)
+                          return (
+                            <button
+                              className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
+                                active
+                                  ? 'border-primary/35 bg-primary/10 text-primary'
+                                  : 'border-black/[0.1] bg-white text-slate-700 hover:border-primary/30 hover:text-primary'
+                              }`}
+                              key={item.id}
+                              onClick={() => toggleAvailability(item.id)}
+                              type="button"
+                            >
+                              {item.label}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+                    <div className="text-left">
+                      <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-600">
+                        Preferred effort band
+                      </label>
+                      <select
+                        className={inputClass}
+                        onChange={(event) => setEffortBand(event.target.value)}
+                        value={effortBand}
+                      >
+                        {EFFORT_BAND_OPTIONS.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.label}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                     <Button
                       variant="action"

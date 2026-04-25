@@ -57,7 +57,7 @@ function NgoProfilePage() {
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2">
                 <h2 className="text-xl font-black tracking-tight text-ink">{orgName || 'Organization'}</h2>
-                <span className="premium-chip border-primary/20 bg-primary/10 text-primary">Verified organization</span>
+                <span className="premium-chip border-primary/20 bg-primary/10 text-primary">Platform verified</span>
               </div>
               <p className="premium-body mt-2 text-slate-600">
                 <span className="font-semibold text-ink">{city}</span>
@@ -68,6 +68,9 @@ function NgoProfilePage() {
                 <span className="material-symbols-outlined align-middle text-base text-primary">mail</span> {email}
               </p>
               <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-slate-600">{mission}</p>
+              <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                Badge issued by CauseConnect review team · Last verified Jan 2026
+              </p>
             </div>
           </div>
         </section>
@@ -75,7 +78,7 @@ function NgoProfilePage() {
         <section className="cc-card cc-card-pad-lg">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-lg font-extrabold text-ink">Ratings & feedback</h3>
-            <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">Public profile signal</span>
+            <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">Platform credibility signal</span>
           </div>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {ratingCards.map((card) => (
@@ -106,7 +109,7 @@ function NgoProfilePage() {
           </p>
 
           {saved ? (
-            <div className="mt-4 rounded-xl border border-success-green/30 bg-success-green/10 px-4 py-3 text-sm font-semibold text-success-green">
+            <div className="mt-4 rounded-xl border border-success-green/15 bg-success-green/[0.06] px-4 py-3 text-sm font-semibold text-success-green">
               Profile updated successfully.
             </div>
           ) : null}

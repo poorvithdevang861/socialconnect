@@ -109,8 +109,8 @@ function OrganizationSignupPage() {
                       <div>
                         <p className="text-sm font-bold text-ink">Verification for trust badge</p>
                         <p className="mt-1 text-sm leading-relaxed text-slate-600">
-                          After signup, your organization details are reviewed before appearing with a
-                          verified badge to volunteers.
+                          Badges are issued only by CauseConnect after platform review. NGOs cannot
+                          self-assign or edit trust badges.
                         </p>
                       </div>
                     </div>
@@ -215,7 +215,7 @@ function OrganizationSignupPage() {
                             type="file"
                           />
                           <p className="mt-1 text-xs text-slate-500">
-                            Upload NGO registration / trust certificate for verification.
+                            Upload NGO registration / trust certificate for platform verification review.
                           </p>
                           {verificationDocName ? (
                             <p className="mt-1 text-xs font-semibold text-slate-700">Selected: {verificationDocName}</p>

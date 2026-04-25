@@ -58,19 +58,19 @@ const FEEDBACK_SNIPPETS = [
 
 const STATUS_COPY = {
   pending_review: {
-    label: 'Pending approval',
+    label: 'Review Pending',
     tone: 'border-amber-200 bg-amber-50 text-amber-700',
     summary: 'Waiting for platform review before volunteers can see this event.',
   },
   approved: {
-    label: 'Approved',
+    label: 'Platform Verified',
     tone: 'border-success-green/30 bg-success-green/10 text-success-green',
     summary: 'Live for volunteers on CauseConnect.',
   },
   rejected: {
-    label: 'Needs changes',
+    label: 'Not Verified',
     tone: 'border-red-200 bg-red-50 text-red-700',
-    summary: 'Not visible to volunteers. Update details and submit again.',
+    summary: 'Not verified yet. Update details and submit again for review.',
   },
 }
 
@@ -160,6 +160,14 @@ function NgoManageEventsPage() {
           </p>
         </div>
       ) : null}
+      <div className="mb-6 rounded-2xl border border-black/[0.08] bg-white px-4 py-3">
+        <p className="text-sm font-semibold text-slate-700">
+          Visibility and trust badges are controlled by the platform review team. NGOs can submit and update details, but cannot self-publish trust status.
+        </p>
+        <p className="mt-1 text-xs text-slate-500">
+          Badges are issued only after CauseConnect platform review.
+        </p>
+      </div>
 
       <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <article className="cc-card cc-card-pad flex flex-col gap-1 border border-black/[0.06] shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
@@ -168,7 +176,7 @@ function NgoManageEventsPage() {
           <p className="text-sm text-slate-600">{hasNgoItems ? 'Your events + sample listings' : 'Sample opportunities (preview)'}</p>
         </article>
         <article className="cc-card cc-card-pad flex flex-col gap-1 border border-black/[0.06] shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Pending approval</span>
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Review pending</span>
           <p className="text-3xl font-black tabular-nums text-amber-600">{totals.pendingCount}</p>
           <p className="text-sm text-slate-600">Hidden from volunteers until approved</p>
         </article>
@@ -178,7 +186,7 @@ function NgoManageEventsPage() {
           <p className="text-sm text-slate-600">Volunteers across approved events</p>
         </article>
         <article className="cc-card cc-card-pad flex flex-col gap-1 border border-black/[0.06] shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Approved live</span>
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Platform verified live</span>
           <p className="text-3xl font-black tabular-nums text-ink">{totals.approvedCount}</p>
           <p className="text-sm text-slate-600">
             {totals.hasFill ? `${totals.avgFill}% avg. fill rate` : 'No approved-event fill data yet'}

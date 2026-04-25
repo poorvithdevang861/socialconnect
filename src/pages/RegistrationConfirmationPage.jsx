@@ -3,6 +3,7 @@ import Button from '../components/Button'
 import FriendsAttendingBlock from '../components/FriendsAttendingBlock'
 import { registerGreenEarthEvent } from '../utils/registrations'
 import { GREEN_EARTH_VENUE_QUERY, googleMapsSearchHref } from '../utils/maps'
+import { getVolunteerPreferences } from '../utils/onboarding'
 
 function IconWrap({ children }) {
   return (
@@ -25,6 +26,11 @@ function SectionHeading({ icon, children }) {
 
 function RegistrationConfirmationPage() {
   const navigate = useNavigate()
+  const prefs = getVolunteerPreferences()
+  const fitNote =
+    prefs.effortBand === '2-4h'
+      ? 'Matches your 2-4 hour commitment preference.'
+      : `You selected ${prefs.effortBand} as your preferred effort band.`
 
   return (
     <main className="min-w-0 overflow-x-hidden bg-background-light pb-12 md:pb-16">
@@ -56,7 +62,7 @@ function RegistrationConfirmationPage() {
             </div>
 
             {/* Main card: grid 1 = meta row; grid 2 = two columns (bring+friends | safety); CTA full width */}
-            <div className="overflow-hidden rounded-2xl border border-success-green/30 bg-gradient-to-br from-success-green/20 via-success-green/10 to-white shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
+            <div className="overflow-hidden rounded-2xl border border-success-green/15 bg-gradient-to-br from-success-green/[0.08] via-success-green/[0.03] to-white shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
               <div className="h-1.5 w-full bg-gradient-to-r from-primary to-orange-400" />
               <div className="p-5 md:p-7 lg:p-8">
                 {/* Grid 1 — date & commitment */}
@@ -85,6 +91,10 @@ function RegistrationConfirmationPage() {
                       <p className="mt-0.5 text-sm text-slate-700">One-time volunteer session</p>
                     </div>
                   </div>
+                </div>
+                <div className="mt-5 rounded-xl border border-primary/20 bg-primary/[0.06] px-4 py-3">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-primary/80">Commitment fit</p>
+                  <p className="mt-1 text-sm font-medium text-slate-700">{fitNote}</p>
                 </div>
 
                 {/* Grid 2 — left: what to bring + friends · right: safety */}
@@ -138,7 +148,7 @@ function RegistrationConfirmationPage() {
                 </div>
 
                 <div className="pt-6 md:pt-7">
-                  <div className="grid gap-4 rounded-2xl border border-success-green/35 bg-gradient-to-br from-success-green/20 via-success-green/10 to-white p-5 sm:p-6">
+                  <div className="grid gap-4 rounded-2xl border border-success-green/15 bg-gradient-to-br from-success-green/[0.08] via-success-green/[0.03] to-white p-5 sm:p-6">
                     <Button
                       className="mx-auto w-full max-w-sm justify-center gap-2.5 py-3.5 text-sm font-black uppercase tracking-wide sm:text-base"
                       onClick={() => {
@@ -161,7 +171,7 @@ function RegistrationConfirmationPage() {
             </div>
 
             {/* Map — bottom, full width (original order) */}
-            <div className="overflow-hidden rounded-2xl border border-success-green/30 bg-gradient-to-br from-success-green/20 via-success-green/10 to-white shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
+            <div className="overflow-hidden rounded-2xl border border-success-green/15 bg-gradient-to-br from-success-green/[0.08] via-success-green/[0.03] to-white shadow-[0_8px_24px_rgba(15,15,16,0.06)]">
               <div className="flex flex-col gap-4 border-b border-slate-100 p-5 sm:flex-row sm:items-start sm:justify-between md:p-6">
                 <div className="flex min-w-0 gap-3">
                   <span className="material-symbols-outlined shrink-0 text-primary leading-none">location_on</span>

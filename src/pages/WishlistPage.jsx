@@ -22,6 +22,9 @@ function WishlistPage() {
           subtitle="Opportunities you saved from discovery — open one to join when you are ready."
           titleClassName="premium-h1"
         />
+        <p className="mt-2 text-xs font-medium text-slate-500">
+          Badges are issued only after CauseConnect platform review.
+        </p>
       </div>
 
       {items.length === 0 ? (
@@ -45,9 +48,18 @@ function WishlistPage() {
                 <img alt={event.title} className="h-full w-full object-cover" src={event.img} />
                 <div className="p-6 cq-tight-card">
                   <div className="flex flex-wrap items-start justify-between gap-3">
-                    <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
-                      {event.cause}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
+                        {event.cause}
+                      </span>
+                      <span className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider ${
+                        event.verified
+                          ? 'bg-primary text-white'
+                          : 'border border-slate-200 bg-white text-slate-700'
+                      }`}>
+                        {event.verified ? 'Platform Verified' : 'Not Verified'}
+                      </span>
+                    </div>
                     <button
                       className="inline-flex items-center gap-1 text-sm font-bold text-slate-500 transition-colors hover:text-primary"
                       onClick={() => removeFromWishlist(event.id)}

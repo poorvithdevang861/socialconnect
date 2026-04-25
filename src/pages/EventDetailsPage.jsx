@@ -5,6 +5,7 @@ import FriendsAttendingBlock from '../components/FriendsAttendingBlock'
 import { GREEN_EARTH_WISHLIST } from '../utils/registrations'
 import { isWishlisted, subscribeWishlist, toWishlistPayload, toggleWishlist } from '../utils/wishlist'
 import { GREEN_EARTH_VENUE_QUERY, googleMapsSearchHref } from '../utils/maps'
+import { getVolunteerPreferences, MOTIVATION_OPTIONS } from '../utils/onboarding'
 
 const DETAIL_TABS = [
   { id: 'about', label: 'About' },
@@ -19,6 +20,7 @@ const EVENT_GALLERY = [
 
 function EventDetailsPage() {
   const navigate = useNavigate()
+  const prefs = getVolunteerPreferences()
   const [detailTab, setDetailTab] = useState('about')
   const [galleryIndex, setGalleryIndex] = useState(0)
   const [, setWishTick] = useState(0)
@@ -27,6 +29,12 @@ function EventDetailsPage() {
   }, [])
 
   const wishlisted = isWishlisted(GREEN_EARTH_WISHLIST.id)
+  const topMotivation = MOTIVATION_OPTIONS.find((item) => prefs.motivations.includes(item.id))?.label ?? 'community impact'
+  const recommendationNotes = [
+    prefs.availabilityWindows.includes('weekend-morning') ? 'Matches your weekend-morning availability' : null,
+    prefs.effortBand === '2-4h' ? 'Fits your preferred 2-4 hour commitment' : null,
+    `Aligned with your motivation: ${topMotivation}`,
+  ].filter(Boolean)
 
   const handleWishlistToggle = () => {
     toggleWishlist(toWishlistPayload(GREEN_EARTH_WISHLIST))
@@ -113,7 +121,7 @@ function EventDetailsPage() {
           </div>
           <div className="absolute bottom-4 right-4 flex items-center gap-1 rounded-full bg-primary/90 px-3 py-1 text-xs font-semibold text-white">
             <span className="material-symbols-outlined text-[14px]">verified</span>
-            <span>Verified</span>
+            <span>Platform Verified</span>
           </div>
           <div className="absolute bottom-4 left-1/2 z-[2] flex -translate-x-1/2 items-center gap-1.5">
             {EVENT_GALLERY.map((_, idx) => (
@@ -158,7 +166,7 @@ function EventDetailsPage() {
         </div>
 
         <div className={`px-4 sm:px-5 ${detailTab !== 'details' ? 'hidden' : ''}`}>
-          <div className="mt-4 space-y-4 rounded-2xl border border-success-green/30 bg-gradient-to-br from-success-green/20 via-success-green/10 to-white p-5 shadow-card ring-1 ring-black/[0.04]">
+          <div className="mt-4 space-y-4 rounded-2xl border border-success-green/15 bg-gradient-to-br from-success-green/[0.08] via-success-green/[0.03] to-white p-5 shadow-card ring-1 ring-black/[0.04]">
             <div className="flex items-center gap-4">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                 <span className="material-symbols-outlined">calendar_today</span>
@@ -364,7 +372,7 @@ function EventDetailsPage() {
 
       <div className="mt-4 grid grid-cols-1 gap-6 px-4 pb-4 lg:grid-cols-[minmax(0,2.1fr)_minmax(320px,1fr)] lg:gap-5 lg:px-5 lg:pb-5 xl:grid-cols-[minmax(0,2.2fr)_minmax(340px,1fr)]">
         <div className="space-y-6">
-          <div className="flex flex-wrap items-start justify-between gap-4 rounded-2xl border border-success-green/30 bg-gradient-to-br from-success-green/20 via-success-green/10 to-white p-4 md:p-5">
+          <div className="flex flex-wrap items-start justify-between gap-4 rounded-2xl border border-success-green/15 bg-gradient-to-br from-success-green/[0.08] via-success-green/[0.03] to-white p-4 md:p-5">
             <div className="flex items-center gap-4">
               <div className="flex size-14 items-center justify-center rounded-full border-2 border-primary/20 bg-primary/10">
                 <span className="material-symbols-outlined text-3xl text-primary">verified_user</span>
@@ -374,9 +382,12 @@ function EventDetailsPage() {
                   <h3 className="text-lg font-bold text-slate-900">EcoWarriors Organization</h3>
                   <span className="material-symbols-outlined text-base text-primary">verified</span>
                 </div>
-                <p className="text-sm text-slate-500">Organized 124 events • Verified NGO</p>
+                <p className="text-sm text-slate-500">Organized 124 events • Platform Verified</p>
               </div>
             </div>
+            <p className="w-full text-xs font-medium text-slate-500">
+              Badges are issued only after CauseConnect platform review.
+            </p>
             <div className="flex items-center gap-3 rounded-2xl border border-black/[0.06] bg-white px-4 py-3 shadow-sm">
               <div className="text-right">
                 <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Rating</p>
@@ -394,7 +405,7 @@ function EventDetailsPage() {
             </div>
           </div>
 
-          <section className="rounded-2xl border border-success-green/30 bg-gradient-to-br from-success-green/20 via-success-green/10 to-white p-4 md:p-5">
+          <section className="rounded-2xl border border-success-green/15 bg-gradient-to-br from-success-green/[0.08] via-success-green/[0.03] to-white p-4 md:p-5">
             <h4 className="mb-4 text-[1.32rem] font-extrabold tracking-[-0.01em] text-slate-900">About the Event</h4>
             <p className="leading-relaxed text-slate-600">
               Join us for our biggest reforestation initiative of the year! We are aiming to plant
@@ -410,7 +421,7 @@ function EventDetailsPage() {
             </p>
           </section>
 
-          <section className="rounded-2xl border border-success-green/30 bg-gradient-to-br from-success-green/20 via-success-green/10 to-white p-4 md:p-5">
+          <section className="rounded-2xl border border-success-green/15 bg-gradient-to-br from-success-green/[0.08] via-success-green/[0.03] to-white p-4 md:p-5">
             <h4 className="mb-5 text-[1.32rem] font-extrabold tracking-[-0.01em] text-slate-900">EcoWarriors Impact</h4>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               <div className="flex items-center gap-6 rounded-2xl border border-primary/20 bg-primary/5 p-6">
@@ -434,7 +445,7 @@ function EventDetailsPage() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-success-green/30 bg-gradient-to-br from-success-green/20 via-success-green/10 to-white p-4 md:p-5">
+          <section className="rounded-2xl border border-success-green/15 bg-gradient-to-br from-success-green/[0.08] via-success-green/[0.03] to-white p-4 md:p-5">
             <div className="mb-6 flex items-center justify-between">
               <h4 className="text-[1.32rem] font-extrabold tracking-[-0.01em] text-slate-900">Community Feedback</h4>
               <button className="text-sm font-bold text-primary">View all 120 reviews</button>
@@ -495,7 +506,7 @@ function EventDetailsPage() {
 
         <div>
           <div className="sticky-card space-y-5">
-            <div className="cc-card cc-card-pad-lg border-success-green/30 bg-gradient-to-br from-success-green/20 via-success-green/10 to-white shadow-xl shadow-slate-200/50">
+            <div className="cc-card cc-card-pad-lg border-success-green/15 bg-gradient-to-br from-success-green/[0.08] via-success-green/[0.03] to-white shadow-xl shadow-slate-200/50">
               <div className="mb-6">
                 <div className="mb-4 flex items-center justify-between">
                   <span className="animate-pulse rounded-xl bg-primary/10 px-3 py-1 text-xs font-bold text-primary">
@@ -504,6 +515,17 @@ function EventDetailsPage() {
                   <span className="text-sm font-bold text-slate-900">Free Event</span>
                 </div>
                 <h4 className="mb-6 text-2xl font-black text-slate-900">Join the Event</h4>
+                <div className="mb-5 rounded-xl border border-primary/20 bg-primary/[0.06] px-3 py-3">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-primary/80">Why this is recommended</p>
+                  <ul className="mt-2 space-y-1.5 text-sm text-slate-700">
+                    {recommendationNotes.map((note) => (
+                      <li className="flex items-start gap-2" key={note}>
+                        <span className="material-symbols-outlined mt-0.5 text-[16px] text-primary">check_circle</span>
+                        <span>{note}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
                 <div className="space-y-4">
                   <div className="flex items-center gap-4">
                     <div className="flex size-10 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
@@ -573,7 +595,7 @@ function EventDetailsPage() {
             </div>
 
             <a
-              className="group cc-card block cursor-pointer overflow-hidden border-success-green/30 bg-gradient-to-br from-success-green/20 via-success-green/10 to-white transition-all hover:shadow-[0_12px_40px_-12px_rgba(234,88,12,0.2)] hover:ring-2 hover:ring-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="group cc-card block cursor-pointer overflow-hidden border-success-green/15 bg-gradient-to-br from-success-green/[0.08] via-success-green/[0.03] to-white transition-all hover:shadow-[0_12px_40px_-12px_rgba(234,88,12,0.2)] hover:ring-2 hover:ring-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               href={googleMapsSearchHref(GREEN_EARTH_VENUE_QUERY)}
               rel="noopener noreferrer"
               target="_blank"
@@ -607,7 +629,7 @@ function EventDetailsPage() {
               </div>
             </a>
 
-            <div className="cc-card cc-card-pad-lg border-success-green/30 bg-gradient-to-br from-success-green/20 via-success-green/10 to-white">
+            <div className="cc-card cc-card-pad-lg border-success-green/15 bg-gradient-to-br from-success-green/[0.08] via-success-green/[0.03] to-white">
               <h5 className="mb-4 font-bold text-slate-900">Friends on your list</h5>
               <FriendsAttendingBlock
                 inviteEventTitle="Green Earth Tree Plantation"

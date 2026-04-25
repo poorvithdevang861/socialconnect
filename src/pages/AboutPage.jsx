@@ -3,7 +3,7 @@ import StaticPageLayout from '../components/StaticPageLayout'
 function AboutPage() {
   return (
     <StaticPageLayout
-      subtitle="CauseConnect helps volunteers find trusted opportunities and NGOs reach people who care."
+      subtitle="CauseConnect helps volunteers find opportunities with clear platform-reviewed trust signals, and helps NGOs reach people who care."
       title="About CauseConnect"
     >
       <p>
@@ -13,7 +13,7 @@ function AboutPage() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[
           ['volunteer_activism', 'Volunteer-first', 'Built around real-world shifts you can actually join.'],
-          ['verified_user', 'Verified partners', 'We highlight NGOs and hosts you can trust.'],
+          ['verified_user', 'Platform verification', 'Badges are issued only after CauseConnect platform review.'],
           ['analytics', 'Track impact', 'See your contributions and calendar in one place.'],
           ['diversity_3', 'Community', 'Bring friends and grow causes together.'],
         ].map(([icon, h, body]) => (

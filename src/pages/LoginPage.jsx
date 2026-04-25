@@ -71,20 +71,20 @@ function LoginPage() {
                 </span>
               </div>
               <h2 className="premium-h1 text-[clamp(1.85rem,3vw,2.75rem)]">
-                Volunteer local.
+                Build experience.
                 <br />
-                <span className="text-primary">Impact global.</span>
+                <span className="text-primary">Impact local.</span>
               </h2>
               <p className="premium-body max-w-md text-base">
-                Discover verified opportunities, join meaningful events, and grow your community
-                impact with people who care.
+                Student-first volunteering recommendations, matched by motivation, availability, and
+                platform-verified credibility.
               </p>
             </div>
 
             <div className="mx-auto flex w-full max-w-md flex-col items-center text-center">
               <div className="mb-6">
                 <h1 className="premium-h1 text-ink">Welcome</h1>
-                <p className="premium-body mt-1">Log in to continue your volunteering journey.</p>
+                <p className="premium-body mt-1">Log in to continue your personalized volunteer journey.</p>
               </div>
 
               <div className="flex w-full max-w-sm flex-col gap-3">

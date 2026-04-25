@@ -55,7 +55,7 @@ function SplashPage() {
             </span>
           </h1>
           <p className="mx-auto mb-10 max-w-md text-base leading-relaxed text-white/90 md:mb-12">
-            Find verified volunteering near you.
+            Find platform-verified student opportunities near you.
           </p>
 
           <div className="w-full max-w-none sm:max-w-md md:mx-auto">
@@ -71,13 +71,16 @@ function SplashPage() {
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <p className="mt-3 text-xs text-white/50">Connecting you to your community…</p>
+            <p className="mt-3 text-xs text-white/50">Connecting you to causes that fit your motivation…</p>
           </div>
         </div>
 
         <div className="mt-8 flex w-full flex-col items-center gap-2 pb-2 md:mt-10 md:max-w-xl">
           <span className="text-[10px] uppercase tracking-[0.2em] text-white/35">
-            Verified opportunities only
+            Platform review required for badges
+          </span>
+          <span className="text-center text-[10px] text-white/45">
+            Badges are issued only after CauseConnect platform review.
           </span>
           <div className="flex gap-5 opacity-50">
             <span className="material-symbols-outlined text-base">verified_user</span>
